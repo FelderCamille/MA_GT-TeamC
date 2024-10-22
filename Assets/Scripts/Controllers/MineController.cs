@@ -7,7 +7,7 @@ public class MineController : MonoBehaviour
 
     [Header("Content")]
     public GameObject Robot;
-    public SceneLoader SceneLoader;
+    public GameObject QuestionOverlay;
     
     [Header("Settings")]
     public float CollidingDistance = 1f;
@@ -20,7 +20,7 @@ public class MineController : MonoBehaviour
         if (Vector3.Distance (transform.position, Robot.transform.position) < CollidingDistance && !_answering)
         {
             _answering = true;
-            SceneLoader.ShowScene(Globals.Scenes.Question);
+            QuestionOverlay.SetActive(true);
         }
     }
 

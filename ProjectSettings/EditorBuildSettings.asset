@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/QuestionOverlay.unity
+    path: Assets/Scenes/Title.unity
     guid: cf7f1fd995e8440b8a9eeb821b5068ef
   m_configObjects: {}

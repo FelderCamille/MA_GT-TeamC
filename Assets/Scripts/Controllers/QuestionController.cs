@@ -9,29 +9,27 @@ public class QuestionController : MonoBehaviour
 {
 
     [Header("Content")]
-    public GameObject Canvas;
-    public Text Title;
+    public GameObject QuestionOverlay;
     public QuestionButton ButtonPrefab;
-    public SceneLoader SceneLoader;
     
     [Header("Settings")]
     public int NumberOfResponse;
 
     private Question _question;
 
-    private void Start()
+    private void OnEnable()
     {
         // Set question
         // TODO: fetch question
         _question = new Question("The title of the question", new []{"first", "second", "third", "fourth", "fifth"}, 1);
-        // Update game objects text
-        Title.text = _question.Query;
+        // Update title
+        QuestionOverlay.GetComponentInChildren<Text>().text = _question.Query;
         // Place responses buttons
         for (int i = 0; i < _question.Responses.Count; i++)
         {
             if (i >= NumberOfResponse) break; // Stop if the number of responses is reached
-            var buttonObj = Instantiate(ButtonPrefab, new Vector3(0, -i * 50, 0), Quaternion.identity);
-            buttonObj.transform.SetParent(Canvas.transform, false); // To avoid the Transform component to be at (0,0,0)
+            var buttonObj = Instantiate(ButtonPrefab, new Vector3(0, -i * 70, 0), Quaternion.identity);
+            buttonObj.transform.SetParent(QuestionOverlay.GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
             buttonObj.Init(_question.Responses[i]);
             buttonObj.Button.onClick.AddListener(() => OnResponseClicked(buttonObj.ButtonText));
         }
@@ -48,9 +46,8 @@ public class QuestionController : MonoBehaviour
         {
             print("Wrong response :("); // TODO
         }
-        // Go back to game scene
-        SceneLoader.ShowScene(Globals.Scenes.Game);
-        print("Game object "+ gameObject.name + "hidden");
+        // Hide question overlay
+        QuestionOverlay.SetActive(false);
     }
     
 }

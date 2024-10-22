@@ -13,7 +13,6 @@ namespace UI
             if (sceneInHistory.isLoaded)
             {
                 SceneManager.SetActiveScene(sceneInHistory);
-                print("Scene count 1: " + SceneManager.sceneCount);
             }
             else
             {
@@ -25,7 +24,6 @@ namespace UI
         {
             yield return new WaitForSeconds(0.5f);
             SceneManager.LoadScene(scene);
-            print("Scene count 2: " + SceneManager.sceneCount);
         }
         
     }

@@ -2,29 +2,31 @@ using UnityEngine;
 
 public class MoveObject : MonoBehaviour
 {
-    [SerializeField] public float speed = 3f;
+    
+    [Header("Settings")]
+    public int numberOfCase = 1;
 
     private void Update()
     {
         // Move to right
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += new Vector3(speed * Time.deltaTime, 0f, 0f);
+            transform.position += new Vector3(numberOfCase, 0f, 0f);
         }
         // Move to left
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position -= new Vector3(speed * Time.deltaTime, 0f, 0f);
+            transform.position -= new Vector3(numberOfCase, 0f, 0f);
         }
         // Move up
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            transform.position += new Vector3(0f, 0f, speed * Time.deltaTime);
+            transform.position += new Vector3(0f, 0f, numberOfCase);
         }
         // Move down
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            transform.position -= new Vector3(0f, 0f, speed * Time.deltaTime);
+            transform.position -= new Vector3(0f, 0f, numberOfCase);
         }
     }
 }

@@ -1,18 +1,14 @@
-using System;
-using Classes;
+using DefaultNamespace;
+using UI;
 using UnityEngine;
 
-namespace UI
+namespace Controllers
 {
     public class GridController : MonoBehaviour
     {
         
         [Header("Content")]
-        public Tile TilePrefab;
-
-        [Header("Settings")]
-        public int Width;
-        public int Height;
+        public Tile tilePrefab;
 
         private void Start()
         {
@@ -21,11 +17,11 @@ namespace UI
 
         private void GenerateGrid()
         {
-            for (int x = 0; x < Width; x++)
+            for (int x = 0; x < Globals.GameSize.Width; x++)
             {
-                for (int y = 0; y < Height; y++)
+                for (int y = 0; y < Globals.GameSize.Height; y++)
                 {
-                    var tileObj = Instantiate(TilePrefab, new Vector3(x, 0, y), Quaternion.identity);
+                    var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
                     tileObj.transform.SetParent(this.transform, false);
                     tileObj.name = $"Tile {x} {y}";
                 }

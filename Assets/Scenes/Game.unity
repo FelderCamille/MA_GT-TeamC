@@ -237,7 +237,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176285697}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -268,7 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b347aa20b654649a98c67cc7222433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfCase: 1
+  numberOfCase: 1
+  collidingRadius: 1.3
 --- !u!1 &306054461
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,9 +315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f99219aa58d944456932df3eb7b86b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestionOverlay: {fileID: 306054461}
-  ButtonPrefab: {fileID: 8803424785703180288, guid: fe806cdba7e3248fc8d73fc30bce6bed, type: 3}
-  NumberOfResponse: 2
+  questionOverlay: {fileID: 306054461}
+  buttonPrefab: {fileID: 8803424785703180288, guid: fe806cdba7e3248fc8d73fc30bce6bed, type: 3}
+  numberOfResponse: 2
 --- !u!1001 &360633832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -479,11 +480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b992dbef7c754725876d72edaedb457c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Robot: {fileID: 176285701}
-  Speed: 3
-  Offset: {x: 0, y: 3, z: 0}
-  FollowDistance: 10
-  rotation: {x: 0, y: 0, z: 0, w: 0}
+  robot: {fileID: 176285701}
+  speed: 3
+  offset: {x: 0, y: 3, z: 0}
+  followDistance: 10
   teleportDistanceThreshold: 100
 --- !u!1 &705507993
 GameObject:
@@ -1040,9 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc3418984fa42b0b720dba27fc74a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
-  Width: 50
-  Height: 30
+  tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
 --- !u!1001 &2019999732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1112,12 +1110,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 176285697}
     - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: robot
+      value: 
+      objectReference: {fileID: 176285697}
+    - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: QuestionOverlay
       value: 
       objectReference: {fileID: 306054461}
     - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: questionOverlay
+      value: 
+      objectReference: {fileID: 306054463}
+    - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: CollidingDistance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: collidingDistance
+      value: 1.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

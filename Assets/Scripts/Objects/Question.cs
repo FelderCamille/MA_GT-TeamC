@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Classes
+namespace Objects
 {
     public class Question
     {

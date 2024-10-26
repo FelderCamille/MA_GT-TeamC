@@ -1,17 +1,30 @@
+using System;
 using DefaultNamespace;
+using UI;
 using UnityEngine;
 
 namespace Controllers
 {
     public class RobotController : MonoBehaviour
     {
+        
+        [Header("Content")]
+        public Ressources resourcesPrefab;
     
         [Header("Settings")]
         public int numberOfCase = 1;
         
         // Robot properties
+        private int _money = 1000;
         private int _clearedMines = 0;
         private float _health = 100f;
+
+        private void Start()
+        {
+            resourcesPrefab.SetMoney(_money);
+            resourcesPrefab.SetHealth(_health);
+            resourcesPrefab.SetMines(_clearedMines);
+        }
 
         private void Update()
         {
@@ -50,10 +63,12 @@ namespace Controllers
             if (success)
             {
                 _clearedMines += 1;
+                resourcesPrefab.SetMines(_clearedMines);
             }
             else
             {
                 _health -= Globals.Values.HealthRemovedWhenExplosion;
+                resourcesPrefab.SetHealth(_health);
             }
             mine.SetActive(false);
         }

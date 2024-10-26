@@ -2,7 +2,7 @@
 
 > "Robot démineur de zone de guerre"
 
-## Ressources
+## 3D models
 
 > Low-poly (0-10k polygones), Free, Formats (.blend, .obj, .fbx)
 > Sites:
@@ -18,3 +18,12 @@ Mines:
 
 Tentes:
 - [Tent](https://www.cgtrader.com/free-3d-models/exterior/other/military-tent-3d0bca7a-e2ec-4f3e-a043-c98468a9a187)
+
+## Icons
+
+> Sites:
+> - [https://www.flaticon.com/](https://www.flaticon.com/)
+
+- [Money](https://www.flaticon.com/free-icon/money_12740855?term=money&page=1&position=7&origin=search&related_id=12740855)
+- [Heart](https://www.flaticon.com/free-icon/heart_14959892?term=robotic+heart&page=2&position=13&origin=search&related_id=14959892)
+- [Bomb](https://www.flaticon.com/free-icon/bomb_891013?term=bomb&page=1&position=12&origin=search&related_id=891013)

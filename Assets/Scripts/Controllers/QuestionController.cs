@@ -43,7 +43,7 @@ namespace Controllers
             for (int i = 0; i < _question.Responses.Count; i++)
             {
                 if (i >= numberOfResponse) break; // Stop if the number of responses is reached
-                var buttonObj = Instantiate(buttonPrefab, new Vector3(0, -i * 70, 0), Quaternion.identity);
+                var buttonObj = Instantiate(buttonPrefab, new Vector3(-300, -i * 70, 0), Quaternion.identity);
                 buttonObj.transform.SetParent(questionOverlay.GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
                 buttonObj.Init(_question.Responses[i]);
                 buttonObj.button.onClick.AddListener(() => OnResponseClicked(buttonObj.buttonText));

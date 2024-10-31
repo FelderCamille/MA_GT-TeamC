@@ -1,14 +1,15 @@
 using DefaultNamespace;
 using Core;
+using Objects;
 using UnityEngine;
 
 namespace Controllers
 {
-    public class RobotController : MonoBehaviour
+    public class RobotController : MonoBehaviour, IRobot
     {
         
         [Header("Content")]
-        public ResourcesManager ResourcesManager;
+        public ResourcesManager resourcesManager;
         
         [Header("Settings")]
         public int numberOfCase = 1;
@@ -43,7 +44,16 @@ namespace Controllers
                 transform.position -= new Vector3(0f, 0f, numberOfCase);
             }
         }
-        
+
+        public void IncreaseClearedMineCounter()
+        {
+            resourcesManager.IncreaseClearedMinesCounter();
+        }
+
+        public void ReduceHealth(float value)
+        {
+            resourcesManager.ReduceHealth(value);
+        }
     }
 
 }

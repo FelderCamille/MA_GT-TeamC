@@ -1,5 +1,3 @@
-using Controllers;
-
 namespace Objects
 {
     public interface ILandmine

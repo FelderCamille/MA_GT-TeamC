@@ -53,11 +53,11 @@ namespace Controllers
             // Manage result
             if (success)
             {
-                _robot.ResourcesManager.ClearedLandmines += 1;
+                _robot.IncreaseClearedMineCounter();
             }
             else
             {
-                _robot.ResourcesManager.Health -= Globals.Values.HealthRemovedWhenExplosion;
+                _robot.ReduceHealth(Globals.Values.HealthRemovedWhenExplosion);
             }
             // Remove landmine
             gameObject.SetActive(false);

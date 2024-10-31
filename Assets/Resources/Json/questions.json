@@ -1,0 +1,31 @@
+{
+  "questions": [
+    {
+      "query": "Question 1",
+      "responses": [
+        "Response 1",
+        "Response 2",
+        "Response 3"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "query": "Question 2",
+      "responses": [
+        "Response 1",
+        "Response 2",
+        "Response 3"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Question 3",
+      "responses": [
+        "Response 1",
+        "Response 2",
+        "Response 3"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

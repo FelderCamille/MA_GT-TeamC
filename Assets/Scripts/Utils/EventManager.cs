@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace Events
+namespace Utils
 {
     public static class EventManager
     {

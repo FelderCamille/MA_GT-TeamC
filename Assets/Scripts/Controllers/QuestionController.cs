@@ -1,7 +1,9 @@
+using System;
 using Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Controllers
 {
@@ -9,43 +11,48 @@ namespace Controllers
     {
 
         [Header("Content")]
-        public GameObject questionOverlay;
         public QuestionButton buttonPrefab;
     
         [Header("Settings")]
         public int numberOfResponse;
 
-        private RobotController _robot;
-        private Question _question;
+        private int _currentQuestionIndex = -1; // To start at index 0
+        private Question[] _questions;
         private bool _answering;
 
         private LandmineController _mine;
 
-        private void Start()
+        public LandmineController Mine
         {
-            _robot = FindObjectOfType<RobotController>();
+            set => _mine = value;
         }
         
-        public void SetMine(LandmineController mine)
+        private void Awake()
         {
-            _mine = mine;
+            var questionsObj = JsonUtils<Questions>.Read("Json/questions");
+            _questions = questionsObj.Shuffle();
         }
 
         private void OnEnable()
         {
+            // Get a question
+            _currentQuestionIndex += 1;
+            if (_currentQuestionIndex >= _questions.Length)
+            {
+                throw new Exception("All questions answered.");
+            }
+            var question = _questions[_currentQuestionIndex];
+            // Update _answering
             _answering = true;
-            // Set question
-            // TODO: fetch question
-            _question = new Question("The title of the question", new []{"first", "second", "third", "fourth", "fifth"}, 1);
             // Update title
-            questionOverlay.GetComponentInChildren<Text>().text = _question.Query;
+            GetComponentInChildren<Text>().text = question.query;
             // Place responses buttons
-            for (int i = 0; i < _question.Responses.Count; i++)
+            for (var i = 0; i < question.responses.Length; i++)
             {
                 if (i >= numberOfResponse) break; // Stop if the number of responses is reached
                 var buttonObj = Instantiate(buttonPrefab, new Vector3(-300, -i * 70, 0), Quaternion.identity);
-                buttonObj.transform.SetParent(questionOverlay.GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
-                buttonObj.Init(_question.Responses[i]);
+                buttonObj.transform.SetParent(GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
+                buttonObj.Init(question.responses[i]);
                 buttonObj.button.onClick.AddListener(() => OnResponseClicked(buttonObj.buttonText));
             }
         }
@@ -53,11 +60,12 @@ namespace Controllers
         private void OnResponseClicked(Text buttonText)
         {
             // Manage response
-            _mine.OnLandmineCleared(_question.IsCorrectResponse(buttonText.text));
+            var isCorrect = _questions[_currentQuestionIndex].IsCorrectResponse(buttonText.text);
+            _mine.OnLandmineCleared(isCorrect);
             // Not answering anymore
             _answering = false;
             // Hide question overlay
-            questionOverlay.SetActive(false);
+            gameObject.SetActive(false);
         }
         
         public bool IsAnswering()

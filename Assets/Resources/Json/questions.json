@@ -16,16 +16,15 @@
         "Response 2",
         "Response 3"
       ],
-      "correctIndex": 1
+      "correctIndex": 2
     },
     {
       "query": "Question 3",
       "responses": [
         "Response 1",
-        "Response 2",
-        "Response 3"
+        "Response 2"
       ],
-      "correctIndex": 2
+      "correctIndex": 1
     }
   ]
 }

@@ -1,0 +1,26 @@
+{
+  "sections": [
+    {
+      "title": "WW1",
+      "pages": [
+        {
+          "title": "WW1 Title 1",
+          "content": "Content 1"
+        }
+      ]
+    },
+    {
+      "title": "WW2",
+      "pages": [
+        {
+          "title": "WW2 Title 1",
+          "content": "Content 1"
+        },
+        {
+          "title": "WW2 Title 2",
+          "content": "Content 2"
+        }
+      ]
+    }
+  ]
+}

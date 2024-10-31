@@ -19,16 +19,16 @@ namespace Controllers
         private Question _question;
         private bool _answering;
 
-        private GameObject _mine;
+        private LandmineController _mine;
 
         private void Start()
         {
             _robot = FindObjectOfType<RobotController>();
         }
         
-        public void SetMine(MineController mine)
+        public void SetMine(LandmineController mine)
         {
-            _mine = mine.gameObject;
+            _mine = mine;
         }
 
         private void OnEnable()
@@ -53,7 +53,7 @@ namespace Controllers
         private void OnResponseClicked(Text buttonText)
         {
             // Manage response
-            _robot.ClearMine(_question.IsCorrectResponse(buttonText.text), _mine);
+            _mine.OnLandmineCleared(_question.IsCorrectResponse(buttonText.text));
             // Not answering anymore
             _answering = false;
             // Hide question overlay

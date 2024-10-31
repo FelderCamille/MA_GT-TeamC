@@ -1,6 +1,5 @@
-using System;
 using DefaultNamespace;
-using UI;
+using Core;
 using UnityEngine;
 
 namespace Controllers
@@ -9,22 +8,12 @@ namespace Controllers
     {
         
         [Header("Content")]
-        public Ressources resourcesPrefab;
-    
+        public ResourcesManager ResourcesManager;
+        
         [Header("Settings")]
         public int numberOfCase = 1;
-        
-        // Robot properties
-        private int _money = 1000;
-        private int _clearedMines = 0;
-        private float _health = 100f;
 
-        private void Start()
-        {
-            resourcesPrefab.SetMoney(_money);
-            resourcesPrefab.SetHealth(_health);
-            resourcesPrefab.SetMines(_clearedMines);
-        }
+        private LandmineController _currentLandmine;
 
         private void Update()
         {
@@ -54,35 +43,7 @@ namespace Controllers
                 transform.position -= new Vector3(0f, 0f, numberOfCase);
             }
         }
-
-        /**
-         * Clear mine
-         */
-        public void ClearMine(bool success, GameObject mine)
-        {
-            if (success)
-            {
-                _clearedMines += 1;
-                resourcesPrefab.SetMines(_clearedMines);
-            }
-            else
-            {
-                _health -= Globals.Values.HealthRemovedWhenExplosion;
-                resourcesPrefab.SetHealth(_health);
-            }
-            mine.SetActive(false);
-        }
-
-        /**
-         * Explode mine when entering in collision with it
-         */
-        private void OnCollisionEnter(Collision other)
-        {
-            if (other.gameObject.GetComponent<MineController>())
-            {
-                ClearMine(false, other.gameObject);
-            }
-        }
+        
     }
 
 }

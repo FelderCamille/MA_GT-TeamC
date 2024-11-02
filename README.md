@@ -27,3 +27,5 @@ Tentes:
 - [Money](https://www.flaticon.com/free-icon/money_12740855?term=money&page=1&position=7&origin=search&related_id=12740855)
 - [Heart](https://www.flaticon.com/free-icon/heart_14959892?term=robotic+heart&page=2&position=13&origin=search&related_id=14959892)
 - [Bomb](https://www.flaticon.com/free-icon/bomb_891013?term=bomb&page=1&position=12&origin=search&related_id=891013)
+- [Previous (style iOS 17 filled)](https://icons8.com/icons/set/previous--white)
+- [Next (style iOS 17 filled)](https://icons8.com/icons/set/next--white)

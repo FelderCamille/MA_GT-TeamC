@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public static class Globals
+    public static class Constants
     {
         public static class Scenes
         {
@@ -23,6 +23,7 @@ namespace DefaultNamespace
             public const KeyCode MoveUp = KeyCode.UpArrow;
             public const KeyCode MoveDown = KeyCode.DownArrow;
             public const KeyCode ClearMine = KeyCode.D;
+            public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
         }
 
         public static class Values

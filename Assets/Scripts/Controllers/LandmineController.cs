@@ -8,7 +8,7 @@ namespace Controllers
     {
         
         [Header("Settings")]
-        public float collidingDistance = 1.3f; // One case of distance, no diagonal
+        public float collidingDistance = 1.5f; // One tile of distance, no diagonal
 
         private QuestionController _questionOverlay;
         private RobotController _robot;
@@ -35,7 +35,7 @@ namespace Controllers
         public void DetectRobotApproach()
         {
             // Check if the user wants to clear the mine
-            if (Input.GetKeyDown(Globals.Actions.ClearMine) && !_questionOverlay.IsAnswering())
+            if (Input.GetKeyDown(Constants.Actions.ClearMine) && !_questionOverlay.IsAnswering())
             {
                 // Check if the distance between the robot and the landmine permits to answer the question
                 if (Vector3.Distance (transform.position, _robot.gameObject.transform.position) < collidingDistance)
@@ -57,7 +57,7 @@ namespace Controllers
             }
             else
             {
-                _robot.ReduceHealth(Globals.Values.HealthRemovedWhenExplosion);
+                _robot.ReduceHealth(Constants.Values.HealthRemovedWhenExplosion);
             }
             // Remove landmine
             gameObject.SetActive(false);

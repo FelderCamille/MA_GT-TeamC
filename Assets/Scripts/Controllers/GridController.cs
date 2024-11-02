@@ -17,9 +17,9 @@ namespace Controllers
 
         private void GenerateGrid()
         {
-            for (int x = 0; x < Globals.GameSize.Width; x++)
+            for (var x = 0; x < Constants.GameSize.Width; x++)
             {
-                for (int y = 0; y < Globals.GameSize.Height; y++)
+                for (var y = 0; y < Constants.GameSize.Height; y++)
                 {
                     var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
                     tileObj.transform.SetParent(this.transform, false);

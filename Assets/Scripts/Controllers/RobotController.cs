@@ -12,7 +12,7 @@ namespace Controllers
         public ResourcesManager resourcesManager;
         
         [Header("Settings")]
-        public int numberOfCase = 1;
+        public int numberOfTile = 1;
 
         private LandmineController _currentLandmine;
 
@@ -24,24 +24,24 @@ namespace Controllers
         private void HandleMovements()
         {
             // Move to right
-            if (Input.GetKeyDown(Globals.Actions.MoveRight))
+            if (Input.GetKeyDown(Constants.Actions.MoveRight))
             {
-                transform.position += new Vector3(numberOfCase, 0f, 0f);
+                transform.position += new Vector3(numberOfTile, 0f, 0f);
             }
             // Move to left
-            if (Input.GetKeyDown(Globals.Actions.MoveLeft))
+            if (Input.GetKeyDown(Constants.Actions.MoveLeft))
             {
-                transform.position -= new Vector3(numberOfCase, 0f, 0f);
+                transform.position -= new Vector3(numberOfTile, 0f, 0f);
             }
             // Move up
-            if (Input.GetKeyDown(Globals.Actions.MoveUp))
+            if (Input.GetKeyDown(Constants.Actions.MoveUp))
             {
-                transform.position += new Vector3(0f, 0f, numberOfCase);
+                transform.position += new Vector3(0f, 0f, numberOfTile);
             }
             // Move down
-            if (Input.GetKeyDown(Globals.Actions.MoveDown))
+            if (Input.GetKeyDown(Constants.Actions.MoveDown))
             {
-                transform.position -= new Vector3(0f, 0f, numberOfCase);
+                transform.position -= new Vector3(0f, 0f, numberOfTile);
             }
         }
 

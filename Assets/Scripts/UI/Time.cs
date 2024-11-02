@@ -10,7 +10,7 @@ namespace UI
 
         public void SetTime(float value)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(value);
+            var timeSpan = TimeSpan.FromSeconds(value);
             time.text = timeSpan.ToString(@"mm\:ss");
         }
     }

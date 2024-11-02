@@ -19,12 +19,11 @@ namespace Controllers
         private int _currentQuestionIndex = -1; // To start at index 0
         private Question[] _questions;
         private bool _answering;
-
-        private LandmineController _mine;
-
+        
         public LandmineController Mine
         {
-            set => _mine = value;
+            private get;
+            set;
         }
         
         private void Awake()
@@ -52,16 +51,15 @@ namespace Controllers
                 if (i >= numberOfResponse) break; // Stop if the number of responses is reached
                 var buttonObj = Instantiate(buttonPrefab, new Vector3(-300, -i * 70, 0), Quaternion.identity);
                 buttonObj.transform.SetParent(GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
-                buttonObj.Init(question.responses[i]);
-                buttonObj.button.onClick.AddListener(() => OnResponseClicked(buttonObj.buttonText));
+                buttonObj.Init(question.responses[i], OnResponseClicked);
             }
         }
 
-        private void OnResponseClicked(Text buttonText)
+        private void OnResponseClicked(QuestionButton questionButton)
         {
             // Manage response
-            var isCorrect = _questions[_currentQuestionIndex].IsCorrectResponse(buttonText.text);
-            _mine.OnLandmineCleared(isCorrect);
+            var isCorrect = _questions[_currentQuestionIndex].IsCorrectResponse(questionButton.buttonText.text);
+            Mine.OnLandmineCleared(isCorrect);
             // Not answering anymore
             _answering = false;
             // Hide question overlay

@@ -8,7 +8,7 @@ namespace Objects
     {
         public Question[] questions;
         
-        private static Random _random = new Random();
+        private static Random _random = new ();
 
         public Question[] Shuffle()
         {

@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ namespace UI
 
         public void SetHealth(float value)
         {
-            health.text = value.ToString();
+            health.text = value.ToString(CultureInfo.InvariantCulture);
         }
 
         public void SetMines(int value)

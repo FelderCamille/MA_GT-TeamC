@@ -9,17 +9,15 @@ namespace UI
     {
         public Text title;
         public Button button;
-        
-        private int _index;
-        
+
         public string Text => title.text;
 
-        public int Index => _index;
-    
+        public int Index { get; private set; }
+
         public void Init(string text, int index, Action<SectionTab> onClickCallback)
         {
             title.text = text;
-            _index = index;
+            Index = index;
             button.onClick.AddListener(() => onClickCallback(this));
         }
     }

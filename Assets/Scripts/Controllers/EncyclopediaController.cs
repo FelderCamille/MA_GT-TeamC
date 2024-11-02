@@ -85,18 +85,18 @@ namespace Controllers
             var currentPage = currentSection.pages[_currentPageIndex];
             GetComponentInChildren<TextMeshProUGUI>().text = "<style=\"Title\">" + currentPage.title + "</style>\n\n" + currentPage.content;
             // Update previous button state
-            if (HasPreviousPage() && !previousPageButton.isEnabled)
+            if (HasPreviousPage() && !previousPageButton.IsEnabled)
             {
                 previousPageButton.Enable();
-            } else if (!HasPreviousPage() && previousPageButton.isEnabled)
+            } else if (!HasPreviousPage() && previousPageButton.IsEnabled)
             {
                 previousPageButton.Disable();
             }
             // Update next button state
-            if (HasNextPage() && !nextPageButton.isEnabled)
+            if (HasNextPage() && !nextPageButton.IsEnabled)
             {
                 nextPageButton.Enable();
-            } else if (!HasNextPage() && nextPageButton.isEnabled)
+            } else if (!HasNextPage() && nextPageButton.IsEnabled)
             {
                 nextPageButton.Disable();
             }

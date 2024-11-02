@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using Objects;
 using UnityEngine;
 
@@ -34,18 +33,14 @@ namespace Controllers
 
         public void DetectRobotApproach()
         {
-            // Check if the user wants to clear the mine
-            if (Input.GetKeyDown(Constants.Actions.ClearMine) && !_questionOverlay.IsAnswering())
-            {
-                // Check if the distance between the robot and the landmine permits to answer the question
-                if (Vector3.Distance (transform.position, _robot.gameObject.transform.position) < collidingDistance)
-                {
-                    // Define mine in the question overlay
-                    _questionOverlay.Mine = this;
-                    // Show question overlay
-                    _questionOverlay.gameObject.SetActive(true);
-                }
-            }
+            // Check if the user wants to clear the mine, if not return
+            if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering()) return;
+            // Check if the distance between the robot and the landmine permits to answer the question, if not return
+            if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
+            // Define mine in the question overlay
+            _questionOverlay.Mine = this;
+            // Show question overlay
+            _questionOverlay.gameObject.SetActive(true);
         }
 
         public void OnLandmineCleared(bool success)

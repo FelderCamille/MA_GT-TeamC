@@ -1,7 +1,5 @@
-using DefaultNamespace;
 using UI;
 using UnityEngine;
-using System;
 
 namespace Controllers
 {
@@ -9,7 +7,7 @@ namespace Controllers
     public class GridController : MonoBehaviour
     {
         
-        private static System.Random _random = new System.Random();
+        private static readonly System.Random Random = new ();
         
         [Header("Content")]
         public Tile tilePrefab;
@@ -37,11 +35,11 @@ namespace Controllers
             for (var i = 0; i < numberOfLandmines; i++)
             {
                 // Get an index
-                var landmineIndex = _random.Next(0, _landmines.Length); // [0, _landmines.Length[
+                var landmineIndex = Random.Next(0, _landmines.Length); // [0, _landmines.Length[
                 // If their is already a landmine, look for another index
                 while (_landmines[landmineIndex])
                 {
-                    landmineIndex = _random.Next(0, _landmines.Length); // [0, _landmines.Length[
+                    landmineIndex = Random.Next(0, _landmines.Length); // [0, _landmines.Length[
                 }
                 // Set a landmine at this emplacement
                 _landmines[landmineIndex] = true;

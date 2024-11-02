@@ -20,7 +20,7 @@ namespace Controllers
             }
             else
             {
-                Vector3 position = Vector3.Lerp(transform.position, robot.position + offset + -transform.forward * followDistance, speed * Time.deltaTime);
+                var position = Vector3.Lerp(transform.position, robot.position + offset + -transform.forward * followDistance, speed * Time.deltaTime);
                 transform.position = position;
             }
         }

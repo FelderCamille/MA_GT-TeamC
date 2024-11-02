@@ -46,11 +46,11 @@ namespace Controllers
             // Update title
             GetComponentInChildren<Text>().text = question.query;
             // Place responses buttons
-            for (var i = 0; i < question.responses.Length; i++)
+            for (var i = 0; i <= numberOfResponse && i < question.responses.Length; i++)
             {
-                if (i >= numberOfResponse) break; // Stop if the number of responses is reached
-                var buttonObj = Instantiate(buttonPrefab, new Vector3(-300, -i * 70, 0), Quaternion.identity);
-                buttonObj.transform.SetParent(GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
+                var buttonObj = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity);
+                buttonObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)
+                buttonObj.name = "Response n°" + i + (question.IsCorrectResponse(question.responses[i]) ? " x" : "");
                 buttonObj.Init(question.responses[i], OnResponseClicked);
             }
         }

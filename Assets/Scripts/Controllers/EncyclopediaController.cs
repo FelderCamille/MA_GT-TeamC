@@ -31,7 +31,7 @@ namespace Controllers
             // Construct sections tabs
             for (var i = 0; i < _sections.Length; i++)
             {
-                var sectionTabObj = Instantiate(sectionTabPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                var sectionTabObj = Instantiate(sectionTabPrefab, Vector3.zero, Quaternion.identity);
                 sectionTabObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)
                 var section = _sections[i];
                 sectionTabObj.name = "Section tab n°" + i + " (\"" + section.title + "\")";

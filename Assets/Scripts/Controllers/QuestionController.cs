@@ -1,6 +1,7 @@
 using System;
 using Objects;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -35,7 +36,7 @@ namespace Controllers
         private void OnEnable()
         {
             // Get a question
-            _currentQuestionIndex += 1;
+            _currentQuestionIndex++;
             if (_currentQuestionIndex >= _questions.Length)
             {
                 throw new Exception("All questions answered.");
@@ -43,6 +44,11 @@ namespace Controllers
             var question = _questions[_currentQuestionIndex];
             // Update _answering
             _answering = true;
+            // Remove old buttons
+            while (GetComponentInChildren<QuestionButton>() != null)
+            {
+                DestroyImmediate(GetComponentInChildren<QuestionButton>().gameObject);
+            }
             // Update title
             GetComponentInChildren<Text>().text = question.query;
             // Place responses buttons

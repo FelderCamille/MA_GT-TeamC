@@ -1848,7 +1848,6 @@ MonoBehaviour:
   tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
   landmineTilePrefab: {fileID: 3133543057032349834, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
   paddingTile: {fileID: 3133543057032349834, guid: 380fc9e42ec5b4d8eaf372bbe28290ec, type: 3}
-  numberOfLandmines: 20
 --- !u!1 &1842833483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,6 +2402,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1837566430}
+    - target: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
       propertyPath: ResourcesManager
       value: 
       objectReference: {fileID: 335084869}
@@ -2412,7 +2415,7 @@ PrefabInstance:
       objectReference: {fileID: 335084869}
     - target: {fileID: 4355715728863684552, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4355715728863684552, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2420,7 +2423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4355715728863684552, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4355715728863684552, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
       propertyPath: m_LocalRotation.w

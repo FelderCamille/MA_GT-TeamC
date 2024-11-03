@@ -1,10 +1,11 @@
+using Objects;
 using UI;
 using UnityEngine;
 
 namespace Controllers
 {
 
-    public class GridController : MonoBehaviour
+    public class GridController : MonoBehaviour, IGrid
     {
         
         private static readonly System.Random Random = new ();
@@ -82,6 +83,19 @@ namespace Controllers
             tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
         }
+
+        public bool CanMoveRight(float newX) => CanGoToNewX(newX);
+
+        public bool CanMoveLeft(float newX) => CanGoToNewX(newX);
         
+        private static bool CanGoToNewX(float newX) =>
+            newX is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridXEndIndex;
+        
+        public bool CanMoveUp(float newY) => CanGoToNewY(newY);
+
+        public bool CanMoveDown(float newY) => CanGoToNewY(newY);
+        
+        private static bool CanGoToNewY(float newY) =>
+            newY is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridYEndIndex;
     }
 }

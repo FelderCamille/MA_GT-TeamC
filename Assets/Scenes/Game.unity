@@ -1847,6 +1847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
   landmineTilePrefab: {fileID: 3133543057032349834, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
+  paddingTile: {fileID: 3133543057032349834, guid: 380fc9e42ec5b4d8eaf372bbe28290ec, type: 3}
   numberOfLandmines: 20
 --- !u!1 &1842833483
 GameObject:
@@ -2585,7 +2586,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4683374254782369042, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_Mass
-      value: 10
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4683374254782369042, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4683374254782369042, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
+      propertyPath: m_Constraints
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7289725596116953123, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_Name
@@ -2597,7 +2606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953812560660132505, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.04756689
       objectReference: {fileID: 0}
     - target: {fileID: 7953812560660132505, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_LocalPosition.z

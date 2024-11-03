@@ -2457,6 +2457,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot
       objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172141863580420208, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2609,7 +2641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953812560660132505, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.04756689
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7953812560660132505, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
       propertyPath: m_LocalPosition.z

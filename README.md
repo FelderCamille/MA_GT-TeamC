@@ -29,3 +29,4 @@ Tentes:
 - [Bomb](https://www.flaticon.com/free-icon/bomb_891013?term=bomb&page=1&position=12&origin=search&related_id=891013)
 - [Previous (style iOS 17 filled)](https://icons8.com/icons/set/previous--white)
 - [Next (style iOS 17 filled)](https://icons8.com/icons/set/next--white)
+- [Arrow (style iOS 17 filled)](https://icons8.com/icons/set/arrow--white)

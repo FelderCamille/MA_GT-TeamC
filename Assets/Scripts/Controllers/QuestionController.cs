@@ -63,8 +63,9 @@ namespace Controllers
         private void OnResponseClicked(QuestionButton questionButton)
         {
             // Manage response
-            var isCorrect = _questions[_currentQuestionIndex].IsCorrectResponse(questionButton.buttonText.text);
-            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.answerSuccess : LandmineCleared.answerFailure);
+            var question = _questions[_currentQuestionIndex];
+            var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
+            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             _answering = false;
             // Hide question overlay

@@ -2,9 +2,8 @@ namespace Objects
 {
     public enum LandmineCleared
     {
-        answerSuccess,
-        answerFailure,
-        explosion,
-        
+        AnswerSuccess,
+        AnswerFailure,
+        Explosion,
     }
 }

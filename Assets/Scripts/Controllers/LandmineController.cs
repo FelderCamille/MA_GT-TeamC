@@ -11,7 +11,7 @@ namespace Controllers
 
         private QuestionController _questionOverlay;
         private RobotController _robot;
-
+        
         private void Awake()
         {
             _questionOverlay = FindObjectOfType<QuestionController>(true);
@@ -37,10 +37,14 @@ namespace Controllers
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering()) return;
             // Check if the distance between the robot and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
-            // Define mine in the question overlay
-            _questionOverlay.Mine = this;
-            // Show question overlay
-            _questionOverlay.gameObject.SetActive(true);
+            // Check if the robot faces the landmine
+            if (_robot.Direction == RobotDirection.FacingRight && transform.position.x > _robot.transform.position.x ||
+                _robot.Direction == RobotDirection.FacingLeft && transform.position.x < _robot.transform.position.x ||
+                _robot.Direction == RobotDirection.FacingUp && transform.position.z > _robot.transform.position.z ||
+                _robot.Direction == RobotDirection.FacingDown && transform.position.z < _robot.transform.position.z)
+            {
+                ShowQuestionOverlay();
+            }
         }
 
         public void OnLandmineCleared(LandmineCleared state)
@@ -48,13 +52,13 @@ namespace Controllers
             // Manage robot
             switch (state)
             {
-                case LandmineCleared.answerSuccess:
+                case LandmineCleared.AnswerSuccess:
                     _robot.IncreaseClearedMineCounter();
                     break;
-                case LandmineCleared.answerFailure:
+                case LandmineCleared.AnswerFailure:
                     _robot.ReduceHealth(Constants.Values.HealthRemovedWhenFailure);
                     break;
-                case LandmineCleared.explosion:
+                case LandmineCleared.Explosion:
                     _robot.ReduceHealth(Constants.Values.HealthRemovedWhenExplosion);
                     break;
             }
@@ -66,7 +70,15 @@ namespace Controllers
 
         public void OnRobotCollided()
         {
-            OnLandmineCleared(LandmineCleared.explosion);
+            OnLandmineCleared(LandmineCleared.Explosion);
+        }
+        
+        private void ShowQuestionOverlay()
+        {
+            // Define mine in the question overlay
+            _questionOverlay.Mine = this;
+            // Show question overlay
+            _questionOverlay.gameObject.SetActive(true);
         }
     }
 }

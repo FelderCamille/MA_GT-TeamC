@@ -20,9 +20,11 @@ public static class Constants
         // Landmines
         public const int NumberOfLandmines = 20;
         // Robot
-        public const int NumberOfTiles = 1;
+        public const int NumberOfTilesMovement = 1;
         public const float Health = 100f;
         public const int Money = 1000;
+        // Tent
+        public const int NumberOfTileOpenStore = 1;
     }
 
     public static class Actions

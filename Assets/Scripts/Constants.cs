@@ -19,6 +19,8 @@ public static class Constants
         public const float Timer = 10 * 60f; // 10 min
         // Landmines
         public const int NumberOfLandmines = 20;
+        public const float Health = 100f;
+        public const int Money = 1000;
     }
 
     public static class Actions

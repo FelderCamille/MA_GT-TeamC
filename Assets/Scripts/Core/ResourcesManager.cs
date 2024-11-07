@@ -9,9 +9,9 @@ namespace Core
         private Ressources _resourcesPrefab;
         
         // Robot properties
-        private int _money = 1000;
+        private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
-        private float _health = 100f;
+        private float _health = Constants.GameSettings.Health;
         
         private void Start()
         {

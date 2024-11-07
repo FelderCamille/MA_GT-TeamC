@@ -1,6 +1,7 @@
 using Core;
 using Objects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Controllers
 {
@@ -13,13 +14,21 @@ namespace Controllers
         
         [Header("Settings")]
         public int numberOfTile = 1;
-        
         public RobotDirection Direction { get; private set; }
 
+        private QuestionController _questionOverlay;
         private LandmineController _currentLandmine;
+        
+        private void Awake()
+        {
+            _questionOverlay = FindObjectOfType<QuestionController>(true);
+        }
 
         private void Update()
         {
+            // Do nothing if the robot is answering a question
+            if (_questionOverlay.IsAnswering) return;
+            // Handle movements
             HandleMovements();
         }
 

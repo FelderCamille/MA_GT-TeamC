@@ -34,7 +34,7 @@ namespace Controllers
         public void DetectRobotApproach()
         {
             // Check if the user wants to clear the mine, if not return
-            if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering()) return;
+            if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
             // Check if the distance between the robot and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
             // Check if the robot faces the landmine

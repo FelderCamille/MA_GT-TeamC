@@ -18,12 +18,17 @@ namespace Controllers
 
         private int _currentQuestionIndex = -1; // To start at index 0
         private Question[] _questions;
-        private bool _answering;
         
         public LandmineController Mine
         {
             private get;
             set;
+        }
+
+        public bool IsAnswering
+        {
+            get;
+            private set;
         }
         
         private void Awake()
@@ -42,7 +47,7 @@ namespace Controllers
             }
             var question = _questions[_currentQuestionIndex];
             // Update _answering
-            _answering = true;
+            IsAnswering = true;
             // Remove old buttons
             while (GetComponentInChildren<QuestionButton>() != null)
             {
@@ -67,14 +72,9 @@ namespace Controllers
             var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
             Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
-            _answering = false;
+            IsAnswering = false;
             // Hide question overlay
             gameObject.SetActive(false);
-        }
-        
-        public bool IsAnswering()
-        {
-            return _answering;
         }
     }
 }

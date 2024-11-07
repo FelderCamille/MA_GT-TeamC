@@ -14,6 +14,7 @@ namespace Controllers
         public SectionTab sectionTabPrefab;
         public NavigationButton previousPageButton;
         public NavigationButton nextPageButton;
+        public Text pageNumber;
 
         private Section[] _sections;
         private int _currentSectionIndex = 0;
@@ -84,6 +85,8 @@ namespace Controllers
             var currentSection = _sections[_currentSectionIndex];
             var currentPage = currentSection.pages[_currentPageIndex];
             GetComponentInChildren<TextMeshProUGUI>().text = "<style=\"Title\">" + currentPage.title + "</style>\n\n" + currentPage.content;
+            // Update page number
+            pageNumber.text = (_currentPageIndex + 1) + "/" + currentSection.pages.Length;
             // Update previous button state
             if (HasPreviousPage() && !previousPageButton.IsEnabled)
             {

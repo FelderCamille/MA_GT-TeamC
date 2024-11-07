@@ -27,39 +27,86 @@ namespace Controllers
             // Do nothing if the robot is answering a question
             if (_questionOverlay.IsAnswering) return;
             // Handle movements
+            HandleRotation();
             HandleMovements();
+        }
+        
+        private void HandleRotation()
+        {
+            // Rotation to right
+            if (Input.GetKey(Constants.Actions.Rotation) && Input.GetKeyDown(Constants.Actions.MoveRight))
+            {
+                RotateRight();
+            }
+            // Rotation to left
+            if (Input.GetKey(Constants.Actions.Rotation) && Input.GetKeyDown(Constants.Actions.MoveLeft))
+            {
+                RotateLeft();
+            }
+            // Rotation up
+            if (Input.GetKey(Constants.Actions.Rotation) && Input.GetKeyDown(Constants.Actions.MoveUp))
+            {
+                RotateUp();
+            }
+            // Rotation down
+            if (Input.GetKey(Constants.Actions.Rotation) && Input.GetKeyDown(Constants.Actions.MoveDown))
+            {
+                RotateDown();
+            }
         }
 
         private void HandleMovements()
         {
+            // Do nothing if the user is rotating
+            if(Input.GetKey(Constants.Actions.Rotation)) return;
             // Move to right
             if (Input.GetKeyDown(Constants.Actions.MoveRight) && _grid.CanMoveRight(transform.position.x + NumberOfTile))
             {
                 transform.position += new Vector3(NumberOfTile, 0f, 0f);
-                transform.eulerAngles = new Vector3(0f, 0f, 0f);
-                Direction = RobotDirection.FacingRight;
+                RotateRight();
             }
             // Move to left
             if (Input.GetKeyDown(Constants.Actions.MoveLeft) && _grid.CanMoveLeft(transform.position.x - NumberOfTile))
             {
                 transform.position -= new Vector3(NumberOfTile, 0f, 0f);
-                transform.eulerAngles = new Vector3(0f, 180f, 0f);
-                Direction = RobotDirection.FacingLeft;
+                RotateLeft();
             }
             // Move up
             if (Input.GetKeyDown(Constants.Actions.MoveUp) && _grid.CanMoveUp(transform.position.z + NumberOfTile))
             {
                 transform.position += new Vector3(0f, 0f, NumberOfTile);
-                transform.eulerAngles = new Vector3(0f, -90f, 0f);
-                Direction = RobotDirection.FacingUp;
+                RotateUp();
             }
             // Move down
             if (Input.GetKeyDown(Constants.Actions.MoveDown) && _grid.CanMoveDown(transform.position.z - NumberOfTile))
             {
                 transform.position -= new Vector3(0f, 0f, NumberOfTile);
-                transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                Direction = RobotDirection.FacingDown;
+                RotateDown();
             }
+        }
+
+        private void RotateRight()
+        {
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            Direction = RobotDirection.FacingRight;
+        }
+
+        private void RotateLeft()
+        {
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            Direction = RobotDirection.FacingLeft;
+        }
+
+        private void RotateUp()
+        {
+            transform.eulerAngles = new Vector3(0f, -90f, 0f);
+            Direction = RobotDirection.FacingUp;
+        }
+        
+        private void RotateDown()
+        {
+            transform.eulerAngles = new Vector3(0f, 90f, 0f);
+            Direction = RobotDirection.FacingDown;
         }
 
         public void IncreaseClearedMineCounter()

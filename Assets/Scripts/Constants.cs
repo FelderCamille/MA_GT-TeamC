@@ -33,6 +33,7 @@ public static class Constants
         public const KeyCode MoveRight = KeyCode.RightArrow;
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
+        public const KeyCode Rotation = KeyCode.LeftShift;
         public const KeyCode ClearMine = KeyCode.D;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }

@@ -7,7 +7,10 @@ namespace Controllers
 
     public class GridController : MonoBehaviour, IGrid
     {
-        
+        // Padding indexes
+        private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
+        private const int GridXEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridWidth;
+        private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
         private static readonly System.Random Random = new ();
         
         [Header("Content")]
@@ -29,9 +32,9 @@ namespace Controllers
         private void ComputeLandminesEmplacement()
         {
             // Initialize the array
-            _landmines = new bool[Constants.GameSize.GridWidth * Constants.GameSize.GridHeight];
+            _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
             // Compute the emplacements
-            for (var i = 0; i < Constants.Values.NumberOfLandmines; i++)
+            for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
             {
                 // Get an index
                 var landmineIndex = Random.Next(0, _landmines.Length); // [0, _landmines.Length[
@@ -47,14 +50,16 @@ namespace Controllers
 
         private void GenerateMap()
         {
+            const int mapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
+            const int mapHeight =  Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
             // Generate the map
-            for (var x = 0; x < Constants.GameSize.MapWidth; x++)
+            for (var x = 0; x < mapWidth; x++)
             {
-                for (var y = 0; y < Constants.GameSize.MapHeight; y++)
+                for (var y = 0; y < mapHeight; y++)
                 {
                     // Check if it's the emplacement of a grid tile
-                    if (x is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridXEndIndex 
-                        && y is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridYEndIndex)
+                    if (x is >= GridXYStartIndex and < GridXEndIndex 
+                        && y is >= GridXYStartIndex and < GridYEndIndex)
                     {
                         GenerateGridTile(x, y);
                     }
@@ -76,7 +81,7 @@ namespace Controllers
         private void GenerateGridTile(int x, int y)
         {
             // Check if the emplacement must be a classic tile or a landmine
-            var index = (x - Constants.GameSize.Padding) * Constants.GameSize.GridHeight + (y - Constants.GameSize.Padding);
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight + (y - Constants.GameSettings.GridPadding);
             var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
@@ -88,14 +93,12 @@ namespace Controllers
 
         public bool CanMoveLeft(float newX) => CanGoToNewX(newX);
         
-        private static bool CanGoToNewX(float newX) =>
-            newX is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridXEndIndex;
+        private static bool CanGoToNewX(float newX) => newX is >= GridXYStartIndex and < GridXEndIndex;
         
         public bool CanMoveUp(float newY) => CanGoToNewY(newY);
 
         public bool CanMoveDown(float newY) => CanGoToNewY(newY);
         
-        private static bool CanGoToNewY(float newY) =>
-            newY is >= Constants.GameSize.GridXYStartIndex and < Constants.GameSize.GridYEndIndex;
+        private static bool CanGoToNewY(float newY) => newY is >= GridXYStartIndex and < GridYEndIndex;
     }
 }

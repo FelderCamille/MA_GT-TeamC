@@ -1,3 +1,4 @@
+using System.Collections;
 using Utils;
 using UnityEngine;
 
@@ -5,16 +6,18 @@ namespace Core
 {
     public class TimeManager : MonoBehaviour
     {
-        
+        private SceneLoader _sceneLoader;
         private UI.Time _timePrefab;
         
-        private float _time = 600f; // 600s = 10m
+        private float _time = Constants.GameSettings.Timer;
         private bool _isRunning = false;
 
         private void Start()
         {
-            // Set time on UI
+            // Get objects
+            _sceneLoader = FindObjectOfType<SceneLoader>();
             _timePrefab = FindObjectOfType<UI.Time>();
+            // Set time
             _timePrefab.SetTime(_time);
         }
 
@@ -53,16 +56,21 @@ namespace Core
             // Manage when the timer is done
             if (_time <= 0.0f)
             {
-                ManageEndTimer();
+                StartCoroutine(ManageEndTimer());
                 return;
             }
             // Update timer
             SetTime(_time - Time.deltaTime);
         }
 
-        private void ManageEndTimer()
+        private IEnumerator ManageEndTimer()
         {
+            // Stop timer
             EventManager.OnTimerStop();
+            // Wait to have a smoother transition
+            yield return new WaitForSeconds(0.5f);
+            // Show result scene
+            _sceneLoader.ShowScene(Constants.Scenes.Result);
         }
     }
 

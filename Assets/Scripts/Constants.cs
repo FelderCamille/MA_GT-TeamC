@@ -6,20 +6,19 @@ public static class Constants
     {
         public const string Title = "Title";
         public const string Game = "Game";
+        public const string Result = "Result";
     }
 
-    public static class GameSize
+    public static class GameSettings
     {
+        // Grid
         public const int GridWidth = 30;
         public const int GridHeight = 30;
-        public const int Padding = 20;
-        // Width and height of the map
-        public const int MapWidth = GridWidth + Padding * 2;
-        public const int MapHeight =  GridHeight + Padding * 2;
-        // Padding indexes
-        public const int GridXYStartIndex = Padding;
-        public const int GridXEndIndex = Padding + GridWidth;
-        public const int GridYEndIndex = Padding + GridHeight;
+        public const int GridPadding = 20;
+        // Timer
+        public const float Timer = 10 * 60f; // 10 min
+        // Landmines
+        public const int NumberOfLandmines = 20;
     }
 
     public static class Actions
@@ -34,7 +33,6 @@ public static class Constants
 
     public static class Values
     {
-        public const int NumberOfLandmines = 20;
         public const float HealthRemovedWhenFailure = 10f;
         public const float HealthRemovedWhenExplosion = 20f;
     } 

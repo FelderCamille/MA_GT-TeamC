@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
 
     public void ShowScene(string scene)
     {
-        Scene sceneInHistory = SceneManager.GetSceneByName(scene);
+        var sceneInHistory = SceneManager.GetSceneByName(scene);
         if (sceneInHistory.isLoaded)
         {
             SceneManager.SetActiveScene(sceneInHistory);

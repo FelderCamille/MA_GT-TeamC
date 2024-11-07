@@ -1,7 +1,6 @@
 using System;
 using Objects;
 using UI;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -65,7 +64,7 @@ namespace Controllers
         {
             // Manage response
             var isCorrect = _questions[_currentQuestionIndex].IsCorrectResponse(questionButton.buttonText.text);
-            Mine.OnLandmineCleared(isCorrect);
+            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.answerSuccess : LandmineCleared.answerFailure);
             // Not answering anymore
             _answering = false;
             // Hide question overlay

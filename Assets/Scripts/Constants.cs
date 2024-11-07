@@ -35,6 +35,7 @@ public static class Constants
     public static class Values
     {
         public const int NumberOfLandmines = 20;
-        public const float HealthRemovedWhenExplosion = 10f;
+        public const float HealthRemovedWhenFailure = 10f;
+        public const float HealthRemovedWhenExplosion = 20f;
     } 
 }

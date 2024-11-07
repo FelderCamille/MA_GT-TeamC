@@ -43,16 +43,20 @@ namespace Controllers
             _questionOverlay.gameObject.SetActive(true);
         }
 
-        public void OnLandmineCleared(bool success)
+        public void OnLandmineCleared(LandmineCleared state)
         {
-            // Manage result
-            if (success)
+            // Manage robot
+            switch (state)
             {
-                _robot.IncreaseClearedMineCounter();
-            }
-            else
-            {
-                _robot.ReduceHealth(Constants.Values.HealthRemovedWhenExplosion);
+                case LandmineCleared.answerSuccess:
+                    _robot.IncreaseClearedMineCounter();
+                    break;
+                case LandmineCleared.answerFailure:
+                    _robot.ReduceHealth(Constants.Values.HealthRemovedWhenFailure);
+                    break;
+                case LandmineCleared.explosion:
+                    _robot.ReduceHealth(Constants.Values.HealthRemovedWhenExplosion);
+                    break;
             }
             // Remove landmine
             gameObject.SetActive(false);
@@ -62,7 +66,7 @@ namespace Controllers
 
         public void OnRobotCollided()
         {
-            OnLandmineCleared(false);
+            OnLandmineCleared(LandmineCleared.explosion);
         }
     }
 }

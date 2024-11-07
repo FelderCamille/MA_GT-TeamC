@@ -7,7 +7,6 @@ namespace Controllers
 
     public class GridController : MonoBehaviour, IGrid
     {
-        // Padding indexes
         private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
         private const int GridXEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridWidth;
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
@@ -16,17 +15,21 @@ namespace Controllers
         [Header("Content")]
         public Tile tilePrefab;
         public Tile landmineTilePrefab;
-        public Tile paddingTile;
+        public Tile paddingTilePrefab;
+        public RobotController robotPrefab;
+        public TentController tentPrefab;
 
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
         /// </summary>
         private bool[] _landmines;
         
-        private void Start()
+        private void Awake()
         {
             ComputeLandminesEmplacement();
             GenerateMap();
+            SpawnRobot();
+            SpawnTent();
         }
 
         private void ComputeLandminesEmplacement()
@@ -73,7 +76,7 @@ namespace Controllers
 
         private void GeneratePaddingTile(int x, int y)
         {
-            var tileObj = Instantiate(paddingTile, new Vector3(x, 0, y), Quaternion.identity);
+            var tileObj = Instantiate(paddingTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y} padding";
         }
@@ -87,6 +90,22 @@ namespace Controllers
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
+        }
+        
+        private void SpawnRobot()
+        {
+            const int xIndex = GridXYStartIndex + 2;
+            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
+            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
+            robotObj.name = "Robot";
+        }
+
+        private void SpawnTent()
+        {
+            const int xIndex = GridXYStartIndex - TentController.TentLength / 2;
+            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
+            var tentObj = Instantiate(tentPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.Euler(0, 90f, 0));
+            tentObj.name = "Tent";
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

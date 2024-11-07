@@ -1,27 +1,25 @@
 using Core;
 using Objects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Controllers
 {
     public class RobotController : MonoBehaviour, IRobot
     {
+        private const int NumberOfTile = Constants.GameSettings.NumberOfTiles;
         
-        [Header("Content")]
-        public ResourcesManager resourcesManager;
-        public GridController grid;
-        
-        [Header("Settings")]
-        public int numberOfTile = 1;
         public RobotDirection Direction { get; private set; }
 
+        private ResourcesManager _resourcesManager;
         private QuestionController _questionOverlay;
+        private GridController _grid;
         private LandmineController _currentLandmine;
-        
-        private void Awake()
+
+        private void Start()
         {
+            _grid = FindObjectOfType<GridController>();
             _questionOverlay = FindObjectOfType<QuestionController>(true);
+            _resourcesManager = gameObject.AddComponent<ResourcesManager>();
         }
 
         private void Update()
@@ -35,30 +33,30 @@ namespace Controllers
         private void HandleMovements()
         {
             // Move to right
-            if (Input.GetKeyDown(Constants.Actions.MoveRight) && grid.CanMoveRight(transform.position.x + numberOfTile))
+            if (Input.GetKeyDown(Constants.Actions.MoveRight) && _grid.CanMoveRight(transform.position.x + NumberOfTile))
             {
-                transform.position += new Vector3(numberOfTile, 0f, 0f);
+                transform.position += new Vector3(NumberOfTile, 0f, 0f);
                 transform.eulerAngles = new Vector3(0f, 0f, 0f);
                 Direction = RobotDirection.FacingRight;
             }
             // Move to left
-            if (Input.GetKeyDown(Constants.Actions.MoveLeft) && grid.CanMoveLeft(transform.position.x - numberOfTile))
+            if (Input.GetKeyDown(Constants.Actions.MoveLeft) && _grid.CanMoveLeft(transform.position.x - NumberOfTile))
             {
-                transform.position -= new Vector3(numberOfTile, 0f, 0f);
+                transform.position -= new Vector3(NumberOfTile, 0f, 0f);
                 transform.eulerAngles = new Vector3(0f, 180f, 0f);
                 Direction = RobotDirection.FacingLeft;
             }
             // Move up
-            if (Input.GetKeyDown(Constants.Actions.MoveUp) && grid.CanMoveUp(transform.position.z + numberOfTile))
+            if (Input.GetKeyDown(Constants.Actions.MoveUp) && _grid.CanMoveUp(transform.position.z + NumberOfTile))
             {
-                transform.position += new Vector3(0f, 0f, numberOfTile);
+                transform.position += new Vector3(0f, 0f, NumberOfTile);
                 transform.eulerAngles = new Vector3(0f, -90f, 0f);
                 Direction = RobotDirection.FacingUp;
             }
             // Move down
-            if (Input.GetKeyDown(Constants.Actions.MoveDown) && grid.CanMoveDown(transform.position.z - numberOfTile))
+            if (Input.GetKeyDown(Constants.Actions.MoveDown) && _grid.CanMoveDown(transform.position.z - NumberOfTile))
             {
-                transform.position -= new Vector3(0f, 0f, numberOfTile);
+                transform.position -= new Vector3(0f, 0f, NumberOfTile);
                 transform.eulerAngles = new Vector3(0f, 90f, 0f);
                 Direction = RobotDirection.FacingDown;
             }
@@ -66,12 +64,12 @@ namespace Controllers
 
         public void IncreaseClearedMineCounter()
         {
-            resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseClearedMinesCounter();
         }
 
         public void ReduceHealth(float value)
         {
-            resourcesManager.ReduceHealth(value);
+            _resourcesManager.ReduceHealth(value);
         }
     }
 

@@ -12,7 +12,7 @@ namespace Controllers
         private QuestionController _questionOverlay;
         private RobotController _robot;
         
-        private void Awake()
+        private void Start()
         {
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();

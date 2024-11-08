@@ -30,12 +30,6 @@ namespace Controllers
             var isCloseEnoughOnZ = _robot.transform.position.z >= _tentZ1Position && _robot.transform.position.z <= _tentZ2Position;
             if (!isCloseEnoughOnX || !isCloseEnoughOnZ) return;
             // Open the store
-            OpenStore();
-        }
-        
-        private void OpenStore()
-        {
-            // Open the store
             _store.gameObject.SetActive(true);
         }
     }

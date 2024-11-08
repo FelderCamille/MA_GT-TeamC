@@ -41,9 +41,10 @@ public static class Constants
 
     public static class Values
     {
-        public const float HealthRemovedWhenFailureMin = 10f;
-        public const float HealthRemovedWhenFailureMax = 15f;
-        public const float HealthRemovedWhenExplosionMin = 20f;
-        public const float HealthRemovedWhenExplosionMax = 30f;
+        public const int RepairPrice = 500;
+        public const int HealthRemovedWhenFailureMin = 10;
+        public const int HealthRemovedWhenFailureMax = 15;
+        public const int HealthRemovedWhenExplosionMin = 20;
+        public const int HealthRemovedWhenExplosionMax = 30;
     } 
 }

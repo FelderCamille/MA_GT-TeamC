@@ -12,6 +12,7 @@ namespace Controllers
 
         private ResourcesManager _resourcesManager;
         private QuestionController _questionOverlay;
+        private StoreController _storeOverlay;
         private GridController _grid;
         private LandmineController _currentLandmine;
 
@@ -19,13 +20,14 @@ namespace Controllers
         {
             _grid = FindObjectOfType<GridController>();
             _questionOverlay = FindObjectOfType<QuestionController>(true);
+            _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
         }
 
         private void Update()
         {
-            // Do nothing if the robot is answering a question
-            if (_questionOverlay.IsAnswering) return;
+            // Do nothing if the robot is answering a question or in the store
+            if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle movements
             HandleRotation();
             HandleMovements();
@@ -117,6 +119,19 @@ namespace Controllers
         public void ReduceHealth(float value)
         {
             _resourcesManager.ReduceHealth(value);
+        }
+
+        public bool Repair()
+        {
+            if (!_resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice)) return false;
+            _resourcesManager.ReduceMoney(Constants.Values.RepairPrice);
+            _resourcesManager.Repair();
+            return true;
+        }
+
+        public bool CanRepair()
+        {
+            return _resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice) && _resourcesManager.NeedRepair();
         }
     }
 

@@ -20,11 +20,16 @@ namespace Core
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(_clearedMines);
         }
-
+        
         /// <summary>
-        /// Money of the robot
+        /// Check if their is enough money to buy something
         /// </summary>
-        public int Money => _money;
+        /// <param name="value">The value of the thing to buy</param>
+        /// <returns>True if their is enough money, false otherwise</returns>
+        public bool HasEnoughMoneyToBuy(int value)
+        {
+            return _money >= value;
+        }
         
         /// <summary>
         /// Increase the money of the robot
@@ -59,16 +64,29 @@ namespace Core
         }
 
         /// <summary>
-        /// Health of the robot
-        /// </summary>
-        public float Health => _health;
-
-        /// <summary>
         /// Reduce the health of the robot
         /// </summary>
         public void ReduceHealth(float value)
         {
             _health -= value;
+            _resourcesPrefab.SetHealth(_health);
+        }
+
+        /// <summary>
+        /// Check whether it needs to be repaired
+        /// </summary>
+        /// <returns>True if the health is not at maximum, false otherwise</returns>
+        public bool NeedRepair()
+        {
+            return _health < Constants.GameSettings.Health;
+        }
+
+        /// <summary>
+        /// Increase the health of the robot to the maximum
+        /// </summary>
+        public void Repair()
+        {
+            _health = Constants.GameSettings.Health;
             _resourcesPrefab.SetHealth(_health);
         }
     }

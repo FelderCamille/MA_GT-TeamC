@@ -56,16 +56,16 @@ namespace Controllers
                     _robot.IncreaseClearedMineCounter();
                     break;
                 case LandmineCleared.AnswerFailure:
-                    _robot.ReduceHealth(Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax));
+                    var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
+                    _robot.ReduceHealth(hTRFailure);
                     break;
                 case LandmineCleared.Explosion:
-                    _robot.ReduceHealth(Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax));
+                    var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
+                    _robot.ReduceHealth(hTRExplosion);
                     break;
             }
             // Remove landmine
             gameObject.SetActive(false);
-            // Hide question overlay
-            _questionOverlay.gameObject.SetActive(false);
         }
 
         public void OnRobotCollided()

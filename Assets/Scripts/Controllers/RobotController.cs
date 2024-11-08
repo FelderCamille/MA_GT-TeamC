@@ -6,7 +6,7 @@ namespace Controllers
 {
     public class RobotController : MonoBehaviour, IRobot
     {
-        private const int NumberOfTile = Constants.GameSettings.NumberOfTilesMovement;
+        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
         
         public RobotDirection Direction { get; private set; }
 

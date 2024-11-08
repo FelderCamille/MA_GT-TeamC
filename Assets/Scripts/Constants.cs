@@ -19,8 +19,9 @@ public static class Constants
         public const float Timer = 10 * 60f; // 10 min
         // Landmines
         public const int NumberOfLandmines = 20;
+        public const int NumberOfTileClearLandmine = 1;
         // Robot
-        public const int NumberOfTilesMovement = 1;
+        public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
         public const int Money = 1000;
         // Tent
@@ -40,7 +41,9 @@ public static class Constants
 
     public static class Values
     {
-        public const float HealthRemovedWhenFailure = 10f;
-        public const float HealthRemovedWhenExplosion = 20f;
+        public const float HealthRemovedWhenFailureMin = 10f;
+        public const float HealthRemovedWhenFailureMax = 15f;
+        public const float HealthRemovedWhenExplosionMin = 20f;
+        public const float HealthRemovedWhenExplosionMax = 30f;
     } 
 }

@@ -7,7 +7,7 @@ namespace Controllers
     {
         
         [Header("Settings")]
-        public float collidingDistance = 1.5f; // One tile of distance, no diagonal
+        public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
 
         private QuestionController _questionOverlay;
         private RobotController _robot;
@@ -56,10 +56,10 @@ namespace Controllers
                     _robot.IncreaseClearedMineCounter();
                     break;
                 case LandmineCleared.AnswerFailure:
-                    _robot.ReduceHealth(Constants.Values.HealthRemovedWhenFailure);
+                    _robot.ReduceHealth(Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax));
                     break;
                 case LandmineCleared.Explosion:
-                    _robot.ReduceHealth(Constants.Values.HealthRemovedWhenExplosion);
+                    _robot.ReduceHealth(Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax));
                     break;
             }
             // Remove landmine
@@ -80,5 +80,6 @@ namespace Controllers
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }
+        
     }
 }

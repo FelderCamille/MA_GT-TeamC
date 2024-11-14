@@ -30,3 +30,4 @@ Tentes:
 - [Previous (style iOS 17 filled)](https://icons8.com/icons/set/previous--white)
 - [Next (style iOS 17 filled)](https://icons8.com/icons/set/next--white)
 - [Arrow (style iOS 17 filled)](https://icons8.com/icons/set/arrow--white)
+- [Glasses](https://www.flaticon.com/free-icon/telescope_1355898?term=telescope&page=1&position=25&origin=search&related_id=1355898)

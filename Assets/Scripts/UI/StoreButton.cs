@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Objects;
 
 namespace UI
 {
@@ -22,6 +23,12 @@ namespace UI
         public void InitRepairButton(Action onClickCallback)
         {
             Init(onClickCallback, "Réparer", Constants.Values.RepairPrice, "Icons/repair");
+        }
+        
+        public void InitBonusButton(Action onClickCallback, Objects.Bonus bonus)
+        {
+            var bonusName = bonus.Name + " (" + bonus.Multiplier + ")";
+            Init(onClickCallback, bonusName, bonus.Price, bonus.Icon);
         }
         
         public void Enabled()

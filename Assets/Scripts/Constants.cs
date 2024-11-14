@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 
 public static class Constants
@@ -23,6 +25,7 @@ public static class Constants
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
+        public const int Vision = 0;
         public const int Money = 1000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
@@ -46,5 +49,26 @@ public static class Constants
         public const int HealthRemovedWhenFailureMax = 15;
         public const int HealthRemovedWhenExplosionMin = 20;
         public const int HealthRemovedWhenExplosionMax = 30;
-    } 
+    }
+
+    public static class Bonus
+    {
+        public static string BonusTypeName(BonusType bonusType)
+        {
+            return bonusType switch
+            {
+                BonusType.Vision => "Vision",
+                _ => "Unknown"
+            };
+        }
+        
+        public static List<Objects.Bonus> BonusesPerType(BonusType bonusType)
+        {
+            return bonusType switch
+            {
+                BonusType.Vision => new List<Objects.Bonus>{ new GlassesBonus() },
+                _ => new List<Objects.Bonus>()
+            };
+        }
+    }
 }

@@ -1,5 +1,9 @@
+using System;
+using System.Linq;
+using Objects;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Controllers
 {
@@ -9,14 +13,26 @@ namespace Controllers
 
         public CloseButton closeButton;
         public StoreButton repairButton;
+        public VerticalLayoutGroup bonusSectionsEmplacement;
+        public StoreBonusSection storeBonusSectionPrefab;
 
         private RobotController _robot;
         
         private void Awake()
         {
+            // Retrieve robot
             _robot = FindObjectOfType<RobotController>();
+            // Init close button
             closeButton.Init(CloseStore);
+            // Init repair button
             repairButton.InitRepairButton(RepairRobot);
+            // Add bonus sections
+            foreach (var bonusType in Enum.GetValues(typeof(BonusType)).Cast<BonusType>())
+            {
+                var bonusSectionObj = Instantiate(storeBonusSectionPrefab, bonusSectionsEmplacement.transform);
+                bonusSectionObj.name = "Section " + bonusType;
+                bonusSectionObj.Init(bonusType);
+            }
         }
         
         private void OnEnable()
@@ -37,6 +53,8 @@ namespace Controllers
             // Enable/Disable repair button
             if (_robot.CanRepair()) repairButton.Enabled();
             else repairButton.Disable();
+            // Enable/Disable bonuses
+            // TODO.
         }
 
         private void CloseStore()

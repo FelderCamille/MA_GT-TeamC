@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
@@ -7,15 +8,19 @@ namespace Core
     {
         
         private Ressources _resourcesPrefab;
+        private BonusRow _bonusRowPrefab;
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
         private float _health = Constants.GameSettings.Health;
+        private float _visionDistance = Constants.GameSettings.Vision;
+        private readonly List<Objects.Bonus> _appliedBonuses = new ();
         
         private void Start()
         {
             _resourcesPrefab = FindObjectOfType<Ressources>();
+            _bonusRowPrefab = FindObjectOfType<BonusRow>();
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(_clearedMines);
@@ -89,6 +94,32 @@ namespace Core
             _health = Constants.GameSettings.Health;
             _resourcesPrefab.SetHealth(_health);
         }
+        
+        public float GetVisionDistance()
+        {
+            return _visionDistance;
+        }
+        
+        public void MultiplyVision(double multiplier)
+        {
+            _visionDistance *= (float) multiplier;
+        }
+        
+        // Bonus
+        
+        public bool HasBonus(Objects.Bonus bonus)
+        {
+            return _appliedBonuses.Contains(bonus);
+        }
+
+        public void AddBonus(Objects.Bonus bonus)
+        {
+            // Add the bonus to the list
+            _appliedBonuses.Add(bonus);
+            // Show the bonus on the UI
+            _bonusRowPrefab.AddBonus(bonus);
+        }
+
     }
 
 }

@@ -354,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 3761469636474403522}
   bonusesEmplacement: {fileID: 721549528501709615}
-  bonusButtonPrefab: {fileID: 4969558722639268210, guid: 00e404d13bb264c0b9d726d5ff3f5855, type: 3}
+  bonusButtonPrefab: {fileID: 7580343337024513709, guid: 9f3b14381af4b49a096f81609d3f81fe, type: 3}
 --- !u!1 &6184766662362559786
 GameObject:
   m_ObjectHideFlags: 0

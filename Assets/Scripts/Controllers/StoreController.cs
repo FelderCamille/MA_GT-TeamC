@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Objects;
 using UI;
@@ -33,7 +34,7 @@ namespace Controllers
             {
                 var bonusSectionObj = Instantiate(storeBonusSectionPrefab, bonusSectionsEmplacement.transform);
                 bonusSectionObj.name = "Section " + bonusType;
-                bonusSectionObj.Init(bonusType);
+                bonusSectionObj.Init(bonusType, CheckIfCanBuy);
             }
         }
 
@@ -56,7 +57,12 @@ namespace Controllers
             if (_robot.CanRepair()) repairButton.Enabled();
             else repairButton.Disable();
             // Enable/Disable bonuses
-            // TODO.
+            var bonusButtons = GetComponentsInChildren<BonusButton>();
+            foreach (var bonusButton in bonusButtons)
+            {
+                if (_robot.CanBuyBonus(bonusButton.bonus)) bonusButton.Enabled();
+                else bonusButton.Disable();
+            }
         }
 
         public void OpenStore()

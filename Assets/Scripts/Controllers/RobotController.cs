@@ -133,6 +133,11 @@ namespace Controllers
         {
             return _resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice) && _resourcesManager.NeedRepair();
         }
+
+        public bool CanBuyBonus(Bonus bonus)
+        {
+            return _resourcesManager.HasEnoughMoneyToBuy(bonus.Price) && !_resourcesManager.HasBonus(bonus);
+        }
     }
 
 }

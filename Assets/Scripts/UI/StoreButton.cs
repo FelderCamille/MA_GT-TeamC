@@ -12,7 +12,7 @@ namespace UI
         public Text buttonName;
         public Text price;
         
-        private void Init(Action onClickCallback, string text, int money, string sprite)
+        protected void Init(Action onClickCallback, string text, int money, string sprite)
         {
             button.onClick.AddListener(() => onClickCallback());
             buttonName.text = text;
@@ -23,12 +23,6 @@ namespace UI
         public void InitRepairButton(Action onClickCallback)
         {
             Init(onClickCallback, "Réparer", Constants.Values.RepairPrice, "Icons/repair");
-        }
-        
-        public void InitBonusButton(Action onClickCallback, Objects.Bonus bonus)
-        {
-            var bonusName = bonus.Name + " (" + bonus.Multiplier + ")";
-            Init(onClickCallback, bonusName, bonus.Price, bonus.Icon);
         }
         
         public void Enabled()

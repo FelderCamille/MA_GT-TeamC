@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Controllers;
 using Core;
 using Objects;
@@ -10,9 +12,9 @@ namespace UI
     {
         public Text title;
         public HorizontalLayoutGroup bonusesEmplacement;
-        public StoreButton bonusButtonPrefab;
+        public BonusButton bonusButtonPrefab;
         
-        public void Init(BonusType bonusType)
+        public void Init(BonusType bonusType, Action action)
         {
             // Retrieve bonuses of the given type
             var bonuses = Constants.Bonus.BonusesPerType(bonusType);
@@ -25,7 +27,7 @@ namespace UI
             {
                 var bonusButtonObj = Instantiate(bonusButtonPrefab, bonusesEmplacement.transform);
                 bonusButtonObj.name = bonus.Name;
-                bonusButtonObj.InitBonusButton(() => bonus.ApplyBonus(resourcesManager), bonus);
+                bonusButtonObj.InitBonusButton( () => bonus.ApplyBonus(resourcesManager, action), bonus);
             }
         }
     }

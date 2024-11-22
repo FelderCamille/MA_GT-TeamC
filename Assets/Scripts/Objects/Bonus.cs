@@ -11,7 +11,7 @@ namespace Objects
         public double Multiplier;
         protected BonusType BonusType;
         
-        public void ApplyBonus(ResourcesManager resourcesManager)
+        public void ApplyBonus(ResourcesManager resourcesManager, Action action)
         {
             // Check if the bonus is already applied
             var hasBonus = resourcesManager.HasBonus(this);
@@ -32,6 +32,7 @@ namespace Objects
                 default:
                     throw new NotImplementedException();
             }
+            action();
         }
     }
 }

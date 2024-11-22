@@ -3140,7 +3140,7 @@ GameObject:
   - component: {fileID: 1943964765}
   - component: {fileID: 1943964766}
   m_Layer: 0
-  m_Name: StoreOverlay
+  m_Name: Store Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

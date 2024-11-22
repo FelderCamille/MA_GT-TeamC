@@ -10,7 +10,9 @@ namespace Controllers
     public class StoreController : MonoBehaviour
     {
         public bool IsShopping { get; private set; }
+        public bool JustOpened { get; set; }
 
+        public GameObject canvas;
         public CloseButton closeButton;
         public StoreButton repairButton;
         public VerticalLayoutGroup bonusSectionsEmplacement;
@@ -34,7 +36,7 @@ namespace Controllers
                 bonusSectionObj.Init(bonusType);
             }
         }
-        
+
         private void OnEnable()
         {
             IsShopping = true;
@@ -55,6 +57,13 @@ namespace Controllers
             else repairButton.Disable();
             // Enable/Disable bonuses
             // TODO.
+        }
+
+        public void OpenStore()
+        {
+            gameObject.SetActive(true);
+            IsShopping = true;
+            JustOpened = true;
         }
 
         private void CloseStore()

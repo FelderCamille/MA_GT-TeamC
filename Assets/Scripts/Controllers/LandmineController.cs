@@ -1,4 +1,5 @@
 using Objects;
+using UI;
 using UnityEngine;
 
 namespace Controllers
@@ -11,6 +12,7 @@ namespace Controllers
 
         private QuestionController _questionOverlay;
         private RobotController _robot;
+        public LandmineTile landmine;
         
         private void Start()
         {
@@ -25,9 +27,17 @@ namespace Controllers
         
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject == _robot.gameObject)
+            if (other.gameObject.CompareTag("Player"))
             {
                 OnRobotCollided();
+            }
+        }
+        
+        private void OnParticleCollision(GameObject other)
+        {
+            if (other.CompareTag("Effects"))
+            {
+                landmine.Show();
             }
         }
 

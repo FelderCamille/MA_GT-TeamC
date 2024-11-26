@@ -1,4 +1,5 @@
 using System;
+using Controllers;
 using Core;
 
 namespace Objects
@@ -11,7 +12,7 @@ namespace Objects
         public double Multiplier;
         protected BonusType BonusType;
         
-        public void ApplyBonus(ResourcesManager resourcesManager, Action action)
+        public void ApplyBonus(ResourcesManager resourcesManager, RobotController robot, Action action)
         {
             // Check if the bonus is already applied
             var hasBonus = resourcesManager.HasBonus(this);
@@ -28,6 +29,7 @@ namespace Objects
             {
                 case BonusType.Vision:
                     resourcesManager.MultiplyVision(Multiplier);
+                    robot.ShowMines();
                     break;
                 default:
                     throw new NotImplementedException();

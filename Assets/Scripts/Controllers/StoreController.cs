@@ -34,7 +34,7 @@ namespace Controllers
             {
                 var bonusSectionObj = Instantiate(storeBonusSectionPrefab, bonusSectionsEmplacement.transform);
                 bonusSectionObj.name = "Section " + bonusType;
-                bonusSectionObj.Init(bonusType, CheckIfCanBuy);
+                bonusSectionObj.Init(bonusType, _robot, CheckIfCanBuy);
             }
         }
 

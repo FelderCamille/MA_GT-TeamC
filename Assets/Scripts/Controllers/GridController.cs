@@ -14,7 +14,7 @@ namespace Controllers
         
         [Header("Content")]
         public Tile tilePrefab;
-        public Tile landmineTilePrefab;
+        public LandmineTile landmineTilePrefab;
         public Tile paddingTilePrefab;
         public RobotController robotPrefab;
         public TentController tentPrefab;

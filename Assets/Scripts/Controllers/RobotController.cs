@@ -11,6 +11,8 @@ namespace Controllers
         public RobotDirection Direction { get; private set; }
 
         private ResourcesManager _resourcesManager;
+        public ParticleSystem singleWaveEffect;
+        public GameObject repeatedWaveEffect;
         private QuestionController _questionOverlay;
         private StoreController _storeOverlay;
         private GridController _grid;
@@ -22,6 +24,7 @@ namespace Controllers
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
+            singleWaveEffect.Play();
         }
 
         private void Update()
@@ -137,6 +140,12 @@ namespace Controllers
         public bool CanBuyBonus(Bonus bonus)
         {
             return _resourcesManager.HasEnoughMoneyToBuy(bonus.Price) && !_resourcesManager.HasBonus(bonus);
+        }
+
+        public void ShowMines()
+        {
+            repeatedWaveEffect.SetActive(true);
+            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
         }
     }
 

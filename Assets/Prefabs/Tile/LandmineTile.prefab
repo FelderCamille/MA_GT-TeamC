@@ -221,7 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2661366301929760432}
-  - component: {fileID: 3133543057032349834}
+  - component: {fileID: 1202899067884833650}
   m_Layer: 0
   m_Name: LandmineTile
   m_TagString: Untagged
@@ -247,7 +247,7 @@ Transform:
   - {fileID: 5032011550553312782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3133543057032349834
+--- !u!114 &1202899067884833650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,9 +256,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8613609681951060239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71ebc8c487c54c2a80db43049045e93f, type: 3}
+  m_Script: {fileID: 11500000, guid: 160aec5f3b2144a194f11a4e71dc1f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  landmine: {fileID: 1148198663363304086}
 --- !u!1001 &7824006004112298175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -270,6 +271,10 @@ PrefabInstance:
     - target: {fileID: 2453036234079454219, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_Name
       value: LandMine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453036234079454219, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2453036234079454219, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_IsActive
@@ -327,9 +332,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3391170532255867504, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Size.y
+      value: 312.91785
+      objectReference: {fileID: 0}
+    - target: {fileID: 3391170532255867504, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Center.x
+      value: -2.275615
+      objectReference: {fileID: 0}
+    - target: {fileID: 3391170532255867504, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Center.y
+      value: 158.59387
+      objectReference: {fileID: 0}
+    - target: {fileID: 3391170532255867504, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Center.z
+      value: -3.392748
+      objectReference: {fileID: 0}
+    - target: {fileID: 3391170532255867504, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: landmine
+      value: 
+      objectReference: {fileID: 1202899067884833650}
     - target: {fileID: 4463947225488950973, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: collidingDistance
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096996268205200944, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168407448531372585, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7168407448531372585, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_IsActive
@@ -340,6 +377,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+--- !u!1 &1148198663363304086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7168407448531372585, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+  m_PrefabInstance: {fileID: 7824006004112298175}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5032011550553312782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}

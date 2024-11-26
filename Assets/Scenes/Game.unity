@@ -651,7 +651,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 8803424785703180288, guid: fe806cdba7e3248fc8d73fc30bce6bed, type: 3}
-  numberOfResponse: 3
 --- !u!1 &321934690
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +904,7 @@ GameObject:
   - component: {fileID: 420764934}
   m_Layer: 0
   m_Name: Player Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -999,7 +998,6 @@ MonoBehaviour:
   offset: {x: 0, y: 3, z: 0}
   followDistance: 8
   teleportDistanceThreshold: 100
-  _robot: {fileID: 0}
 --- !u!1001 &528506981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2859,7 +2857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
-  landmineTilePrefab: {fileID: 3133543057032349834, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
+  landmineTilePrefab: {fileID: 1202899067884833650, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
   paddingTilePrefab: {fileID: 3133543057032349834, guid: 380fc9e42ec5b4d8eaf372bbe28290ec, type: 3}
   robotPrefab: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
   tentPrefab: {fileID: 8748518027620261837, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
@@ -3676,6 +3674,10 @@ PrefabInstance:
     - target: {fileID: 4926868129968666220, guid: 8f98d68b387134714aa63f3dada6d180, type: 3}
       propertyPath: m_Name
       value: CoreManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926868129968666220, guid: 8f98d68b387134714aa63f3dada6d180, type: 3}
+      propertyPath: m_TagString
+      value: GameController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

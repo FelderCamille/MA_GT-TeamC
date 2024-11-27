@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Objects;
 
 namespace UI
 {
@@ -11,7 +12,7 @@ namespace UI
         public Text buttonName;
         public Text price;
         
-        private void Init(Action onClickCallback, string text, int money, string sprite)
+        protected void Init(Action onClickCallback, string text, int money, string sprite)
         {
             button.onClick.AddListener(() => onClickCallback());
             buttonName.text = text;

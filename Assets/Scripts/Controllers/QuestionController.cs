@@ -12,9 +12,6 @@ namespace Controllers
 
         [Header("Content")]
         public QuestionButton buttonPrefab;
-    
-        [Header("Settings")]
-        public int numberOfResponse;
 
         private int _currentQuestionIndex = -1; // To start at index 0
         private Question[] _questions;
@@ -56,7 +53,7 @@ namespace Controllers
             // Update title
             GetComponentInChildren<Text>().text = question.query;
             // Place responses buttons
-            for (var i = 0; i <= numberOfResponse && i < question.responses.Length; i++)
+            for (var i = 0; i < question.responses.Length; i++)
             {
                 var buttonObj = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity);
                 buttonObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)

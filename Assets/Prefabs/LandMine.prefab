@@ -64,9 +64,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Object
       objectReference: {fileID: 0}
+    - target: {fileID: -3625175338377481357, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
       propertyPath: m_Name
       value: LandMine
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7674197601463140326, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -104,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingDistance: 1.5
+  landmine: {fileID: 0}
 --- !u!65 &3391170532255867504
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -123,8 +132,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 206.02023, y: 56.863586, z: 207.73492}
-  m_Center: {x: -2.2756042, y: 30.566711, z: -3.392746}
+  m_Size: {x: 206.02022, y: 153.40077, z: 207.73492}
+  m_Center: {x: -2.2756133, y: 78.83534, z: -3.3927464}
 --- !u!54 &5096996268205200944
 Rigidbody:
   m_ObjectHideFlags: 0

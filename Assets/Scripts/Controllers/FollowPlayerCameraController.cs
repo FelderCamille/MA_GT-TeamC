@@ -10,7 +10,7 @@ namespace Controllers
         public float followDistance = 10;
         public float teleportDistanceThreshold = 100f;
         
-        public Transform _robot;
+        private Transform _robot;
 
         private void Start()
         {

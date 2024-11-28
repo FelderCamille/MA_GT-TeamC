@@ -36,6 +36,10 @@ Tentes:
 
 - [Wave](https://www.vecteezy.com/png/21625120-white-circle-png)
 
+## Textures
+
+- [Dirt](https://cdn.architextures.org/textures/23/5/soil-none-5i4x9p.jpg)
+
 # Useful links
 
 - [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)

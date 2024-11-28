@@ -1,30 +1,33 @@
 using UnityEngine;
 
-namespace UI
+namespace Controllers
 {
     public class FollowPlayerCameraController : MonoBehaviour
     {
 
-        public Transform Robot;
-        public float Speed;
-        public Vector3 Offset;
-        public float FollowDistance;
-        public Quaternion rotation;
-
+        private float _speed = 3f;
+        public Vector3 offset = new (0, 3, 0);
+        public float followDistance = 10;
         public float teleportDistanceThreshold = 100f;
+        
+        public Transform _robot;
+
+        private void Start()
+        {
+            _robot = FindObjectOfType<RobotController>().transform;
+        }
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, Robot.position) > teleportDistanceThreshold)
+            if (Vector3.Distance(transform.position, _robot.position) > teleportDistanceThreshold)
             {
-                transform.position = Robot.position + Offset + -transform.forward * FollowDistance;
+                transform.position = _robot.position + offset + -transform.forward * followDistance;
             }
             else
             {
-                Vector3 position = Vector3.Lerp(transform.position, Robot.position + Offset + -transform.forward * FollowDistance, Speed * Time.deltaTime);
+                var position = Vector3.Lerp(transform.position, _robot.position + offset + -transform.forward * followDistance, _speed * Time.deltaTime);
                 transform.position = position;
             }
-            transform.rotation = rotation;
         }
     }
 }

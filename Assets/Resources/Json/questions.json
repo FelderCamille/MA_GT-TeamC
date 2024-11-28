@@ -1,0 +1,744 @@
+{
+  "questions": [
+    {
+      "query": "Combien de personnes ont été déplacées ou se sont retrouvées sans abri en Europe après la Seconde Guerre mondiale ?",
+      "responses": [
+        "10 millions",
+        "20 millions",
+        "50 millions",
+		"100 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel organisme a été fondé en 1950 pour gérer les crises de réfugiés mondiales ?",
+      "responses": [
+        "CICR",
+        "UNICEF",
+        "UNHCR",
+		"UNRRA"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Combien de personnes ont vécu dans des camps de personnes déplacées (DP) jusqu'à la fin des années 1940 ?",
+      "responses": [
+        "500 000",
+        "1 million",
+		"2 millions",
+		"5 millions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de personnes ont été déplacées en raison de la partition de l'Inde en 1947 ?",
+      "responses": [
+        "10 millions",
+        "15 millions",
+		"20 millions",
+		"25 millions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quelle a été la principale cause de la violence lors de la partition de l'Inde ?",
+      "responses": [
+        "Conflit ethnique",
+        "Différences politiques",
+		"Conflit territorial",
+		"Séparation religieuse"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "",
+      "responses": [
+        "100 000 et 500 000",
+        "200 000 et 2 millions",
+		"1 million et 3 millions",
+		"Plus de 5 millions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de personnes ont fui le Vietnam, le Cambodge et le Laos entre 1975 et 2000 ?",
+      "responses": [
+        "500 000",
+        "1 million",
+		"2 millions",
+		"3 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Environ combien de Vietnamiens, surnommés \" boat people \" sont morts en mer durant leur fuite ?",
+      "responses": [
+        "200'000",
+        "250'000",
+		"300'000",
+		"350'000"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Quels pays ont accueilli le plus grand nombre de réfugiés vietnamiens ?",
+      "responses": [
+        "Japon, Corée du Sud, Chine",
+        "États-Unis, Canada, France",
+		"Australie, Nouvelle-Zélande, Indonésie",
+		"Inde, Pakistan, Sri Lanka"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de Rwandais ont fui vers les pays voisins durant le génocide de 1994 ?",
+      "responses": [
+        "1 million",
+        "1.6 million",
+		"2.3 millions",
+		"3.1 millions"
+      ],
+      "correctIndex":  3
+    },
+    {
+      "query": "Environ combien d’Afghans ont fui leur pays après l'invasion soviétique de 1979 ?",
+      "responses": [
+        "1.7 million",
+        "3.2 millions",
+		"4.9 millions",
+		"6.2 millions"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quels pays ont principalement accueilli les réfugiés afghans ?",
+      "responses": [
+        "Iran et Pakistan",
+        "Inde et Chine",
+		"Turquie et Russie",
+		"Arabie Saoudite et Jordanie"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Depuis le début de la guerre civile en 2011, combien de Syriens ont été déplacés à l'intérieur du pays ou à l’étranger ?",
+      "responses": [
+        "5 millions",
+        "11.2 millions",
+		"13.5 millions",
+		"15.6 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel pays accueille la majorité des réfugiés syriens ?",
+      "responses": [
+        "Jordanie",
+        "Liban",
+		"Liban",
+		"Turquie"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Combien d'enfants syriens ne vont plus à l’école à cause de la guerre civile ?",
+      "responses": [
+        "1 million",
+        "2.5 millions",
+		"5 millions",
+		"500'000"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de personnes ont été déplacées durant la guerre de Bosnie-Herzégovine ?",
+      "responses": [
+        "1 million",
+        "1.7 million",
+		"2 millions",
+		"2.7 millions"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quelle tragédie a poussé la communauté internationale à intervenir en Bosnie en 1995 ?",
+      "responses": [
+        "Massacre de Srebrenica",
+        "Attaque de Sarajevo",
+		"Blocus de Mostar",
+		"Crise de Prijedor"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Les Accords de Dayton de 1995 ont mis fin au conflit en Bosnie. Quelles étaient les principales communautés ethniques en guerre ?",
+      "responses": [
+        "Croates, Serbes et Slovènes",
+        "Bosniaques, Croates et Serbes",
+		"Bosniaques, Albanais et Monténégrins",
+		"Serbes, Macédoniens et Bosniaques"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de Colombiens ont été déplacés par la guerre civile entre 1964 et 2016 ?",
+      "responses": [
+        "2.5 millions",
+        "4.7 millions",
+		"6.9 millions",
+		"8.1 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel groupe rebelle était actif au Pérou entre 1980 et 2000 ?",
+      "responses": [
+        "FARC",
+        "ELN",
+		"Sentier Lumineux",
+		"Hezbollah"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Combien de Vénézuéliens ont quitté leur pays dans les années 2010 en raison de la crise économique et politique ?",
+      "responses": [
+        "1.5 million",
+        "2.5 millions",
+		"3 millions",
+		"4.5 millions"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quels pays européens accueillent le plus grand nombre de réfugiés ukrainiens depuis le début de la guerre en 2022?",
+      "responses": [
+        "Pologne, Allemagne, République tchèque",
+        "France, Belgique, Pays-Bas",
+		"Hongrie, Autriche, Roumanie",
+		"Italie, Espagne, Portugal"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Combien d'Ukrainiens ont quitté leur pays pour se réfugier en Europe entre 2022 et 2024?",
+      "responses": [
+        "2 millions",
+        "4 millions",
+		"6 millions",
+		"8 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Combien de personnes ont été déplacées en Ukraine depuis l'invasion russe de 2022 ?",
+      "responses": [
+        "2 millions",
+        "5 million",
+		"10 millions",
+		"13 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Environ combien de Rohingyas ont fui le Myanmar depuis 2017 ?",
+      "responses": [
+        "500'000",
+        "1 million",
+		"1.5 million",
+		"2 millions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de Rohingyas vivent encore au Myanmar malgré les persécutions",
+      "responses": [
+        "200'000",
+        "400'000",
+		"600'000",
+		"800'000"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Où se situe le plus grand camp de réfugiés (Kutupalong) de Rohingyas ?",
+      "responses": [
+        "Inde",
+        "Malaisie",
+		"Bangladesh",
+		"Thaïlande"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "En quelle année les Khmers rouges ont-ils pris le pouvoir au Cambodge ?",
+      "responses": [
+        "1969",
+        "1972",
+		"1974",
+		"1975"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Combien de Cambodgiens sont morts sous le régime des Khmers rouges ?",
+      "responses": [
+        "1 million",
+        "1.5 million",
+		"2 millions",
+		"3 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel impact cette crise des boat people cambodgiens a-t-elle eu sur la communauté internationale ?",
+      "responses": [
+        "Elle a incité la communauté internationale à mettre en place des programmes humanitaires pour les réfugiés",
+        "Elle a poussé à des sanctions économiques contre le Cambodge",
+		"Elle a entraîné une intervention militaire internationale",
+		"Elle n’a eu aucun impact significatif à l’échelle mondiale"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Quelle bataille de 1916 a causé plus de 700 000 pertes, en morts et blessés, pour les forces impliquées ?",
+      "responses": [
+        "La bataille de la Somme",
+        "La bataille de Verdun",
+		"La bataille de Tannenberg",
+		"La bataille de Gallipoli"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de soldats ont été impliqués dans la Première Guerre mondiale ?",
+      "responses": [
+        "22 millions",
+        "43 millions",
+		"68 millions",
+		"100 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Comment appelle-t-on les soldats gravement défigurés par la guerre, dont le visage a été reconstruit chirurgicalement ?",
+      "responses": [
+        "Les poilus",
+        "Les blessés de guerre",
+		"Les Gueules cassées",
+		"Les tranchéopathes"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "En 1945, les États-Unis ont largué des bombes atomiques sur deux villes japonaises. Lesquelles ?",
+      "responses": [
+        "Nagasaki et Hiroshima",
+        "Kyoto et Hiroshima",
+		"Tokyo et Osaka",
+		"Sapporo et Yokohama"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Combien de soldats ont été mobilisés au total pendant la Seconde Guerre mondiale ?",
+      "responses": [
+        "50 millions",
+        "100 millions",
+		"150 millions",
+		"200 millions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quel organisme international a été créé en 1945 pour maintenir la paix mondiale après la Seconde Guerre mondiale ?",
+      "responses": [
+        "La Ligue des Nations",
+        "L’UNESCO",
+		"L'OTAN",
+		"L’Organisation des Nations Unies"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "En quelle année la guerre de Corée a-t-elle commencé ?",
+      "responses": [
+        "1948",
+        "1950",
+		"1957",
+		"1963"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quelle bataille a permis aux forces de l’ONU de repousser les Nord-Coréens vers le nord ?",
+      "responses": [
+        "La bataille de Séoul",
+        "La bataille d'Incheon",
+		"La bataille de Chosin",
+		"La bataille de Pyongyang"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quelle armistice est à l'origine de la paix entre les deux Corée en 1953 ?",
+      "responses": [
+        "Aucun, ils sont toujours en guerre",
+        "L'Armistice de Genève",
+		"L'Entente du 38ème parallèle",
+		"L'Armistice de Saïgon"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Pendant combien d'années la guerre du Vietnam a-t-elle duré ?",
+      "responses": [
+        "10 ans",
+        "15 ans",
+		"20 ans",
+		"25 ans"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quelle quantité de bombes les États-Unis ont-ils larguées sur le Vietnam ?",
+      "responses": [
+        "2 millions de tonnes",
+        "3.5 millions de tonnes",
+		"5.5 millions de tonnes",
+		"7 millions de tonnes"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quelle ville est tombée aux mains des forces communistes en 1975, marquant la fin du conflit ?",
+      "responses": [
+        "Hanoï",
+        "Saïgon",
+		"Da Nang",
+		"Hué"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "En 1986, combien d’ogives nucléaires possédaient ensemble les États-Unis et l’Union soviétique ?",
+      "responses": [
+        "50'000",
+        "60'000",
+		"70'000",
+		"80'000"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quelle doctrine a permis d’éviter un conflit direct entre les États-Unis et l'Union soviétique en raison de la menace nucléaire ?",
+      "responses": [
+        "La destruction mutuelle assurée",
+        "La doctrine Truman",
+		"La doctrine de dissuasion par blocus maritime",
+		"La doctrine d'attaque préventive nucléaire"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Quelle période couvre la guerre froide ?",
+      "responses": [
+        "1945-1991",
+        "1947-1989",
+		"1947-1991",
+		"1960-1991"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "En quelle année l'Union soviétique a-t-elle envahi l'Afghanistan ?",
+      "responses": [
+        "1975",
+        "1979",
+		"1981",
+		"1985"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de soldats américains ont perdu la vie durant l’intervention des États-Unis en Afghanistan après 2001 ?",
+      "responses": [
+        "2'400",
+        "3'600",
+		"5'400",
+		"7'000"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Quel est le coût total estimé de l’intervention américaine en Afghanistan ?",
+      "responses": [
+        "500 milliards de dollars",
+        "1'000 milliards de dollars",
+		"1'500 milliards de dollars",
+		"2'000 milliards de dollars"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "En quelle année a débuté le Printemps arabe ?",
+      "responses": [
+        "2008",
+        "2009",
+		"2010",
+		"2011"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel dirigeant égyptien a quitté le pouvoir après les manifestations de la place Tahrir ?",
+      "responses": [
+        "Zine el-Abidine Ben Ali",
+        "Mouammar Kadhafi",
+		"Ali Abdallah Saleh",
+		"Hosni Moubarak"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Environ combien de Yéménites ont été déplacés en raison du conflit civil déclenché par le Printemps arabe ?",
+      "responses": [
+        "1 million",
+        "2 millions",
+		"4 millions",
+		"6 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quelle a été la principale cause de la guerre du Golfe de 1990-1991 ",
+      "responses": [
+        "L'invasion de l'Iran par l'Irak",
+        "L'invasion du Koweït par l'Irak",
+		"La menace de Saddam Hussein contre l'Arabie Saoudite",
+		"La découverte d'armes de destruction massive"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quel a été le résultat de l’invasion de 2003 concernant les armes de destruction massive en Irak ?",
+      "responses": [
+        "Des armes nucléaires ont été découvertes",
+        "Des armes chimiques ont été découvertes",
+		"Des armes biologiques ont été découvertes",
+		"Aucune arme de destruction massive n’a été trouvée"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quelle organisation terroriste a émergé en Irak après l'invasion et la chute de Saddam Hussein ?",
+      "responses": [
+        "Al-Qaïda",
+        "Les talibans",
+		"L'État islamique",
+		"Hezbollah"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel crise à lieu en 1962 ?",
+      "responses": [
+        "La crise des missiles de Cuba",
+        "Le déplacement forcé des tchéthcènes en URSS",
+		"La première occupation du Cachemire par l'Inde",
+		"La mort de JFK à Dallas"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Combien de jours a duré la crise des missiles de Cuba, menaçant de déclencher une guerre nucléaire ?",
+      "responses": [
+        "7 jours",
+        "10 jours",
+		"13 jours",
+		"18 jours"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "A combien d'individus la communauté Cubano-Américaine, issu de la fuite du régime de Fidel Castro, est-elle estimé aux USA?",
+      "responses": [
+        "500'000",
+        "1 million",
+		"1.5 million",
+		"2 millions"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Quel type de gaz a été utilisé par l'Allemagne en 1915, marquant le début de l'utilisation d'armes chimiques en guerre ?",
+      "responses": [
+        "Sarin",
+        "Gaz moutarde",
+		"Zyklon B",
+		"Chlore"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Dans quel contexte l'Irak a-t-il utilisé des armes chimiques contre les Kurdes, notamment lors du massacre de Halabja ?",
+      "responses": [
+        "La guerre du Golfe",
+        "La guerre Iran-Irak",
+		"La guerre civile syrienne",
+		"La guerre d'Afghanistan"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de pays ont ratifié la Convention sur les armes chimiques (CIAC)",
+      "responses": [
+        "193",
+        "180",
+		"160",
+		"150"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "En quelle année l'Union soviétique a-t-elle testé sa première bombe atomique, mettant fin au monopole américain sur l'arme nucléaire ?",
+      "responses": [
+        "1945",
+        "1947",
+		"1949",
+		"1952"
+      ],
+      "correctIndex": 3 
+    },
+    {
+      "query": "Quel traité signé en 1968 visait à limiter la prolifération des armes nucléaires ?",
+      "responses": [
+        "New START",
+        "Traité de Washington",
+		"SALT I",
+		"TNP"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quelle bombe, testée par l'Union soviétique en 1961, est la plus puissante explosion nucléaire jamais enregistrée ?",
+      "responses": [
+        "Little Boy",
+        "Ivy Mike",
+		"Kamrad Igor",
+		"Tsar Bomba"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Les mines antipersonnel ont été utilisées pour la première fois à grande échelle durant quel conflit ?",
+      "responses": [
+        "La Première Guerre mondiale",
+        "La Seconde Guerre mondiale",
+		"La guerre sino-japonnaise",
+		"La guerre de Corée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Combien de pays environ comptent encore des millions de mines non explosées sur leur territoire ?",
+      "responses": [
+        "60 pays",
+        "50 pays",
+		"45 pays",
+		"40 pays"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Quel traité, signé en 1997, interdit l’utilisation, la production et le stockage des mines antipersonnel ?",
+      "responses": [
+        "Traité de Genève",
+        "Traité d’Ottawa",
+		"Traité de Paris",
+		"Traité de Rome"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quelle organisation œuvre activement au retrait des mines et à la sensibilisation des populations ?",
+      "responses": [
+        "Organisation mondiale de la santé (OMS)",
+        "Administration des Nations unies pour le secours et la reconstruction (UNRRA)",
+		"Haut Commissariat des Nations unies pour les réfugiés (UNHCR)",
+		"Handicap International"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "En quelle année la Convention sur les armes à sous-munitions a-t-elle été signée, interdisant l'utilisation de ces armes ?",
+      "responses": [
+        "1997",
+        "2003",
+		"2008",
+		"2012"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Combien de pays restent lourdement contaminés par les bombes à sous-munitions, nécessitant des efforts de déminage importants ?",
+      "responses": [
+        "16",
+        "20",
+		"26",
+		"30"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "query": "Combien de sous-munitions environ ont été larguées par les États-Unis au Vietnam, au Laos et au Cambodge ?",
+      "responses": [
+        "170 millions",
+        "270 millions",
+		"370 millions",
+		"Rien, car c'était utilisé en Corée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "query": "Quelle proportion de victimes des bombes à sous-munitions non explosées sont des enfants ?",
+      "responses": [
+        "Environ 33 %",
+        "Environ 41 %",
+		"Environ 50 %",
+		"Environ 66 %"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Entre 2004 et 2020, combien de frappes de drones armés les États-Unis ont-ils menées au Pakistan, en Afghanistan, en Irak et au Yémen ?",
+      "responses": [
+        "5'000",
+        "8'000",
+		"11'000",
+		"13'000"
+      ],
+      "correctIndex": 4
+    },
+    {
+      "query": "Quel est le coût approximatif d’un missile Tomahawk, utilisé pour des frappes ciblées lors de la guerre en Irak en 2003 ?",
+      "responses": [
+        "1.5 million de dollars",
+        "1 million de dollars",
+		"750'000 dollars",
+		"500'000 dollars"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "query": "Combien de civils pakistanais sont morts lors des frappes de drones entre 2004 et 2018 ?",
+      "responses": [
+        "500",
+        "900",
+		"1300",
+		"1700"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

@@ -1,53 +1,80 @@
-using System.Collections.Generic;
-using Classes;
-using DefaultNamespace;
+using System;
+using Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
-public class QuestionController : MonoBehaviour
+namespace Controllers
 {
-
-    [Header("Content")]
-    public GameObject QuestionOverlay;
-    public QuestionButton ButtonPrefab;
-    
-    [Header("Settings")]
-    public int NumberOfResponse;
-
-    private Question _question;
-
-    private void OnEnable()
+    public class QuestionController : MonoBehaviour
     {
-        // Set question
-        // TODO: fetch question
-        _question = new Question("The title of the question", new []{"first", "second", "third", "fourth", "fifth"}, 1);
-        // Update title
-        QuestionOverlay.GetComponentInChildren<Text>().text = _question.Query;
-        // Place responses buttons
-        for (int i = 0; i < _question.Responses.Count; i++)
+
+        [Header("Content")]
+        public QuestionButton buttonPrefab;
+    
+        [Header("Settings")]
+        public int numberOfResponse;
+
+        private int _currentQuestionIndex = -1; // To start at index 0
+        private Question[] _questions;
+        
+        public LandmineController Mine
         {
-            if (i >= NumberOfResponse) break; // Stop if the number of responses is reached
-            var buttonObj = Instantiate(ButtonPrefab, new Vector3(0, -i * 70, 0), Quaternion.identity);
-            buttonObj.transform.SetParent(QuestionOverlay.GetComponentInChildren<Canvas>().transform, false); // To avoid the Transform component to be at (0,0,0)
-            buttonObj.Init(_question.Responses[i]);
-            buttonObj.Button.onClick.AddListener(() => OnResponseClicked(buttonObj.ButtonText));
+            private get;
+            set;
+        }
+
+        public bool IsAnswering
+        {
+            get;
+            private set;
+        }
+        
+        private void Awake()
+        {
+            var questionsObj = JsonUtils<Questions>.Read("Json/questions");
+            _questions = questionsObj.Shuffle();
+        }
+
+        private void OnEnable()
+        {
+            // Get a question
+            _currentQuestionIndex++;
+            if (_currentQuestionIndex >= _questions.Length)
+            {
+                throw new Exception("All questions answered.");
+            }
+            var question = _questions[_currentQuestionIndex];
+            // Update _answering
+            IsAnswering = true;
+            // Remove old buttons
+            while (GetComponentInChildren<QuestionButton>() != null)
+            {
+                DestroyImmediate(GetComponentInChildren<QuestionButton>().gameObject);
+            }
+            // Update title
+            GetComponentInChildren<Text>().text = question.query;
+            // Place responses buttons
+            for (var i = 0; i <= numberOfResponse && i < question.responses.Length; i++)
+            {
+                var buttonObj = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity);
+                buttonObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)
+                buttonObj.name = "Response n°" + i + (question.IsCorrectResponse(question.responses[i]) ? " x" : "");
+                buttonObj.Init(question.responses[i], OnResponseClicked);
+            }
+        }
+
+        private void OnResponseClicked(QuestionButton questionButton)
+        {
+            // Manage response
+            var question = _questions[_currentQuestionIndex];
+            var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
+            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
+            // Not answering anymore
+            IsAnswering = false;
+            // Hide question overlay
+            gameObject.SetActive(false);
         }
     }
-
-    private void OnResponseClicked(Text buttonText)
-    {
-        // Manage response
-        if (_question.IsCorrectResponse(buttonText.text))
-        {
-            print("Correct response :)"); // TODO
-        }
-        else
-        {
-            print("Wrong response :("); // TODO
-        }
-        // Hide question overlay
-        QuestionOverlay.SetActive(false);
-    }
-    
 }

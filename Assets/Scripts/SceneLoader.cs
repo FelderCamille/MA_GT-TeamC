@@ -2,29 +2,26 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace UI
+public class SceneLoader : MonoBehaviour
 {
-    public class SceneLoader : MonoBehaviour
+
+    public void ShowScene(string scene)
     {
-    
-        public void ShowScene(string scene)
+        var sceneInHistory = SceneManager.GetSceneByName(scene);
+        if (sceneInHistory.isLoaded)
         {
-            Scene sceneInHistory = SceneManager.GetSceneByName(scene);
-            if (sceneInHistory.isLoaded)
-            {
-                SceneManager.SetActiveScene(sceneInHistory);
-            }
-            else
-            {
-                StartCoroutine(LoadSceneWithTransition(scene));
-            }
+            SceneManager.SetActiveScene(sceneInHistory);
         }
-        
-        private IEnumerator LoadSceneWithTransition(string scene)
+        else
         {
-            yield return new WaitForSeconds(0.5f);
-            SceneManager.LoadScene(scene);
+            StartCoroutine(LoadSceneWithTransition(scene));
         }
-        
     }
+    
+    private IEnumerator LoadSceneWithTransition(string scene)
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(scene);
+    }
+    
 }

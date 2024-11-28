@@ -30,3 +30,12 @@ Tentes:
 - [Previous (style iOS 17 filled)](https://icons8.com/icons/set/previous--white)
 - [Next (style iOS 17 filled)](https://icons8.com/icons/set/next--white)
 - [Arrow (style iOS 17 filled)](https://icons8.com/icons/set/arrow--white)
+- [Glasses](https://www.flaticon.com/free-icon/telescope_1355898?term=telescope&page=1&position=25&origin=search&related_id=1355898)
+
+## Effects
+
+- [Wave](https://www.vecteezy.com/png/21625120-white-circle-png)
+
+# Useful links
+
+- [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)

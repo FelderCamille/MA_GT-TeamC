@@ -28,9 +28,13 @@ namespace Controllers
             // Check if the user is close enough to the tent, if not return
             var isCloseEnoughOnX = _robot.transform.position.x - _tentXPosition <= StoreDistance;
             var isCloseEnoughOnZ = _robot.transform.position.z >= _tentZ1Position && _robot.transform.position.z <= _tentZ2Position;
-            if (!isCloseEnoughOnX || !isCloseEnoughOnZ) return;
+            if (!isCloseEnoughOnX || !isCloseEnoughOnZ)
+            {
+                _store.JustOpened = false;
+                return;
+            }
             // Open the store
-            _store.gameObject.SetActive(true);
+            if (!_store.IsShopping && !_store.JustOpened) _store.OpenStore();
         }
     }
 }

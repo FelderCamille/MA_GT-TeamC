@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Objects;
 using UI;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Controllers
 
         private int _currentQuestionIndex = -1; // To start at index 0
         private Question[] _questions;
+        private readonly List<QuestionButton> _buttons = new ();
         
         public LandmineController Mine
         {
@@ -46,6 +49,7 @@ namespace Controllers
             // Update _answering
             IsAnswering = true;
             // Remove old buttons
+            _buttons.Clear();
             while (GetComponentInChildren<QuestionButton>() != null)
             {
                 DestroyImmediate(GetComponentInChildren<QuestionButton>().gameObject);
@@ -58,15 +62,25 @@ namespace Controllers
                 var buttonObj = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity);
                 buttonObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)
                 buttonObj.name = "Response n°" + i + (question.IsCorrectResponse(question.responses[i]) ? " x" : "");
-                buttonObj.Init(question.responses[i], OnResponseClicked);
+                buttonObj.Init(question.responses[i], OnResponseClicked(buttonObj));
+                _buttons.Add(buttonObj);
             }
         }
 
-        private void OnResponseClicked(QuestionButton questionButton)
+        private IEnumerator OnResponseClicked(QuestionButton questionButton)
         {
             // Manage response
             var question = _questions[_currentQuestionIndex];
             var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
+            // Show feedback
+            if (!isCorrect)
+            {
+                var correctIndex = question.correctIndex - 1;
+                var correctQuestionButton = _buttons[correctIndex];
+                StartCoroutine(correctQuestionButton.ShowResult(true));
+            }
+            yield return StartCoroutine(questionButton.ShowResult(isCorrect));
+            // Manage mine
             Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;

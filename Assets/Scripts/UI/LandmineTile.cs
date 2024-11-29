@@ -17,14 +17,17 @@ namespace UI
         private void Awake()
         {
             _material = landmine.GetComponent<Renderer>().material;
-            Hide();
-            StartCoroutine(ShowingThenFadeAfterSeconds(TimeBeforeShowingStartInSec, TimeBeforeFadingStartInSec));
+            if (!Constants.DebugShowMines)
+            {
+                Hide();
+                StartCoroutine(ShowingThenFadeAfterSeconds(TimeBeforeShowingStartInSec, TimeBeforeFadingStartInSec));
+            };
         }
 
         public void Show()
         {
             if (_isShown) return;
-            StartCoroutine(ShowingThenFadeAfterSeconds(0f, TimeBeforeFadingInSec));
+            if (!Constants.DebugShowMines) StartCoroutine(ShowingThenFadeAfterSeconds(0f, TimeBeforeFadingInSec));
         }
 
         private void Hide()

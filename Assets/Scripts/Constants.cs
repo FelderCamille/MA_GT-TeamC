@@ -11,6 +11,8 @@ public static class Constants
         public const string Result = "Result";
     }
 
+    public static bool DebugShowMines = true;
+
     public static class GameSettings
     {
         // Grid

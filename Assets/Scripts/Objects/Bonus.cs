@@ -1,6 +1,7 @@
 using System;
 using Controllers;
 using Core;
+using UnityEngine;
 
 namespace Objects
 {
@@ -12,7 +13,7 @@ namespace Objects
         public double Multiplier;
         protected BonusType BonusType;
         
-        public void ApplyBonus(ResourcesManager resourcesManager, RobotController robot, Action action)
+        public void ApplyBonus(ResourcesManager resourcesManager, RobotController robot, Action action)  
         {
             // Check if the bonus is already applied
             var hasBonus = resourcesManager.HasBonus(this);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Objects;
 using UI;
 using UnityEngine;
@@ -12,13 +13,12 @@ namespace Controllers
     {
         public bool IsShopping { get; private set; }
         public bool JustOpened { get; set; }
-
-        public GameObject canvas;
+        
         public CloseButton closeButton;
         public StoreButton repairButton;
         public VerticalLayoutGroup bonusSectionsEmplacement;
         public StoreBonusSection storeBonusSectionPrefab;
-
+        
         private RobotController _robot;
         
         private void Awake()

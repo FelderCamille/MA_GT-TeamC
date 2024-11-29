@@ -12,6 +12,9 @@ namespace Core
         private BonusRow _bonusRowPrefab;
         private FeedbackPopup _feedbackPopup;
         
+        // Audio
+        private SoundManager _soundManager;
+        
         // Robot properties
         private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
@@ -21,6 +24,7 @@ namespace Core
         
         private void Start()
         {
+            _soundManager = FindObjectOfType<SoundManager>();
             _resourcesPrefab = FindObjectOfType<Ressources>();
             _bonusRowPrefab = FindObjectOfType<BonusRow>();
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
@@ -53,6 +57,7 @@ namespace Core
         /// </summary>
         public void ReduceMoney(int value)
         {
+            _soundManager.PlayBuySound();
             _money -= value;
             _resourcesPrefab.SetMoney(_money);
         }

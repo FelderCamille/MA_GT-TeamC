@@ -10,6 +10,7 @@ namespace Core
         
         private Ressources _resourcesPrefab;
         private BonusRow _bonusRowPrefab;
+        private FeedbackPopup _feedbackPopup;
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
@@ -22,6 +23,7 @@ namespace Core
         {
             _resourcesPrefab = FindObjectOfType<Ressources>();
             _bonusRowPrefab = FindObjectOfType<BonusRow>();
+            _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(_clearedMines);
@@ -67,6 +69,7 @@ namespace Core
         {
             _clearedMines += 1;
             _resourcesPrefab.SetMines(_clearedMines);
+            _feedbackPopup.ShowMineAsCleared();
         }
 
         /// <summary>
@@ -76,6 +79,7 @@ namespace Core
         {
             _health -= value;
             _resourcesPrefab.SetHealth(_health);
+            _feedbackPopup.ShowHealthLost(value);
         }
 
         /// <summary>

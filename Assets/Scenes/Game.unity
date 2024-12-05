@@ -2824,6 +2824,17 @@ MonoBehaviour:
   tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
   landmineTilePrefab: {fileID: 1202899067884833650, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
   paddingTilePrefab: {fileID: 3133543057032349834, guid: 380fc9e42ec5b4d8eaf372bbe28290ec, type: 3}
+  treeTilePrefab: {fileID: 3133543057032349834, guid: 8c17b348efa024406b3ae88c7bad6538, type: 3}
+  spruceTilePrefab: {fileID: 3133543057032349834, guid: 14ed7a248aa9a405ab7514e07ebd90b8, type: 3}
+  rockTilePrefabs:
+  - {fileID: 3133543057032349834, guid: 7cd80f52f4d9644eca4374ea8bf64670, type: 3}
+  - {fileID: 3133543057032349834, guid: d364f6f9f241b4ae88f688bedc739a5c, type: 3}
+  - {fileID: 3133543057032349834, guid: aacf27a679cfd492e8362da375ad2607, type: 3}
+  bushTilePrefab: {fileID: 3133543057032349834, guid: 22febb0d3dbb74dff9ec54519bb98421, type: 3}
+  logTilePrefab: {fileID: 3133543057032349834, guid: d5d1deb52a60f408997e1f198bb8026e, type: 3}
+  rootTilePrefab: {fileID: 3133543057032349834, guid: c976349ff7fa544aca5c948d33d9808a, type: 3}
+  deadTreeTilePrefab: {fileID: 3133543057032349834, guid: a8cd30631fba449d08e40bdfab080847, type: 3}
+  deadSpruceTilePrefab: {fileID: 3133543057032349834, guid: 98f9e4bace83c467b89ba296ef5b76fd, type: 3}
   robotPrefab: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
   tentPrefab: {fileID: 8748518027620261837, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
 --- !u!1 &1842833483
@@ -3741,7 +3752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469798693599915000, guid: dff94d01f70064c28baad8b5dbaaecce, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.99993896
+      value: 0.9998779
       objectReference: {fileID: 0}
     - target: {fileID: 2469798693599915000, guid: dff94d01f70064c28baad8b5dbaaecce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

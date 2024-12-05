@@ -19,6 +19,12 @@ Mines:
 Tentes:
 - [Tent](https://www.cgtrader.com/free-3d-models/exterior/other/military-tent-3d0bca7a-e2ec-4f3e-a043-c98468a9a187)
 
+Nature:
+- ([Nature pack 1](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-nature-set-free-trial))
+- [Nature pack 2](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-pack-1800d494-645a-4ed5-b478-bf64eaa04f99)
+- ([Nature pack 3](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-natures))
+- [Nature pack 4](https://www.cgtrader.com/free-3d-models/plant/leaf/low-poly-plant-set)
+
 ## Icons
 
 > Sites:

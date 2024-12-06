@@ -17,7 +17,7 @@ Mines:
 - Not used but interesting: [WW1 German landmine](https://www.cgtrader.com/free-3d-models/military/rocketry/ww1-german-landmine-tellermine-asset)
 
 Tentes:
-- [Tent](https://www.cgtrader.com/free-3d-models/exterior/other/military-tent-3d0bca7a-e2ec-4f3e-a043-c98468a9a187)
+- [Tent](https://www.cgtrader.com/free-3d-models/military/other/military-tent-d642f7a8-49b1-4e77-a806-756465d60298)
 
 Nature:
 - ([Nature pack 1](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-nature-set-free-trial))

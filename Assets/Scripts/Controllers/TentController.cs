@@ -1,13 +1,14 @@
+using UI;
 using UnityEngine;
 
 namespace Controllers
 {
     public class TentController : MonoBehaviour
     {
-        public const int TentLength = 6; // 6 tiles
-        private const int TentWidth = 3; // 3 tiles
         private const float StoreDistance = Constants.GameSettings.NumberOfTileOpenStore + .5f; // On z axis
-
+        public const int TentLength = 4;
+        
+        private Tile _tile;
         private RobotController _robot;
         private StoreController _store;
         private float _tentXPosition;
@@ -16,10 +17,11 @@ namespace Controllers
 
         private void Start()
         {
+            _tile = GetComponent<Tile>();
             _robot = FindObjectOfType<RobotController>();
-            _tentXPosition = transform.position.x + TentLength / 2;
-            _tentZ1Position = transform.position.z - TentWidth / 2;
-            _tentZ2Position = transform.position.z + TentWidth / 2;
+            _tentXPosition = transform.position.x + _tile.width / 2;
+            _tentZ1Position = transform.position.z - _tile.depth / 2;
+            _tentZ2Position = transform.position.z + _tile.depth / 2;
             _store = FindObjectOfType<StoreController>(includeInactive: true);
         }
 

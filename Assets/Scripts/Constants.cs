@@ -19,13 +19,13 @@ public static class Constants
         // Context
         public const MapTheme GameMapTheme = MapTheme.Nature;
         // Grid
-        public const int GridWidth = 50;
-        public const int GridHeight = 20;
-        public const int GridPadding = 20;
+        public const int GridWidth = 10;
+        public const int GridHeight = 10; // Should be odd
+        public const int GridPadding = 10;
         // Timer
         public const float Timer = 10 * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 20;
+        public const int NumberOfLandmines = 5;
         public const int NumberOfTileClearLandmine = 1;
         // Robot
         public const int NumberOfTileMovement = 1;

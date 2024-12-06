@@ -3,6 +3,7 @@ using System.Linq;
 using Objects;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Controllers
 {
@@ -33,7 +34,7 @@ namespace Controllers
         
         [Header("Content")]
         public RobotController robotPrefab;
-        public TentController tentPrefab;
+        public TentController tentTilePrefab;
 
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
@@ -53,13 +54,13 @@ namespace Controllers
         private void Awake()
         {
             // Compute emplacements
+            InitPaddingTilesArray();
             ChooseDecorPrefabs();
             ComputeLandminesEmplacement();
-            ComputeDecorsEmplacement();
             // Generate the map and spawn the robot and tent
+            SpawnTent();
             GenerateMap();
             SpawnRobot();
-            SpawnTent();
         }
         
         private void ChooseDecorPrefabs()
@@ -104,7 +105,7 @@ namespace Controllers
             }
         }
         
-        private void ComputeDecorsEmplacement()
+        private void InitPaddingTilesArray()
         {
             // Init the padding tiles array
             _paddingTiles = new bool[MapWidth][];
@@ -116,7 +117,7 @@ namespace Controllers
                     if (x is >= GridXYStartIndex and < GridXEndIndex
                         && y is >= GridXYStartIndex and < GridYEndIndex)
                     {
-                        _paddingTiles[x][y] = false; // Cannot place something on a grid tile
+                        _paddingTiles[x][y] = false; // Cannot place something
                     }
                     else
                     {
@@ -124,6 +125,25 @@ namespace Controllers
                     }
                 }
             }
+        }
+        
+        private void SpawnTent()
+        {
+            // Compute emplacement
+            const int xIndex = GridXYStartIndex - TentController.TentLength;
+            const int yIndex = MapHeight / 2;
+            const int padding = TentController.TentLength / 2;
+            // Set the emplacements as occupied
+            for (var x = xIndex; x < xIndex + TentController.TentLength; x++)
+            {
+                for (var y = yIndex - padding; y < yIndex + padding; y++)
+                {
+                    _paddingTiles[x][y] = false;
+                }
+            }
+            // Place the tent
+            var tentObj = Instantiate(tentTilePrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, 90f, 0));
+            tentObj.name = "Tent";
         }
 
         private void GenerateMap()
@@ -222,14 +242,6 @@ namespace Controllers
             const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
             var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
             robotObj.name = "Robot";
-        }
-
-        private void SpawnTent()
-        {
-            const int xIndex = GridXYStartIndex - TentController.TentLength / 2;
-            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
-            var tentObj = Instantiate(tentPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.Euler(0, 90f, 0));
-            tentObj.name = "Tent";
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

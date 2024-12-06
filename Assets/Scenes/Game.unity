@@ -2839,7 +2839,7 @@ MonoBehaviour:
   deadTreeTilePrefab: {fileID: 3133543057032349834, guid: a8cd30631fba449d08e40bdfab080847, type: 3}
   deadSpruceTilePrefab: {fileID: 3133543057032349834, guid: 98f9e4bace83c467b89ba296ef5b76fd, type: 3}
   robotPrefab: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
-  tentPrefab: {fileID: 8748518027620261837, guid: 5d031853be2bc41f0a39bcdc36bcedac, type: 3}
+  tentTilePrefab: {fileID: 3044626372676024209, guid: 6c19d2fe82bd347e4839b0eff2c550f1, type: 3}
 --- !u!1 &1842833483
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public static class Constants
 
     public static class SpawnProbabilities
     {
-        public const int Spruce = 20;
+        public const int Spruce = 10;
         public const int DeadSpruce = 10;
         public const int Tree = 5;
         public const int DeadTree = 2;

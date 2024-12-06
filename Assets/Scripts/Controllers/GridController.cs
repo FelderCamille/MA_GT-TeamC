@@ -12,8 +12,9 @@ namespace Controllers
         private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
         private const int GridXEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridWidth;
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
+        private const int MapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
+        private const int MapHeight =  Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
         private static readonly System.Random Random = new ();
-        private Dictionary<DecorTileType, Tile[]> _decorTiles = new ();
         
         [Header("Grid tiles")]
         public Tile tilePrefab;
@@ -21,7 +22,7 @@ namespace Controllers
         
         [Header("Padding tiles")]
         public Tile paddingTilePrefab;
-        public Tile treeTilePrefab;
+        public Tile[] treeTilePrefabs;
         public Tile spruceTilePrefab;
         public Tile[] rockTilePrefabs;
         public Tile bushTilePrefab;
@@ -39,13 +40,49 @@ namespace Controllers
         /// </summary>
         private bool[] _landmines;
         
+        /// <summary>
+        /// The decor tiles according to the theme
+        /// </summary>
+        private readonly Dictionary<DecorTileType, Tile[]> _decorTiles = new ();
+
+        /// <summary>
+        /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
+        /// </summary>
+        private bool[][] _paddingTiles;
+        
         private void Awake()
         {
-            ComputeLandminesEmplacement();
+            // Compute emplacements
             ChooseDecorPrefabs();
+            ComputeLandminesEmplacement();
+            ComputeDecorsEmplacement();
+            // Generate the map and spawn the robot and tent
             GenerateMap();
             SpawnRobot();
             SpawnTent();
+        }
+        
+        private void ChooseDecorPrefabs()
+        {
+            // Add tiles to the dictionary according to the theme
+            switch (Constants.GameSettings.GameMapTheme)
+            {
+                case MapTheme.Nature:
+                    _decorTiles.Add(DecorTileType.Tree, treeTilePrefabs);
+                    _decorTiles.Add(DecorTileType.Spruce, new []{spruceTilePrefab});
+                    _decorTiles.Add(DecorTileType.Bush, new []{bushTilePrefab});
+                    break;
+                case MapTheme.War:
+                    _decorTiles.Add(DecorTileType.DeadTree, new []{deadTreeTilePrefab});
+                    _decorTiles.Add(DecorTileType.DeadSpruce, new []{deadSpruceTilePrefab});
+                    _decorTiles.Add(DecorTileType.Root, new []{rootTilePrefab});
+                    break;
+                default:
+                    break;
+            }
+            // Add common tiles to the dictionary
+            _decorTiles.Add(DecorTileType.Rock, rockTilePrefabs);
+            _decorTiles.Add(DecorTileType.Log, new []{logTilePrefab});
         }
 
         private void ComputeLandminesEmplacement()
@@ -67,37 +104,34 @@ namespace Controllers
             }
         }
         
-        private void ChooseDecorPrefabs()
+        private void ComputeDecorsEmplacement()
         {
-            // Add tiles to the dictionary according to the theme
-            switch (Constants.GameSettings.GameMapTheme)
+            // Init the padding tiles array
+            _paddingTiles = new bool[MapWidth][];
+            for (var x = 0; x < _paddingTiles.Length; x++)
             {
-                case MapTheme.Nature:
-                    _decorTiles.Add(DecorTileType.Tree, new []{treeTilePrefab});
-                    _decorTiles.Add(DecorTileType.Spruce, new []{spruceTilePrefab});
-                    _decorTiles.Add(DecorTileType.Bush, new []{bushTilePrefab});
-                    break;
-                case MapTheme.War:
-                    _decorTiles.Add(DecorTileType.DeadTree, new []{deadTreeTilePrefab});
-                    _decorTiles.Add(DecorTileType.DeadSpruce, new []{deadSpruceTilePrefab});
-                    _decorTiles.Add(DecorTileType.Root, new []{rootTilePrefab});
-                    break;
-                default:
-                    break;
+                _paddingTiles[x] = new bool[MapHeight];
+                for (var y = 0; y < _paddingTiles[x].Length; y++)
+                {
+                    if (x is >= GridXYStartIndex and < GridXEndIndex
+                        && y is >= GridXYStartIndex and < GridYEndIndex)
+                    {
+                        _paddingTiles[x][y] = false; // Cannot place something on a grid tile
+                    }
+                    else
+                    {
+                        _paddingTiles[x][y] = true; // Can place something
+                    }
+                }
             }
-            // Add common tiles to the dictionary
-            _decorTiles.Add(DecorTileType.Rock, rockTilePrefabs);
-            _decorTiles.Add(DecorTileType.Log, new []{logTilePrefab});
         }
 
         private void GenerateMap()
         {
-            const int mapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
-            const int mapHeight =  Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
             // Generate the map
-            for (var x = 0; x < mapWidth; x++)
+            for (var x = 0; x < MapWidth; x++)
             {
-                for (var y = 0; y < mapHeight; y++)
+                for (var y = 0; y < MapHeight; y++)
                 {
                     // Check if it's the emplacement of a grid tile
                     if (x is >= GridXYStartIndex and < GridXEndIndex 
@@ -115,6 +149,11 @@ namespace Controllers
 
         private void GeneratePaddingTile(int x, int y)
         {
+            // Check if the emplacement is already occupied
+            if (_paddingTiles[x][y] == false)
+            {
+                return;
+            }
             // Randomly pick a tile type
             var tileTypeIndex = Random.Next(0, _decorTiles.Keys.Count);
             var decorTileType = _decorTiles.Keys.ElementAt(tileTypeIndex);
@@ -137,6 +176,27 @@ namespace Controllers
             var decorPrefab = isDecorTile 
                 ? _decorTiles[decorTileType][Random.Next(0, _decorTiles[decorTileType].Length)] 
                 : paddingTilePrefab;
+            // Check if the prefab can be placed, otherwise place a padding
+            if (isDecorTile)
+            {
+                for (var x1 = x; x1 < x + decorPrefab.width; x1++)
+                {
+                    for (var y1 = y; y1 < y + decorPrefab.depth; y1++)
+                    {
+                        if (x1 < MapWidth && y1 < MapHeight && _paddingTiles[x1][y1]) continue;
+                        decorPrefab = paddingTilePrefab;
+                        break;
+                    }
+                } 
+            }
+            // Set the emplacements as occupied
+            for (var x1 = x; x1 < x + decorPrefab.width && x1 < MapWidth; x1++)
+            {
+                for (var y1 = y; y1 < y + decorPrefab.depth && y1 < MapHeight; y1++)
+                {
+                    _paddingTiles[x1][y1] = false;
+                }
+            }
             // Generate the tile
             var tileObj = Instantiate(decorPrefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.transform.SetParent(transform, false);
@@ -147,7 +207,8 @@ namespace Controllers
         private void GenerateGridTile(int x, int y)
         {
             // Check if the emplacement must be a classic tile or a landmine
-            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight + (y - Constants.GameSettings.GridPadding);
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight 
+                        + (y - Constants.GameSettings.GridPadding);
             var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);

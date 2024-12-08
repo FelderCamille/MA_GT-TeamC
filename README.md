@@ -51,3 +51,4 @@ Nature:
 # Useful links
 
 - [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)
+- [Explosion effect](https://www.youtube.com/watch?v=cvQiQglPI18)

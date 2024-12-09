@@ -1,3 +1,4 @@
+using Core;
 using Objects;
 using UI;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Controllers
         
         [Header("Settings")]
         public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
-
+        private SoundManager _soundManager;
         private QuestionController _questionOverlay;
         private RobotController _robot;
         public LandmineTile landmine;
@@ -18,6 +19,7 @@ namespace Controllers
         {
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void Update()
@@ -64,13 +66,16 @@ namespace Controllers
             {
                 case LandmineCleared.AnswerSuccess:
                     _robot.IncreaseClearedMineCounter();
+                    _soundManager.PlayBeepSound();
                     break;
                 case LandmineCleared.AnswerFailure:
                     var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
+                    _soundManager.PlayExplosionSound();
                     _robot.ReduceHealth(hTRFailure);
                     break;
                 case LandmineCleared.Explosion:
                     var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
+                    _soundManager.PlayExplosionSound();
                     _robot.ReduceHealth(hTRExplosion);
                     break;
             }

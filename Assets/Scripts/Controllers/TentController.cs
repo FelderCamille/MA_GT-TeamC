@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 
 namespace Controllers
@@ -33,7 +34,11 @@ namespace Controllers
                 return;
             }
             // Open the store
-            if (!_store.IsShopping && !_store.JustOpened) _store.OpenStore();
+            if (!_store.IsShopping && !_store.JustOpened)
+            {
+                _store.OpenStore();
+            }
+
         }
     }
 }

@@ -224,6 +224,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8194000582399782607, guid: 00e404d13bb264c0b9d726d5ff3f5855, type: 3}
   m_PrefabInstance: {fileID: 2041625}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &58590928 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4361014761264724685, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &60970510
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +909,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405099106}
   m_CullTransparentMesh: 1
+--- !u!82 &414776765 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2420138680609003241, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &420764930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,6 +1727,16 @@ MonoBehaviour:
   previousPageButton: {fileID: 528506983}
   nextPageButton: {fileID: 3877198485778644412}
   pageNumber: {fileID: 1231234718}
+--- !u!82 &929955454 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 72193811526355392, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &967671837 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5131762944461021054, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040751978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,6 +2115,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1182308623}
     - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: openBookSoundSource
+      value: 
+      objectReference: {fileID: 929955454}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: openMineSoundSource
+      value: 
+      objectReference: {fileID: 414776765}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: openTentSoundSource
+      value: 
+      objectReference: {fileID: 1304432962}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: closeBookSoundSource
+      value: 
+      objectReference: {fileID: 967671837}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: closeTentSoundSource
+      value: 
+      objectReference: {fileID: 58590928}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: buySoundSources.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2335,6 +2375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b6cd44fff8e4bbbaa5f50cf1c13e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &1304432962 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5427709420731326233, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1345595022
 GameObject:
   m_ObjectHideFlags: 0
@@ -3966,7 +4011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469798693599915000, guid: dff94d01f70064c28baad8b5dbaaecce, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.99993896
+      value: 0.9998779
       objectReference: {fileID: 0}
     - target: {fileID: 2469798693599915000, guid: dff94d01f70064c28baad8b5dbaaecce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

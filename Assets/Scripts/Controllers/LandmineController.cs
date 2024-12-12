@@ -20,7 +20,7 @@ namespace Controllers
         public ParticleSystem explosionEffect;
         
         private void Start()
-        {
+        { 
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
             _soundManager = FindObjectOfType<SoundManager>();
@@ -60,6 +60,7 @@ namespace Controllers
                 _robot.Direction == RobotDirection.FacingDown && transform.position.z < _robot.transform.position.z)
             {
                 ShowQuestionOverlay();
+                _soundManager.playOpenMineSound();
             }
         }
 

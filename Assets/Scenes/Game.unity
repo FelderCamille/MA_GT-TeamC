@@ -2038,6 +2038,10 @@ PrefabInstance:
       propertyPath: Priority
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 1781679455644325720, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2599789875044472200, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0

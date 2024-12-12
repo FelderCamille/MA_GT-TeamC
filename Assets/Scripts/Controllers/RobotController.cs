@@ -16,6 +16,7 @@ namespace Controllers
         private StoreController _storeOverlay;
         private GridController _grid;
         private LandmineController _currentLandmine;
+        private SoundManager _soundManager;
 
         private void Start()
         {
@@ -24,6 +25,7 @@ namespace Controllers
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             singleWaveEffect.Play();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void Update()
@@ -37,6 +39,7 @@ namespace Controllers
         
         private void HandleRotation()
         {
+            
             // Rotation to right
             if (Input.GetKey(Constants.Actions.Rotation) && Input.GetKeyDown(Constants.Actions.MoveRight))
             {
@@ -61,8 +64,9 @@ namespace Controllers
 
         private void HandleMovements()
         {
+            
             // Do nothing if the user is rotating
-            if(Input.GetKey(Constants.Actions.Rotation)) return;
+            if (Input.GetKey(Constants.Actions.Rotation)) return;
             // Move to right
             if (Input.GetKeyDown(Constants.Actions.MoveRight) && _grid.CanMoveRight(transform.position.x + NumberOfTile))
             {

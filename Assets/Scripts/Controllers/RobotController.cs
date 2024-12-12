@@ -1,6 +1,7 @@
 using Core;
 using Objects;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Controllers
 {
@@ -17,6 +18,13 @@ namespace Controllers
         private GridController _grid;
         private LandmineController _currentLandmine;
 
+        // Audio
+        private SoundManager _soundManager;
+
+        [SerializeField] private float moveSpeed = 5f; // Vitesse de déplacement (modifiable dans l'éditeur)
+        [SerializeField] private float rotationSpeed = 180f; // Vitesse de rotation (en degrés/seconde)
+        private Vector3 moveDirection; // Direction actuelle du déplacement
+
         private void Start()
         {
             _grid = FindObjectOfType<GridController>();
@@ -24,6 +32,7 @@ namespace Controllers
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             singleWaveEffect.Play();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void Update()
@@ -31,10 +40,11 @@ namespace Controllers
             // Do nothing if the robot is answering a question or in the store
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle movements
-            HandleRotation();
+            //HandleRotation();
             HandleMovements();
         }
         
+        /*
         private void HandleRotation()
         {
             // Rotation to right
@@ -57,10 +67,67 @@ namespace Controllers
             {
                 RotateDown();
             }
-        }
+        }*/
 
         private void HandleMovements()
         {
+            if (Input.GetKey(Constants.Actions.MoveRight))
+            {
+                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Rotation à droite
+                if (!_soundManager.turnSoundSource.isPlaying)
+                {
+                    _soundManager.PlayTankTurnSound();
+                }
+            }
+            else if (Input.GetKey(Constants.Actions.MoveLeft))
+            {
+                transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Rotation à gauche
+                if (!_soundManager.turnSoundSource.isPlaying)
+                {
+                    _soundManager.PlayTankTurnSound();
+                }
+            }
+            else
+            {
+                _soundManager.turnSoundSource.Stop(); // Arrête le son si la rotation cesse
+            }
+
+            // Déplacement : Toujours avancer/reculer dans la direction actuelle (orientation)
+            if (Input.GetKey(Constants.Actions.MoveUp))
+            {
+                moveDirection = transform.forward; // Avance dans la direction du regard
+                if (!_soundManager.moveSoundSource.isPlaying) // Empêche les répétitions si le son est déjà en cours
+                {
+                    _soundManager.PlayTankGoSound();
+                }
+            }
+            else if (Input.GetKey(Constants.Actions.MoveDown))
+            {
+                moveDirection = -transform.forward; // Recule dans la direction opposée
+                if (!_soundManager.moveSoundSource.isPlaying)
+                {
+                    _soundManager.PlayTankGoSound();
+                }
+            }
+            else
+            {
+                moveDirection = Vector3.zero; // Pas de mouvement
+                _soundManager.moveSoundSource.Stop(); // Arrête le son si le robot s'arrête
+            }
+
+            // Appliquer le déplacement
+            //transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+            Vector3 newPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;
+            var gridController = FindObjectOfType<GridController>();
+            if (newPosition.x >= gridController.MinX && newPosition.x <= gridController.MaxX - 1.0f &&
+                newPosition.z >= gridController.MinZ && newPosition.z <= gridController.MaxZ- 1.0f )
+            {
+                transform.position = newPosition;
+            }
+
+
+            /*
             // Do nothing if the user is rotating
             if (Input.GetKey(Constants.Actions.Rotation)) return;
             // Move to right
@@ -86,7 +153,7 @@ namespace Controllers
             {
                 transform.position -= new Vector3(0f, 0f, NumberOfTile);
                 RotateDown();
-            }
+            }*/
         }
 
         private void RotateRight()

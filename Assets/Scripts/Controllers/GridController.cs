@@ -50,7 +50,12 @@ namespace Controllers
         /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
         /// </summary>
         private bool[][] _paddingTiles;
-        
+
+        public float MinX => GridXYStartIndex;
+        public float MaxX => GridXEndIndex;
+        public float MinZ => GridXYStartIndex;
+        public float MaxZ => GridYEndIndex;
+
         private void Awake()
         {
             // Compute emplacements
@@ -240,8 +245,16 @@ namespace Controllers
         {
             const int xIndex = GridXYStartIndex + 2;
             const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
-            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
+
+            // Ajouter une rotation de 90° sur l'axe Y
+            Quaternion initialRotation = Quaternion.Euler(0, 90f, 0);
+            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), initialRotation);
             robotObj.name = "Robot";
+            /*
+            const int xIndex = GridXYStartIndex + 2;
+            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
+            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
+            robotObj.name = "Robot";*/
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

@@ -2059,6 +2059,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3363165127429128762, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363165127429128762, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363165127429128762, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ef3551b91ec83e643823fb68004048a3, type: 3}
+    - target: {fileID: 3363165127429128762, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: BypassEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363165127429128762, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -2079,9 +2095,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: d77f3d2f3234de742b149227ef189ff5, type: 3}
+      objectReference: {fileID: 8300000, guid: 9ac66191db316c7449f4eb22dea3aa84, type: 3}
+    - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: BypassEffects
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0

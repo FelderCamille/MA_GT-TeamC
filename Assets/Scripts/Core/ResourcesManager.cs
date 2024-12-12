@@ -103,6 +103,7 @@ namespace Core
         {
             _health = Constants.GameSettings.Health;
             _resourcesPrefab.SetHealth(_health);
+            _soundManager.PlayRepairSound();
         }
         
         public float GetVisionDistance()

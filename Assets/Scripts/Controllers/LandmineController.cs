@@ -69,18 +69,15 @@ namespace Controllers
             switch (state)
             {
                 case LandmineCleared.AnswerSuccess:
-                    _robot.IncreaseClearedMineCounter();
                     _soundManager.PlayBeepSound();
+                    _robot.IncreaseClearedMineCounter();
                     break;
                 case LandmineCleared.AnswerFailure:
                     var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
-                    _soundManager.PlayExplosionSound();
                     _robot.ReduceHealth(hTRFailure);
-                    explosionEffect.Play();
                     break;
                 case LandmineCleared.Explosion:
                     var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
-                    _soundManager.PlayExplosionSound();
                     _robot.ReduceHealth(hTRExplosion);
                     break;
                 default:
@@ -99,6 +96,8 @@ namespace Controllers
 
         private IEnumerator ExplodeLandmine()
         {
+            // Play sound
+            _soundManager.PlayExplosionSound();
             // Play explosion effect
             landmine.Hide();
             explosionEffect.Play();

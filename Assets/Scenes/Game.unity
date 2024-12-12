@@ -2115,6 +2115,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1182308623}
     - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: visionSoundSource
+      value: 
+      objectReference: {fileID: 1825252946}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: openBookSoundSource
       value: 
       objectReference: {fileID: 929955454}
@@ -3032,6 +3036,11 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2062340677328459930, guid: c381da3e5f0b14dcc849a9889d1b92fb, type: 3}
   m_PrefabInstance: {fileID: 7968188376338933786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1825252946 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1781679455644325720, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1837566425
 GameObject:

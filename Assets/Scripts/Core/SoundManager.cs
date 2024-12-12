@@ -24,7 +24,7 @@ namespace Core
         public AudioSource closeTentSoundSource;
         public AudioSource openBookSoundSource;
         public AudioSource closeBookSoundSource;
-        //public AudioSource SoundSource;
+        public AudioSource visionSoundSource;
 
         private void Start()
         {
@@ -104,7 +104,12 @@ namespace Core
         {
             closeBookSoundSource.Play();
         }
-            
+
+        public void PlayVisionSound()
+        {
+            visionSoundSource.Play();
+        }
+
         private void PlayAmbientSound()
         {
             var mapTheme = Constants.GameSettings.GameMapTheme;

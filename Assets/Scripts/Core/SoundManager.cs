@@ -22,6 +22,12 @@ namespace Core
         public AudioSource moveSoundSource;
         public AudioSource turnSoundSource;
         public AudioSource repairSoundSource;
+        public AudioSource openMineSoundSource;
+        public AudioSource openTentSoundSource;
+        public AudioSource closeTentSoundSource;
+        public AudioSource openBookSoundSource;
+        public AudioSource closeBookSoundSource;
+        //public AudioSource SoundSource;
 
 
         public void PlayBuySound()
@@ -142,6 +148,30 @@ namespace Core
             repairSoundSource.Play();
         }
 
+        public void playOpenMineSound()
+        {
+            openMineSoundSource.Play();
+        }
+
+        public void playOpenTentSound()
+        {
+            openTentSoundSource.Play();
+        }
+
+        public void playCloseTentSound()
+        {
+            closeTentSoundSource.Play();
+        }
+
+        public void playOpenBookSound()
+        {
+            openBookSoundSource.Play();
+        }
+
+        public void playCloseBookSound()
+        {
+            closeBookSoundSource.Play();
+        }
 
     }
 

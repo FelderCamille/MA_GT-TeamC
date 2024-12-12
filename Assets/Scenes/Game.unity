@@ -1988,9 +1988,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 72193811526355392, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 618162590267038798, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 759851588170120532, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 831524600632494847, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_Name
@@ -2037,6 +2045,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d77f3d2f3234de742b149227ef189ff5, type: 3}
+    - target: {fileID: 4588417609661136776, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131762944461021054, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}

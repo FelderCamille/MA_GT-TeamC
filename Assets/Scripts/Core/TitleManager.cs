@@ -1,7 +1,8 @@
+using UI;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace UI
+namespace Core
 {
     class TitleManager : MonoBehaviour
     {
@@ -12,6 +13,7 @@ namespace UI
         {
             hostButton.Init(OnHostButtonClick);
             joinButton.Init(OnJoinButtonClick);
+            NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCallback;
         }
         
         private void OnHostButtonClick()
@@ -24,6 +26,14 @@ namespace UI
         {
             Debug.Log("Join button clicked");
             NetworkManager.Singleton.StartClient();
+        }
+        
+        private void ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+        {
+            response.CreatePlayerObject = true;
+            response.Position = new Vector3(5, 1, 5); // TODO: set spawn point of player
+            response.Rotation = Quaternion.identity;
+            response.Approved = true;
         }
 
     }   

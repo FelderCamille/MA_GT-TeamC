@@ -1,9 +1,7 @@
-using System;
 using Core;
 using Objects;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Controllers
 {
@@ -28,6 +26,7 @@ namespace Controllers
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
 
+        /*
         private void Start()
         {
             _grid = FindObjectOfType<GridController>();
@@ -47,7 +46,7 @@ namespace Controllers
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle movements
             HandleMovements();
-        }
+        }*/
         
         private void HandleMovements()
         {

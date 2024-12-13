@@ -10146,7 +10146,7 @@ GameObject:
   - component: {fileID: 4355715728863684552}
   - component: {fileID: 6450839028801604615}
   - component: {fileID: 789278331960228392}
-  - component: {fileID: 9085935466530245159}
+  - component: {fileID: 4280640236529247069}
   m_Layer: 6
   m_Name: Robot
   m_TagString: Player
@@ -10211,7 +10211,7 @@ MonoBehaviour:
   repeatedWaveEffect: {fileID: 328797594239721830}
   moveSpeed: 5
   rotationSpeed: 180
---- !u!114 &9085935466530245159
+--- !u!114 &4280640236529247069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10220,7 +10220,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6430937700716701231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fc3b1c1b0824557ac0924ed1b4a9b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0

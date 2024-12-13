@@ -33,7 +33,6 @@ namespace Controllers
         public Tile deadSpruceTilePrefab;
         
         [Header("Content")]
-        public RobotController robotPrefab;
         public TentController tentTilePrefab;
 
         /// <summary>
@@ -63,9 +62,8 @@ namespace Controllers
             ChooseDecorPrefabs();
             ComputeLandminesEmplacement();
             // Generate the map and spawn the robot and tent
-            SpawnTent();
+            // SpawnTent(); // TODO - TEMP
             GenerateMap();
-            SpawnRobot();
         }
         
         private void ChooseDecorPrefabs()
@@ -239,22 +237,6 @@ namespace Controllers
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
-        }
-        
-        private void SpawnRobot()
-        {
-            const int xIndex = GridXYStartIndex + 2;
-            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
-
-            // Ajouter une rotation de 90° sur l'axe Y
-            Quaternion initialRotation = Quaternion.Euler(0, 90f, 0);
-            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), initialRotation);
-            robotObj.name = "Robot";
-            /*
-            const int xIndex = GridXYStartIndex + 2;
-            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
-            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
-            robotObj.name = "Robot";*/
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

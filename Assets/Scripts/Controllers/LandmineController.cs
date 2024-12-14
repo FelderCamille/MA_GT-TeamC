@@ -1,6 +1,10 @@
+using Core;
+using System;
+using System.Collections;
 using Objects;
 using UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -9,15 +13,17 @@ namespace Controllers
         
         [Header("Settings")]
         public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
-
+        private SoundManager _soundManager;
         private QuestionController _questionOverlay;
         private RobotController _robot;
         public LandmineTile landmine;
+        public ParticleSystem explosionEffect;
         
         private void Start()
         {
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void Update()
@@ -63,6 +69,7 @@ namespace Controllers
             switch (state)
             {
                 case LandmineCleared.AnswerSuccess:
+                    _soundManager.PlayBeepSound();
                     _robot.IncreaseClearedMineCounter();
                     break;
                 case LandmineCleared.AnswerFailure:
@@ -73,8 +80,30 @@ namespace Controllers
                     var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
                     _robot.ReduceHealth(hTRExplosion);
                     break;
+                default:
+                    throw new Exception("Unknown landmine cleared state");
             }
             // Remove landmine
+            if (state == LandmineCleared.AnswerSuccess)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                StartCoroutine(ExplodeLandmine());
+            }
+        }
+
+        private IEnumerator ExplodeLandmine()
+        {
+            // Play sound
+            _soundManager.PlayExplosionSound();
+            // Play explosion effect
+            landmine.Hide();
+            explosionEffect.Play();
+            // Wait for the explosion to play
+            yield return new WaitForSeconds(explosionEffect.main.duration - 1.5f);
+            // Remove the landmine
             gameObject.SetActive(false);
         }
 

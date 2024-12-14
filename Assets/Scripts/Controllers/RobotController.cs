@@ -7,7 +7,6 @@ namespace Controllers
     public class RobotController : MonoBehaviour, IRobot
     {
         private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
-        
         public RobotDirection Direction { get; private set; }
 
         private ResourcesManager _resourcesManager;
@@ -17,6 +16,7 @@ namespace Controllers
         private StoreController _storeOverlay;
         private GridController _grid;
         private LandmineController _currentLandmine;
+        private Animator _animator;
 
         private void Start()
         {
@@ -25,6 +25,7 @@ namespace Controllers
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             singleWaveEffect.Play();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -63,7 +64,7 @@ namespace Controllers
         private void HandleMovements()
         {
             // Do nothing if the user is rotating
-            if(Input.GetKey(Constants.Actions.Rotation)) return;
+            if (Input.GetKey(Constants.Actions.Rotation)) return;
             // Move to right
             if (Input.GetKeyDown(Constants.Actions.MoveRight) && _grid.CanMoveRight(transform.position.x + NumberOfTile))
             {
@@ -106,12 +107,14 @@ namespace Controllers
         {
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
             Direction = RobotDirection.FacingUp;
+            _animator.SetTrigger("MoveForward");
         }
         
         private void RotateDown()
         {
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
             Direction = RobotDirection.FacingDown;
+            _animator.SetTrigger("MoveBackward");
         }
 
         public void IncreaseClearedMineCounter()

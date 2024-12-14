@@ -27,7 +27,10 @@ namespace UI
             {
                 var bonusButtonObj = Instantiate(bonusButtonPrefab, bonusesEmplacement.transform);
                 bonusButtonObj.name = bonus.Name;
-                bonusButtonObj.InitBonusButton( () => bonus.ApplyBonus(resourcesManager, robot, action), bonus);
+                bonusButtonObj.InitBonusButton( 
+                    () => bonus.ApplyBonus(resourcesManager, robot, action), 
+                    bonus
+                );
             }
         }
     }

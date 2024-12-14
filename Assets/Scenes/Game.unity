@@ -1005,6 +1005,7 @@ MonoBehaviour:
   offset: {x: 0, y: 3, z: 0}
   followDistance: 8
   teleportDistanceThreshold: 100
+  rotationSpeed: 5
 --- !u!1001 &528506981
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using Objects;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.Netcode;
 
 namespace Controllers
 {
@@ -26,6 +27,15 @@ namespace Controllers
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
             _soundManager = FindObjectOfType<SoundManager>();
+        }
+
+        [ClientRpc]
+        private void SyncExplosionClientRpc(Vector3 explosionPosition)
+        {
+            // Jouer l'effet d'explosion côté client
+            explosionEffect.Play();
+            // Optionnel : Ajouter une animation ou autre effet
+            Debug.Log($"Mine exploded at {explosionPosition}");
         }
 
         private void Update()
@@ -84,6 +94,7 @@ namespace Controllers
             }*/
         }
 
+        
         public void OnLandmineCleared(LandmineCleared state)
         {
             // Manage robot

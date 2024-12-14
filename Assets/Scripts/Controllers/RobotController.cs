@@ -12,96 +12,133 @@ namespace Controllers
         // Effects
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private GameObject repeatedWaveEffect;
-        
+
         // Controllers
         private ResourcesManager _resourcesManager;
         private QuestionController _questionOverlay;
         private StoreController _storeOverlay;
         private GridController _grid;
-        private LandmineController _currentLandmine;
         private SoundManager _soundManager;
 
         // Movements
         [SerializeField] private float moveSpeed = 5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
-        
-        private void Start()
+
+        /*private void Start()
         {
-            // Get objects of scene
+            // Initialize references
             _grid = FindObjectOfType<GridController>();
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             _soundManager = FindObjectOfType<SoundManager>();
-            // Change color if the robot is the owner (for debugging)
-            if (IsOwner) FindObjectOfType<MeshRenderer>().materials[0].color = Color.green;
-            // Play single wave
+
+            // Set robot color for debugging
+            if (IsOwner)
+            {
+                GetComponent<MeshRenderer>().materials[0].color = Color.green;
+            }
+
+            // Play single wave effect at the start
             singleWaveEffect.Play();
-        }
+        }*/
+
+
+        private void Start()
+         {
+             // Initialiser les références
+             _grid = FindObjectOfType<GridController>();
+             _questionOverlay = FindObjectOfType<QuestionController>(true);
+             _storeOverlay = FindObjectOfType<StoreController>(true);
+             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
+             _soundManager = FindObjectOfType<SoundManager>();
+
+             // Set robot color for debugging
+             if (IsOwner)
+             {
+                 GetComponent<MeshRenderer>().materials[0].color = Color.green;
+
+                 // Attacher la caméra au robot contrôlé par le joueur
+                 FollowPlayerCameraController cameraController = GetComponentInChildren<FollowPlayerCameraController>();
+                 if (cameraController != null)
+                 {
+                     cameraController.SetRobotToFollow(transform); // Associer la caméra au robot contrôlé
+                 }
+             }
+
+             // Play single wave effect at the start
+             singleWaveEffect.Play();
+         }
 
         private void Update()
         {
             // Only control the robot that we own
             if (!IsOwner) return;
+
             // Do nothing if the robot is answering a question or in the store
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
+
             // Handle movements
             HandleMovements();
         }
-        
+
         private void HandleMovements()
         {
+            // Handle rotation
             if (Input.GetKey(Constants.Actions.MoveRight))
             {
                 transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Turn right
-                if (!_soundManager.turnSoundSource.isPlaying)
-                {
-                    _soundManager.PlayTankTurnSound();
-                }
+                PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else if (Input.GetKey(Constants.Actions.MoveLeft))
             {
                 transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Turn left
-                if (!_soundManager.turnSoundSource.isPlaying)
-                {
-                    _soundManager.PlayTankTurnSound();
-                }
+                PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else
             {
-                _soundManager.turnSoundSource.Stop(); // Stop sound if the robot is not turning
+                _soundManager.turnSoundSource.Stop(); // Stop rotation sound if no rotation
             }
 
-            // Movement always forward or backward
+            // Handle forward and backward movement
             if (Input.GetKey(Constants.Actions.MoveUp))
             {
                 _moveDirection = transform.forward; // Move forward
-                if (!_soundManager.moveSoundSource.isPlaying)
-                {
-                    _soundManager.PlayTankGoSound();
-                }
+                PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
             }
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
                 _moveDirection = -transform.forward; // Move backward
-                if (!_soundManager.moveSoundSource.isPlaying)
-                {
-                    _soundManager.PlayTankGoSound();
-                }
+                PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
             }
             else
             {
-                _moveDirection = Vector3.zero; // No movement // TODO - necessary ?
+                _moveDirection = Vector3.zero; // No movement
                 _soundManager.moveSoundSource.Stop();
             }
 
-            // Apply movement
+            // Apply movement respecting grid boundaries
+            ApplyMovement();
+        }
+
+        private void ApplyMovement()
+        {
             var newPosition = transform.position + _moveDirection * moveSpeed * Time.deltaTime;
+
+            // Ensure the robot stays within the grid boundaries
             if (newPosition.x >= _grid.MinX && newPosition.x <= _grid.MaxX - NumberOfTile &&
-                newPosition.z >= _grid.MinZ && newPosition.z <= _grid.MaxZ - NumberOfTile )
+                newPosition.z >= _grid.MinZ && newPosition.z <= _grid.MaxZ - NumberOfTile)
             {
-                transform.position = newPosition;
+                transform.position = newPosition; // Move directly via transform (ClientNetworkTransform will sync)
+            }
+        }
+
+        private void PlaySoundIfNeeded(AudioSource soundSource, System.Action playSoundAction)
+        {
+            if (!soundSource.isPlaying)
+            {
+                playSoundAction();
             }
         }
 
@@ -138,6 +175,6 @@ namespace Controllers
             repeatedWaveEffect.SetActive(true);
             repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
         }
-    }
 
+    }
 }

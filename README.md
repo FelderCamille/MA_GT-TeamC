@@ -17,7 +17,13 @@ Mines:
 - Not used but interesting: [WW1 German landmine](https://www.cgtrader.com/free-3d-models/military/rocketry/ww1-german-landmine-tellermine-asset)
 
 Tentes:
-- [Tent](https://www.cgtrader.com/free-3d-models/exterior/other/military-tent-3d0bca7a-e2ec-4f3e-a043-c98468a9a187)
+- [Tent](https://www.cgtrader.com/free-3d-models/military/other/military-tent-d642f7a8-49b1-4e77-a806-756465d60298)
+
+Nature:
+- ([Nature pack 1](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-nature-set-free-trial))
+- [Nature pack 2](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-pack-1800d494-645a-4ed5-b478-bf64eaa04f99)
+- ([Nature pack 3](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-natures))
+- [Nature pack 4](https://www.cgtrader.com/free-3d-models/plant/leaf/low-poly-plant-set)
 
 ## Icons
 
@@ -30,7 +36,9 @@ Tentes:
 - [Previous (style iOS 17 filled)](https://icons8.com/icons/set/previous--white)
 - [Next (style iOS 17 filled)](https://icons8.com/icons/set/next--white)
 - [Arrow (style iOS 17 filled)](https://icons8.com/icons/set/arrow--white)
-- [Glasses](https://www.flaticon.com/free-icon/telescope_1355898?term=telescope&page=1&position=25&origin=search&related_id=1355898)
+- [Vision](https://www.flaticon.com/free-icon/telescope_1355898?term=telescope&page=1&position=25&origin=search&related_id=1355898)
+- [Encyclopedia](https://www.flaticon.com/free-icon/book_10433048?term=book&page=1&position=22&origin=search&related_id=10433048)
+- [Keyboard](https://www.flaticon.com/free-icon/keyboard_2330480?term=keyboard+button&page=9&position=32&origin=search&related_id=2330480)
 
 ## Effects
 
@@ -43,3 +51,5 @@ Tentes:
 # Useful links
 
 - [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)
+- [Explosion effect](https://www.youtube.com/watch?v=cvQiQglPI18)
+- [Setup multiplayer](https://www.youtube.com/watch?v=3yuBOB3VrCk)

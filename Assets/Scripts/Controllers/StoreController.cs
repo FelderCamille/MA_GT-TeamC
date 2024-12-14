@@ -20,9 +20,14 @@ namespace Controllers
         public StoreBonusSection storeBonusSectionPrefab;
         
         private RobotController _robot;
-        
+
+        // Audio
+        private SoundManager _soundManager;
+
         private void Awake()
         {
+
+            _soundManager = FindObjectOfType<SoundManager>();
             // Retrieve robot
             _robot = FindObjectOfType<RobotController>();
             // Init close button
@@ -70,12 +75,14 @@ namespace Controllers
             gameObject.SetActive(true);
             IsShopping = true;
             JustOpened = true;
+            _soundManager.playOpenTentSound();
         }
 
         private void CloseStore()
         {
             IsShopping = false;
             gameObject.SetActive(false);
+            _soundManager.playCloseTentSound();
         }
     }
 }

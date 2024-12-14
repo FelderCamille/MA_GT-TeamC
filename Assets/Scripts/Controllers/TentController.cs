@@ -4,10 +4,9 @@ namespace Controllers
 {
     public class TentController : MonoBehaviour
     {
-        public const int TentLength = 6; // 6 tiles
-        private const int TentWidth = 3; // 3 tiles
         private const float StoreDistance = Constants.GameSettings.NumberOfTileOpenStore + .5f; // On z axis
-
+        public const int TentLength = 4;
+        
         private RobotController _robot;
         private StoreController _store;
         private float _tentXPosition;
@@ -17,9 +16,9 @@ namespace Controllers
         private void Start()
         {
             _robot = FindObjectOfType<RobotController>();
-            _tentXPosition = transform.position.x + TentLength / 2;
-            _tentZ1Position = transform.position.z - TentWidth / 2;
-            _tentZ2Position = transform.position.z + TentWidth / 2;
+            _tentXPosition = transform.position.x + TentLength - 1;
+            _tentZ1Position = transform.position.z - TentLength / 2;
+            _tentZ2Position = transform.position.z + TentLength / 2 - 1;
             _store = FindObjectOfType<StoreController>(includeInactive: true);
         }
 
@@ -34,7 +33,11 @@ namespace Controllers
                 return;
             }
             // Open the store
-            if (!_store.IsShopping && !_store.JustOpened) _store.OpenStore();
+            if (!_store.IsShopping && !_store.JustOpened)
+            {
+                // _store.OpenStore(); // TODO: uncomment and repare.
+            }
+
         }
     }
 }

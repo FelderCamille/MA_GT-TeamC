@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Objects;
 using UI;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace Controllers
 
         [Header("Content")]
         public QuestionButton buttonPrefab;
-
+        
+        private SoundManager _soundManager;
         private int _currentQuestionIndex = -1; // To start at index 0
         private Question[] _questions;
         private readonly List<QuestionButton> _buttons = new ();
@@ -35,6 +37,7 @@ namespace Controllers
         {
             var questionsObj = JsonUtils<Questions>.Read("Json/questions");
             _questions = questionsObj.Shuffle();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void OnEnable()
@@ -69,6 +72,8 @@ namespace Controllers
 
         private IEnumerator OnResponseClicked(QuestionButton questionButton)
         {
+            // Play sound
+            _soundManager.PlayCutSound();
             // Manage response
             var question = _questions[_currentQuestionIndex];
             var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);

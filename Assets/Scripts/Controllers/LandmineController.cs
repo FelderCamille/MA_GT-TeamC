@@ -1,6 +1,10 @@
+using Core;
+using System;
+using System.Collections;
 using Objects;
 using UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -8,16 +12,20 @@ namespace Controllers
     {
         
         [Header("Settings")]
-        public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
-
+        //public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
+        private SoundManager _soundManager;
         private QuestionController _questionOverlay;
         private RobotController _robot;
         public LandmineTile landmine;
-        
+        public ParticleSystem explosionEffect;
+        public float collidingDistance = 1.0f; // Correspond à 3 tuiles de distance
+
+
         private void Start()
-        {
+        { 
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
+            _soundManager = FindObjectOfType<SoundManager>();
         }
 
         private void Update()
@@ -41,8 +49,26 @@ namespace Controllers
             }
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow; // Couleur du rayon
+            Gizmos.DrawWireSphere(transform.position, collidingDistance); // Rayon autour de la mine
+        }
+
         public void DetectRobotApproach()
         {
+            {
+                // Vérifiez si la touche pour désamorcer est pressée et si aucune question n'est active
+                if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
+
+                // Vérifiez si le robot est dans le rayon de déminage
+                if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
+
+                // Affichez la question
+                ShowQuestionOverlay();
+                _soundManager.playOpenMineSound();
+            }
+            /*
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
             // Check if the distance between the robot and the landmine permits to answer the question, if not return
@@ -54,7 +80,8 @@ namespace Controllers
                 _robot.Direction == RobotDirection.FacingDown && transform.position.z < _robot.transform.position.z)
             {
                 ShowQuestionOverlay();
-            }
+                _soundManager.playOpenMineSound();
+            }*/
         }
 
         public void OnLandmineCleared(LandmineCleared state)
@@ -63,6 +90,7 @@ namespace Controllers
             switch (state)
             {
                 case LandmineCleared.AnswerSuccess:
+                    _soundManager.PlayBeepSound();
                     _robot.IncreaseClearedMineCounter();
                     break;
                 case LandmineCleared.AnswerFailure:
@@ -73,8 +101,30 @@ namespace Controllers
                     var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
                     _robot.ReduceHealth(hTRExplosion);
                     break;
+                default:
+                    throw new Exception("Unknown landmine cleared state");
             }
             // Remove landmine
+            if (state == LandmineCleared.AnswerSuccess)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                StartCoroutine(ExplodeLandmine());
+            }
+        }
+
+        private IEnumerator ExplodeLandmine()
+        {
+            // Play sound
+            _soundManager.PlayExplosionSound();
+            // Play explosion effect
+            landmine.Hide();
+            explosionEffect.Play();
+            // Wait for the explosion to play
+            yield return new WaitForSeconds(explosionEffect.main.duration - 1.5f);
+            // Remove the landmine
             gameObject.SetActive(false);
         }
 

@@ -479,11 +479,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 330268576279990574, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
   m_PrefabInstance: {fileID: 5569024983592783339}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6597749255509590048 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1641227033775017419, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
-  m_PrefabInstance: {fileID: 5569024983592783339}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9057557717493251234 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3529641740243480905, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
@@ -546,6 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asSeen: {fileID: 0}
   asEditable: {fileID: 0}
+  firstInit: 0
 --- !u!114 &6688480696321736478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,6 +556,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mine: {fileID: 8137592249270021253, guid: 7128136850f0093d085543d0425a0acd, type: 3}
   MyCamera: {fileID: 3904476464645860964}
-  lookINgArrow: {fileID: 1414085878722347996}
+  lookingAtAMineInd: {fileID: 1414085878722347996}
   robot: {fileID: 2669575672902597336}
-  t: {fileID: 6597749255509590048}

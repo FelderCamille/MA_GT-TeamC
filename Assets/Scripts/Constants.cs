@@ -22,7 +22,7 @@ public static class Constants
         // Grid
         public const int GridWidth = 10;
         public const int GridHeight = 10; // Should be odd
-        public const int GridPadding = 2;
+        public const int GridPadding = 10;
         // Timer
         public const float Timer = 10 * 60f; // 10 min
         // Landmines

@@ -25,17 +25,19 @@ namespace Controllers
         [SerializeField] private float moveSpeed = 5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
-
-        /*
+        
         private void Start()
         {
+            // Get objects of scene
             _grid = FindObjectOfType<GridController>();
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _storeOverlay = FindObjectOfType<StoreController>(true);
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
-            singleWaveEffect.Play();
             _soundManager = FindObjectOfType<SoundManager>();
+            // Change color if the robot is the owner (for debugging)
             if (IsOwner) FindObjectOfType<MeshRenderer>().materials[0].color = Color.green;
+            // Play single wave
+            singleWaveEffect.Play();
         }
 
         private void Update()
@@ -46,7 +48,7 @@ namespace Controllers
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle movements
             HandleMovements();
-        }*/
+        }
         
         private void HandleMovements()
         {

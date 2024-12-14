@@ -18,22 +18,23 @@ namespace Controllers
         private static readonly System.Random Random = new ();
         
         [Header("Grid tiles")]
-        public Tile tilePrefab;
-        public LandmineTile landmineTilePrefab;
+        [SerializeField] private Tile tilePrefab;
+        [SerializeField] private LandmineTile landmineTilePrefab;
         
         [Header("Padding tiles")]
-        public Tile paddingTilePrefab;
-        public Tile[] treeTilePrefabs;
-        public Tile spruceTilePrefab;
-        public Tile[] rockTilePrefabs;
-        public Tile bushTilePrefab;
-        public Tile logTilePrefab;
-        public Tile rootTilePrefab;
-        public Tile deadTreeTilePrefab;
-        public Tile deadSpruceTilePrefab;
+        [SerializeField] private Tile paddingTilePrefab;
+        [SerializeField] private Tile[] treeTilePrefabs;
+        [SerializeField] private Tile spruceTilePrefab;
+        [SerializeField] private Tile[] rockTilePrefabs;
+        [SerializeField] private Tile bushTilePrefab;
+        [SerializeField] private Tile logTilePrefab;
+        [SerializeField] private Tile rootTilePrefab;
+        [SerializeField] private Tile deadTreeTilePrefab;
+        [SerializeField] private Tile deadSpruceTilePrefab;
         
         [Header("Content")]
-        public TentController tentTilePrefab;
+        [SerializeField] private RobotController playerPrefab;
+        [SerializeField] private TentController tentTilePrefab;
 
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
@@ -49,7 +50,7 @@ namespace Controllers
         /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
         /// </summary>
         private bool[][] _paddingTiles;
-
+        
         public float MinX => GridXYStartIndex;
         public float MaxX => GridXEndIndex;
         public float MinZ => GridXYStartIndex;
@@ -61,9 +62,21 @@ namespace Controllers
             InitPaddingTilesArray();
             ChooseDecorPrefabs();
             ComputeLandminesEmplacement();
-            // Generate the map and spawn the robot and tent
-            // SpawnTent(); // TODO - TEMP
+            // Generate the tents (needs to be here to avoid the tent to be generated on a decor)
+            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                SpawnTent(clientId);
+            }
+            // Generate the map
             GenerateMap();
+            // Spawn robot (only the host can spawn the robots)
+            if (NetworkManager.Singleton.IsHost)
+            {
+                foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+                {
+                    SpawnRobot(clientId);
+                }
+            }
         }
         
         private void ChooseDecorPrefabs()
@@ -130,12 +143,14 @@ namespace Controllers
             }
         }
         
-        private void SpawnTent()
+        private void SpawnTent(ulong clientId)
         {
+            var isLeft = clientId == 0;
             // Compute emplacement
-            const int xIndex = GridXYStartIndex - TentController.TentLength;
-            const int yIndex = MapHeight / 2;
+            var xIndex = isLeft ? (GridXYStartIndex - TentController.TentLength) : GridXEndIndex;
+            var yIndex = MapHeight / 2;
             const int padding = TentController.TentLength / 2;
+            var rotationY = isLeft ? 90f : 270f;
             // Set the emplacements as occupied
             for (var x = xIndex; x < xIndex + TentController.TentLength; x++)
             {
@@ -144,9 +159,32 @@ namespace Controllers
                     _paddingTiles[x][y] = false;
                 }
             }
+            // Handle the right tent (needed because of the prefab rotation)
+            if (!isLeft)
+            {
+                xIndex += TentController.TentLength - 1;
+                yIndex -= 1;
+            }
             // Place the tent
-            var tentObj = Instantiate(tentTilePrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, 90f, 0));
-            tentObj.name = "Tent";
+            var tentObj = Instantiate(
+                tentTilePrefab, 
+                new Vector3(xIndex, 0, yIndex), 
+                Quaternion.Euler(0, rotationY, 0)
+                );
+            tentObj.name = $"Tent {clientId}";
+        }
+        
+        private void SpawnRobot(ulong clientId)
+        {
+            var isLeft = clientId == 0;
+            // Compute emplacement
+            var xIndex = isLeft ? (GridXYStartIndex + 3) : (GridXEndIndex - 3); // Spawn the robot some cases away from the tent
+            const int yIndex = MapHeight / 2;
+            var rotationY = isLeft ? 90f : 270f;
+            // Spawn the robot
+            var robot = Instantiate(playerPrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, rotationY, 0));
+            robot.name = $"Robot {clientId}";
+            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
 
         private void GenerateMap()

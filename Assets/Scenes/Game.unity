@@ -2623,7 +2623,7 @@ Transform:
   m_GameObject: {fileID: 1510115712}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 5, y: 10, z: 5}
+  m_LocalPosition: {x: 20, y: 10, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3210,6 +3210,7 @@ MonoBehaviour:
   rootTilePrefab: {fileID: 3133543057032349834, guid: c976349ff7fa544aca5c948d33d9808a, type: 3}
   deadTreeTilePrefab: {fileID: 3133543057032349834, guid: a8cd30631fba449d08e40bdfab080847, type: 3}
   deadSpruceTilePrefab: {fileID: 3133543057032349834, guid: 98f9e4bace83c467b89ba296ef5b76fd, type: 3}
+  playerPrefab: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
   tentTilePrefab: {fileID: 3044626372676024209, guid: 6c19d2fe82bd347e4839b0eff2c550f1, type: 3}
 --- !u!1 &1842833483
 GameObject:
@@ -3980,6 +3981,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1680795564872056653, guid: 8f98d68b387134714aa63f3dada6d180, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 789278331960228392, guid: 1a724629b3ac24d4d9c7bdb820e74869, type: 3}
     - target: {fileID: 3878343847654930885, guid: 8f98d68b387134714aa63f3dada6d180, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -24,6 +24,11 @@ namespace Objects
     public class Question
     {
         /// <summary>
+        /// Difficulty of the question. From 1 = easy to 3 = hard.
+        /// </summary>
+        public int difficulty;
+        
+        /// <summary>
         /// The question to ask.
         /// </summary>
         public string query;

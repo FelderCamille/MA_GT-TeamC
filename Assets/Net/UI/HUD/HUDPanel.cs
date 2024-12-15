@@ -9,7 +9,11 @@ namespace Net.UI
 	/// </summary>
 	public class HUDPanel : MonoBehaviour
 	{
-		public BaseUI.Ressources ressources;
+		[Header("Resources of Player 1 (local)")]
+		public BaseUI.Ressources ressourcesP1;
+
+		[Header("Resources of Player 2 (remote)")]
+		public BaseUI.Ressources ressourcesP2;
 
 		// TODO: remove (just temporary)
 		public GameObject OnOwnFieldText;

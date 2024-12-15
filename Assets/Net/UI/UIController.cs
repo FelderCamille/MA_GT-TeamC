@@ -8,15 +8,9 @@ namespace Net.UI
 	/// </summary>
 	public class UIController : MonoBehaviour
 	{
-		public EncyclopediaPanel panelEncyclopedia;
-		public StorePanel panelStore;
-		public QuestionPanel panelQuestion;
-		public HUDPanel panelHUD;
-
-		// Start is called once before the first execution of Update after the MonoBehaviour is created
-		void Start() { }
-
-		// Update is called once per frame
-		void Update() { }
+		public EncyclopediaPanel PanelEncyclopedia;
+		public StorePanel PanelStore;
+		public QuestionPanel PanelQuestion;
+		public HUDPanel PanelHUD;
 	}
 }

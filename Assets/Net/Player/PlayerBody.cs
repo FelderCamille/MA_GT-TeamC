@@ -92,41 +92,41 @@ namespace Net
 		public void HandleMovement()
 		{
 			// Move up
-			if (Input.GetKeyDown(Constants.Actions.MoveUp))
+			if (Input.GetKeyDown(KeyCode.W))
 			{
 				this.moveForwardRpc(true);
 			}
-			if (Input.GetKeyUp(Constants.Actions.MoveUp))
+			if (Input.GetKeyUp(KeyCode.W))
 			{
 				this.moveForwardRpc(false);
 			}
 
 			// Move down
-			if (Input.GetKeyDown(Constants.Actions.MoveDown))
+			if (Input.GetKeyDown(KeyCode.S))
 			{
 				this.moveBackwardRpc(true);
 			}
-			if (Input.GetKeyUp(Constants.Actions.MoveDown))
+			if (Input.GetKeyUp(KeyCode.S))
 			{
 				this.moveBackwardRpc(false);
 			}
 
 			// Rotate left
-			if (Input.GetKeyDown(Constants.Actions.MoveLeft))
+			if (Input.GetKeyDown(KeyCode.A))
 			{
 				this.rotateLeftRpc(true);
 			}
-			if (Input.GetKeyUp(Constants.Actions.MoveLeft))
+			if (Input.GetKeyUp(KeyCode.A))
 			{
 				this.rotateLeftRpc(false);
 			}
 
 			// Rotate left
-			if (Input.GetKeyDown(Constants.Actions.MoveRight))
+			if (Input.GetKeyDown(KeyCode.D))
 			{
 				this.rotateRightRpc(true);
 			}
-			if (Input.GetKeyUp(Constants.Actions.MoveRight))
+			if (Input.GetKeyUp(KeyCode.D))
 			{
 				this.rotateRightRpc(false);
 			}

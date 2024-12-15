@@ -1,4 +1,6 @@
+using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Net
@@ -13,6 +15,8 @@ namespace Net
 
 		[Header("The mine object")]
 		public Renderer Mine;
+
+		public ParticleSystem explosionEffect;
 
 		/// <summary>
 		/// Player that set this mine
@@ -31,8 +35,6 @@ namespace Net
 
 		void OnTriggerEnter(Collider other)
 		{
-			// TODO: explosion
-
 			if (other.TryGetComponent<PlayerBody>(out var playerBody))
 			{
 				if (this.firstInit)
@@ -42,22 +44,34 @@ namespace Net
 					return;
 				}
 
-				// No matter the robot
+				playerBody.player.WalkedOnMine(this);
+
+				// TODO: Remove
 				playerBody.Body.AddExplosionForce(
-					200,
+					100,
 					other.ClosestPoint(playerBody.Body.position),
 					1
 				);
 
-				this.gameObject.SetActive(false);
-				// TODO: notify player? (if it has a list of seen mine)
-				// Destroy(this.gameObject);
+				StartCoroutine(this.ExplodeRoutine(playerBody.player));
 			}
 		}
 
 		void OnTriggerExit(Collider other)
 		{
 			// TODO?
+		}
+
+		private IEnumerator ExplodeRoutine(PlayerController player)
+		{
+			this.HideMine();
+			player.Game.SoundManager.PlayExplosionSound();
+			this.explosionEffect.Play();
+
+			yield return new WaitForSeconds(explosionEffect.main.duration - 1.5f);
+
+			this.gameObject.SetActive(false);
+			// Destroy(this.gameObject);
 		}
 
 		// Player sees the mine and could de-mine it
@@ -86,6 +100,11 @@ namespace Net
 				return;
 			}
 
+			this.HideMine();
+		}
+
+		private void HideMine()
+		{
 			// FIXME better
 			this.Mine.enabled = false;
 		}

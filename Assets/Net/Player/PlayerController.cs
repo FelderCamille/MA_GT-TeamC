@@ -21,11 +21,14 @@ namespace Net
 		[Header("The body of the player (with collision physics, ...)")]
 		public PlayerBody Body;
 
+		[Header("Ressources object of the player")]
+		public PlayerResources Resources;
+
 		/// <summary>
 		/// The camp of the player, set by the GameController
 		/// </summary>
 		internal CampController Camp;
-		private GameController Game;
+		internal GameController Game;
 
 		void Start() =>
 			// Reverse relation
@@ -35,7 +38,7 @@ namespace Net
 		{
 			base.OnNetworkSpawn();
 
-			Game = FindAnyObjectByType<GameController>();
+			this.Game = FindAnyObjectByType<GameController>();
 			Game.RegisterPlayer(this);
 
 			// For the "in-game" camera
@@ -108,7 +111,6 @@ namespace Net
 			if (!this.IsOnEnemyField)
 			{
 				Debug.Log("Can only set a mine on a enemy field");
-				// TODO: better (check with collider)
 				return;
 			}
 
@@ -122,7 +124,24 @@ namespace Net
 			this.SetMineRpc(this.Body.Body.position, this.Body.Body.rotation, true);
 		}
 
-		//
+		/// <summary>
+		/// When a mine explose to the "player's feet"
+		/// </summary>
+		/// <param name="mine">The mine that exploded</param>
+		public void WalkedOnMine(MineController mine)
+		{
+			if (!this.IsServer)
+			{
+				return;
+			}
+
+			// TODO: get correct value from mine + store for stats
+			this.Resources.DeltaHealthRpc(-5);
+		}
+
+		private bool openStore = false;
+		private bool openEncyclo = false;
+
 		void Update()
 		{
 			if (!this.IsLocalPlayer)
@@ -130,9 +149,25 @@ namespace Net
 				return;
 			}
 
-			// TODO: disable if other action (encyclopédia, ...)
-			this.Body.HandleMovement();
+			if (Input.GetKeyDown(KeyCode.Q))
+			{
+				// TODO: better
+				this.Game.UIProxy.PanelEncyclopedia.gameObject.SetActive(
+					this.openEncyclo = !this.openEncyclo
+				);
+			}
 
+			if (IsNearBase && Input.GetKeyDown(KeyCode.E))
+			{
+				this.Game.UIProxy.PanelStore.gameObject.SetActive(this.openStore = !this.openStore);
+			}
+
+			if (this.openStore || this.openEncyclo)
+			{
+				return;
+			}
+
+			this.Body.HandleMovement();
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				this.MineRpc();
@@ -141,6 +176,7 @@ namespace Net
 			this.UglyTempStuf();
 		}
 
+		// TODO
 		private MineController currentlyEditable = null;
 
 		// Bonus
@@ -153,7 +189,6 @@ namespace Net
 		{
 			if (!this.IsLocalPlayer)
 			{
-				// Ignore other player
 				return;
 			}
 
@@ -174,21 +209,20 @@ namespace Net
 			mine.Show();
 		}
 
-		public void SeeNoMine(MineController mine, PlayerMineCollider.TYPE cType)
+		public void SeeNoMine(MineController mine, PlayerMineCollider.TYPE type)
 		{
 			if (!this.IsLocalPlayer)
 			{
-				// Ignore other player
 				return;
 			}
 
-			if (cType == PlayerMineCollider.TYPE.INTERACTION)
+			if (type == PlayerMineCollider.TYPE.INTERACTION)
 			{
 				this.editableMines.Remove(mine);
 				return;
 			}
 
-			if (cType == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
+			if (type == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
 			{
 				return;
 			}
@@ -198,7 +232,7 @@ namespace Net
 
 		private void UglyTempStuf()
 		{
-			// TODO: only temp
+			// TODO: only temp (should only get one)
 
 			List<MineController> toRemove = new();
 			foreach (var mine in this.editableMines)
@@ -213,49 +247,7 @@ namespace Net
 				this.editableMines.Remove(t);
 			}
 
-			// TODO: better a collider in front of the player ?
-			if (
-				Physics.Raycast(
-					Body.Body.position,
-					Body.Body.rotation * Vector3.forward,
-					out var hit,
-					Mathf.Infinity
-				)
-			)
-			{
-				if (hit.collider.gameObject.TryGetComponent<MineController>(out var seeingMine))
-				{
-					foreach (var mineX in this.editableMines)
-					{
-						if (seeingMine == mineX)
-						{
-							if (this.currentlyEditable != null)
-							{
-								if (this.currentlyEditable == seeingMine)
-								{
-									// Same mine
-									return;
-								}
-
-								this.currentlyEditable.UnshowAsUsabe();
-							}
-
-							this.lookingAtAMineInd.SetActive(true);
-							this.currentlyEditable = seeingMine;
-							seeingMine.ShowAsUsabe();
-							return;
-						}
-					}
-				}
-			}
-
-			if (this.currentlyEditable != null)
-			{
-				this.currentlyEditable.UnshowAsUsabe();
-				this.currentlyEditable = null;
-			}
-
-			this.lookingAtAMineInd.SetActive(false);
+			this.lookingAtAMineInd.SetActive(this.editableMines.Count > 0);
 		}
 	}
 }

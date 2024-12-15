@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Core;
 using Unity.Netcode;
 using UnityEngine;
+using BaseUI = UI;
 
 namespace Net
 {
@@ -45,6 +46,23 @@ namespace Net
 		// The local player (to interact with, ...) // TODO: remove ?
 		private PlayerController PlayerLocal;
 
+		private HUDRessourcesPlayer HUDRessources1;
+		private HUDRessourcesPlayer HUDRessources2;
+
+		public override void OnNetworkDespawn()
+		{
+			base.OnNetworkDespawn();
+
+			if (this.HUDRessources1 != null)
+			{
+				this.HUDRessources1.Clear();
+			}
+			if (this.HUDRessources2 != null)
+			{
+				this.HUDRessources2.Clear();
+			}
+		}
+
 		/// <summary>
 		/// Store the player and affects its camp
 		/// </summary>
@@ -74,10 +92,20 @@ namespace Net
 			player.Body.Body.position = spawnPlayer.position;
 			player.Body.Body.rotation = spawnPlayer.rotation;
 
-			if (player.IsLocalPlayer)
-			{
-				this.PlayerLocal = player;
-			}
+			HUDRessourcesPlayer hud = player.IsLocalPlayer
+				? (
+					this.HUDRessources1 = new HUDRessourcesPlayer(
+						player,
+						this.UIProxy.PanelHUD.ressourcesP1
+					)
+				)
+				: (
+					this.HUDRessources2 = new HUDRessourcesPlayer(
+						player,
+						this.UIProxy.PanelHUD.ressourcesP2
+					)
+				);
+			hud.Init();
 		}
 
 		void LateUpdate()
@@ -89,9 +117,48 @@ namespace Net
 
 			// TODO: remove (just temporary)
 
-			var HUD = this.UIProxy.panelHUD;
+			var HUD = this.UIProxy.PanelHUD;
 			HUD.OnOwnFieldText.SetActive(this.PlayerLocal.IsOnOwnField);
 			HUD.OnEnemyFieldText.SetActive(this.PlayerLocal.IsOnEnemyField);
+		}
+	}
+
+	public class HUDRessourcesPlayer
+	{
+		private readonly PlayerController player;
+		private readonly BaseUI.Ressources ressources;
+
+		public HUDRessourcesPlayer(PlayerController player, BaseUI.Ressources ressources)
+		{
+			this.player = player;
+			this.ressources = ressources;
+		}
+
+		public void Init()
+		{
+			var resources = player.Resources;
+			resources.Health.OnValueChanged += this.OnHealthChange;
+			resources.Money.OnValueChanged += this.OnMoneyChange;
+
+			this.OnMoneyChange(resources.Health.Value, resources.Health.Value);
+			this.OnHealthChange(resources.Money.Value, resources.Money.Value);
+		}
+
+		public void Clear()
+		{
+			var resources = player.Resources;
+			resources.Money.OnValueChanged -= this.OnMoneyChange;
+			resources.Health.OnValueChanged -= this.OnHealthChange;
+		}
+
+		private void OnHealthChange(int previous, int current)
+		{
+			this.ressources.SetHealth((int)current);
+		}
+
+		private void OnMoneyChange(int previous, int current)
+		{
+			this.ressources.SetMoney((int)current);
 		}
 	}
 }

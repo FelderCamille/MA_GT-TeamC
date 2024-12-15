@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Core;
 using Objects;
 using UI;
@@ -79,8 +78,7 @@ namespace Controllers
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
             // Manage mine
-            print("2: " + Robot.OwnerClientId);
-            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
+            Mine.OnLandmineCleared(Robot, isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;
             // Hide question overlay

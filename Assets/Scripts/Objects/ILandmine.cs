@@ -14,12 +14,12 @@ namespace Objects
         /// <summary>
         /// Method <c>OnLandmineCleared</c> is called when the landmine has been cleared.
         /// </summary>
-        public void OnLandmineCleared(LandmineCleared state);
+        public void OnLandmineCleared(RobotController robot, LandmineCleared state);
         
         /// <summary>
         /// Method <c>OnRobotCollided</c> is called when the robot enters in collision with the landmine.
         /// </summary>
-        public void OnRobotCollided();
+        public void OnRobotCollided(RobotController robot);
 
     }
 }

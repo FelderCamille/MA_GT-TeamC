@@ -173,7 +173,7 @@ namespace Controllers
                 Quaternion.Euler(0, rotationY, 0)
                 );
             tentObj.name = $"Tent {clientId}";
-            tentObj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+            tentObj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
         }
 
         
@@ -189,7 +189,7 @@ namespace Controllers
             // Spawn the robot
             var robot = Instantiate(playerPrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, rotationY, 0));
             robot.name = $"Robot {clientId}";
-            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
 
         private void GenerateMap()
@@ -216,10 +216,7 @@ namespace Controllers
         private void GeneratePaddingTile(int x, int y)
         {
             // Check if the emplacement is already occupied
-            if (_paddingTiles[x][y] == false)
-            {
-                return;
-            }
+            if (_paddingTiles[x][y] == false) return;
             // Randomly pick a tile type
             var tileTypeIndex = Random.Next(0, _decorTiles.Keys.Count);
             var decorTileType = _decorTiles.Keys.ElementAt(tileTypeIndex);
@@ -281,7 +278,24 @@ namespace Controllers
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
             // Spawn on the client too
-            tileObj.GetComponent<NetworkObject>().Spawn(true);
+            tileObj.GetComponent<NetworkObject>().Spawn();
+        }
+
+        public void ReplaceMineByClassicTile(LandmineTile landmineTile)
+        {
+            // Only host can replace the landmine by a classic tile
+            if (!NetworkManager.Singleton.IsHost) return;
+            // Get the position of the landmine tile
+            var x = (int) landmineTile.transform.position.x;
+            var y = (int) landmineTile.transform.position.z;
+            // Despawn the landmine tile
+            landmineTile.GetComponent<NetworkObject>().Despawn();
+            _landmines[(x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                       + (y - Constants.GameSettings.GridPadding)] = false;
+            // Replace the landmine tile by a classic tile
+            var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
+            tileObj.name = $"Tile {x} {y}";
+            tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

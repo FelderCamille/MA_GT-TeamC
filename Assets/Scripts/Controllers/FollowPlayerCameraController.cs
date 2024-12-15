@@ -19,6 +19,8 @@ namespace Controllers
 
         private void Update()
         {
+            // Make sure that the robot is set
+            if (_robot == null) return;
             // Teleport the camera on the robot if it's too far
             if (Vector3.Distance(transform.position, _robot.position) > teleportDistanceThreshold)
             {

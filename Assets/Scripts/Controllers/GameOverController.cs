@@ -11,13 +11,15 @@ namespace Controllers
         [SerializeField] private CustomButton quitButton;
         
         private SceneLoader _sceneLoader;
+        private GridController _gridController;
         
         private ResourcesManager _resources; // Set by Show/Hide methods
         
         private void Start()
         {
-            // Get scene loader
+            // Get references
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
+            _gridController = FindFirstObjectByType<GridController>();
             // Init buttons
             reviveButton.Init(Revive, "Réapparaître", Constants.Values.RevivePrice, "Icons/repair");
             quitButton.Init(Quit);
@@ -44,6 +46,8 @@ namespace Controllers
             {
                 _resources.ReduceMoney(Constants.Values.RevivePrice);
                 _resources.Repair();
+                var robot = _resources.GetComponent<RobotController>();
+                if (_gridController != null && robot != null) _gridController.ResetRobotSpawn(robot);
             }
         }
         

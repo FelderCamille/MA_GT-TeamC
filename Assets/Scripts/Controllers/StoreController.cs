@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Objects;
@@ -20,11 +19,15 @@ namespace Controllers
         public StoreBonusSection storeBonusSectionPrefab;
         
         private RobotController _robot;
-        
+
+        // Audio
+        private SoundManager _soundManager;
+
         private void Awake()
         {
+            _soundManager = FindFirstObjectByType<SoundManager>();
             // Retrieve robot
-            _robot = FindObjectOfType<RobotController>();
+            _robot = FindFirstObjectByType<RobotController>();
             // Init close button
             closeButton.Init(CloseStore);
             // Init repair button
@@ -70,12 +73,14 @@ namespace Controllers
             gameObject.SetActive(true);
             IsShopping = true;
             JustOpened = true;
+            _soundManager.playOpenTentSound();
         }
 
         private void CloseStore()
         {
             IsShopping = false;
             gameObject.SetActive(false);
+            _soundManager.playCloseTentSound();
         }
     }
 }

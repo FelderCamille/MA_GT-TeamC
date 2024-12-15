@@ -24,9 +24,9 @@ namespace Core
         
         private void Start()
         {
-            _soundManager = FindObjectOfType<SoundManager>();
-            _resourcesPrefab = FindObjectOfType<Ressources>();
-            _bonusRowPrefab = FindObjectOfType<BonusRow>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
+            _resourcesPrefab = FindFirstObjectByType<Ressources>();
+            _bonusRowPrefab = FindFirstObjectByType<BonusRow>();
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
@@ -104,15 +104,18 @@ namespace Core
             _health = Constants.GameSettings.Health;
             _resourcesPrefab.SetHealth(_health);
             _soundManager.PlayRepairSound();
+
         }
         
         public float GetVisionDistance()
         {
+            _soundManager.PlayVisionSound();
             return _visionDistance;
         }
         
         public void MultiplyVision(double multiplier)
         {
+            _soundManager.PlayVisionSound();
             _visionDistance *= (float) multiplier;
         }
         

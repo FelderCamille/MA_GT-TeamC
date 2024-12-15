@@ -21,23 +21,15 @@ namespace Controllers
         private Question[] _questions;
         private readonly List<QuestionButton> _buttons = new ();
         
-        public LandmineController Mine
-        {
-            private get;
-            set;
-        }
-
-        public bool IsAnswering
-        {
-            get;
-            private set;
-        }
+        public LandmineController Mine {private get; set;}
+        public bool IsAnswering {get; private set;}
+        public RobotController Robot {private get; set;}
         
         private void Awake()
         {
             var questionsObj = JsonUtils<Questions>.Read("Json/questions");
             _questions = questionsObj.Shuffle();
-            _soundManager = FindObjectOfType<SoundManager>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
         }
 
         private void OnEnable()
@@ -86,7 +78,7 @@ namespace Controllers
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
             // Manage mine
-            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
+            Mine.OnLandmineCleared(Robot, isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;
             // Hide question overlay

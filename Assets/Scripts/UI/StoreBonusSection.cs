@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Controllers;
 using Core;
 using Objects;
@@ -21,7 +22,8 @@ namespace UI
             // Set the title
             title.text = Constants.Bonus.BonusTypeName(bonusType);
             // Retrieve resource manager
-            var resourcesManager = FindObjectOfType<RobotController>().GetComponentInChildren<ResourcesManager>();
+            var currentRobot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
+            var resourcesManager = currentRobot.GetComponentInChildren<ResourcesManager>();
             // Add bonus buttons
             foreach (var bonus in bonuses)
             {

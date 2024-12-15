@@ -2,67 +2,81 @@ using System.Collections.Generic;
 using System.Linq;
 using Objects;
 using UI;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Controllers
 {
 
     public class GridController : MonoBehaviour, IGrid
     {
+        private const int RobotSpawnDistance = 2;
         private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
         private const int GridXEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridWidth;
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
         private const int MapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
-        private const int MapHeight =  Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
-        private static readonly System.Random Random = new ();
-        
+        private const int MapHeight = Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
+        private static readonly System.Random Random = new();
+
         [Header("Grid tiles")]
-        public Tile tilePrefab;
-        public LandmineTile landmineTilePrefab;
-        
+        [SerializeField] private Tile tilePrefab;
+        [SerializeField] private LandmineTile landmineTilePrefab;
+
         [Header("Padding tiles")]
-        public Tile paddingTilePrefab;
-        public Tile[] treeTilePrefabs;
-        public Tile spruceTilePrefab;
-        public Tile[] rockTilePrefabs;
-        public Tile bushTilePrefab;
-        public Tile logTilePrefab;
-        public Tile rootTilePrefab;
-        public Tile deadTreeTilePrefab;
-        public Tile deadSpruceTilePrefab;
-        
+        [SerializeField] private Tile paddingTilePrefab;
+        [SerializeField] private Tile[] treeTilePrefabs;
+        [SerializeField] private Tile spruceTilePrefab;
+        [SerializeField] private Tile[] rockTilePrefabs;
+        [SerializeField] private Tile bushTilePrefab;
+        [SerializeField] private Tile logTilePrefab;
+        [SerializeField] private Tile rootTilePrefab;
+        [SerializeField] private Tile deadTreeTilePrefab;
+        [SerializeField] private Tile deadSpruceTilePrefab;
+
         [Header("Content")]
-        public RobotController robotPrefab;
-        public TentController tentTilePrefab;
+        [SerializeField] private RobotController playerPrefab;
+        [SerializeField] private TentController tentTilePrefab;
 
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
         /// </summary>
         private bool[] _landmines;
-        
+
         /// <summary>
         /// The decor tiles according to the theme
         /// </summary>
-        private readonly Dictionary<DecorTileType, Tile[]> _decorTiles = new ();
+        private readonly Dictionary<DecorTileType, Tile[]> _decorTiles = new();
 
         /// <summary>
         /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
         /// </summary>
         private bool[][] _paddingTiles;
         
+        public float MinX => GridXYStartIndex;
+        public float MaxX => GridXEndIndex;
+        public float MinZ => GridXYStartIndex;
+        public float MaxZ => GridYEndIndex;
+
         private void Awake()
         {
             // Compute emplacements
             InitPaddingTilesArray();
             ChooseDecorPrefabs();
             ComputeLandminesEmplacement();
-            // Generate the map and spawn the robot and tent
-            SpawnTent();
+            // Generate the tents (needs to be here to avoid the tent to be generated on a decor)
+            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                SpawnTent(clientId);
+            }
+            // Generate the map
             GenerateMap();
-            SpawnRobot();
+            // Spawn robot
+            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                SpawnRobot(clientId);
+            }
         }
-        
+
         private void ChooseDecorPrefabs()
         {
             // Add tiles to the dictionary according to the theme
@@ -70,26 +84,28 @@ namespace Controllers
             {
                 case MapTheme.Nature:
                     _decorTiles.Add(DecorTileType.Tree, treeTilePrefabs);
-                    _decorTiles.Add(DecorTileType.Spruce, new []{spruceTilePrefab});
-                    _decorTiles.Add(DecorTileType.Bush, new []{bushTilePrefab});
+                    _decorTiles.Add(DecorTileType.Spruce, new[] { spruceTilePrefab });
+                    _decorTiles.Add(DecorTileType.Bush, new[] { bushTilePrefab });
                     break;
                 case MapTheme.War:
-                    _decorTiles.Add(DecorTileType.DeadTree, new []{deadTreeTilePrefab});
-                    _decorTiles.Add(DecorTileType.DeadSpruce, new []{deadSpruceTilePrefab});
-                    _decorTiles.Add(DecorTileType.Root, new []{rootTilePrefab});
+                    _decorTiles.Add(DecorTileType.DeadTree, new[] { deadTreeTilePrefab });
+                    _decorTiles.Add(DecorTileType.DeadSpruce, new[] { deadSpruceTilePrefab });
+                    _decorTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
                     break;
                 default:
                     break;
             }
             // Add common tiles to the dictionary
             _decorTiles.Add(DecorTileType.Rock, rockTilePrefabs);
-            _decorTiles.Add(DecorTileType.Log, new []{logTilePrefab});
+            _decorTiles.Add(DecorTileType.Log, new[] { logTilePrefab });
         }
 
         private void ComputeLandminesEmplacement()
         {
             // Initialize the array
             _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
+            // Only host can compute the landmines emplacement
+            if (!NetworkManager.Singleton.IsHost) return;
             // Compute the emplacements
             for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
             {
@@ -104,7 +120,7 @@ namespace Controllers
                 _landmines[landmineIndex] = true;
             }
         }
-        
+
         private void InitPaddingTilesArray()
         {
             // Init the padding tiles array
@@ -126,13 +142,15 @@ namespace Controllers
                 }
             }
         }
-        
-        private void SpawnTent()
+
+        private void SpawnTent(ulong clientId)
         {
+            var isLeft = clientId == 0;
             // Compute emplacement
-            const int xIndex = GridXYStartIndex - TentController.TentLength;
-            const int yIndex = MapHeight / 2;
+            var xIndex = isLeft ? (GridXYStartIndex - TentController.TentLength) : GridXEndIndex;
+            var yIndex = MapHeight / 2;
             const int padding = TentController.TentLength / 2;
+            var rotationY = isLeft ? 90f : 270f;
             // Set the emplacements as occupied
             for (var x = xIndex; x < xIndex + TentController.TentLength; x++)
             {
@@ -141,9 +159,37 @@ namespace Controllers
                     _paddingTiles[x][y] = false;
                 }
             }
+            // Handle the right tent (needed because of the prefab rotation)
+            if (!isLeft)
+            {
+                xIndex += TentController.TentLength - 1;
+                yIndex -= 1;
+            }
             // Place the tent
-            var tentObj = Instantiate(tentTilePrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, 90f, 0));
-            tentObj.name = "Tent";
+            if (!NetworkManager.Singleton.IsHost) return;
+            var tentObj = Instantiate(
+                tentTilePrefab,
+                new Vector3(xIndex, 0, yIndex),
+                Quaternion.Euler(0, rotationY, 0)
+                );
+            tentObj.name = $"Tent {clientId}";
+            tentObj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+        }
+
+        
+        private void SpawnRobot(ulong clientId)
+        {
+            // Only host can spawn the robot
+            if (!NetworkManager.Singleton.IsHost) return;
+            var isLeft = clientId == 0;
+            // Compute emplacement
+            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
+            const int yIndex = MapHeight / 2;
+            var rotationY = isLeft ? 90f : 270f;
+            // Spawn the robot
+            var robot = Instantiate(playerPrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, rotationY, 0));
+            robot.name = $"Robot {clientId}";
+            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
 
         private void GenerateMap()
@@ -154,7 +200,7 @@ namespace Controllers
                 for (var y = 0; y < MapHeight; y++)
                 {
                     // Check if it's the emplacement of a grid tile
-                    if (x is >= GridXYStartIndex and < GridXEndIndex 
+                    if (x is >= GridXYStartIndex and < GridXEndIndex
                         && y is >= GridXYStartIndex and < GridYEndIndex)
                     {
                         GenerateGridTile(x, y);
@@ -170,10 +216,7 @@ namespace Controllers
         private void GeneratePaddingTile(int x, int y)
         {
             // Check if the emplacement is already occupied
-            if (_paddingTiles[x][y] == false)
-            {
-                return;
-            }
+            if (_paddingTiles[x][y] == false) return;
             // Randomly pick a tile type
             var tileTypeIndex = Random.Next(0, _decorTiles.Keys.Count);
             var decorTileType = _decorTiles.Keys.ElementAt(tileTypeIndex);
@@ -193,8 +236,8 @@ namespace Controllers
             };
             // Take the prefab according to the probability
             var isDecorTile = spawnProbability < objectSpawnProbability;
-            var decorPrefab = isDecorTile 
-                ? _decorTiles[decorTileType][Random.Next(0, _decorTiles[decorTileType].Length)] 
+            var decorPrefab = isDecorTile
+                ? _decorTiles[decorTileType][Random.Next(0, _decorTiles[decorTileType].Length)]
                 : paddingTilePrefab;
             // Check if the prefab can be placed, otherwise place a padding
             if (isDecorTile)
@@ -207,7 +250,7 @@ namespace Controllers
                         decorPrefab = paddingTilePrefab;
                         break;
                     }
-                } 
+                }
             }
             // Set the emplacements as occupied
             for (var x1 = x; x1 < x + decorPrefab.width && x1 < MapWidth; x1++)
@@ -226,34 +269,47 @@ namespace Controllers
 
         private void GenerateGridTile(int x, int y)
         {
+            if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement must be a classic tile or a landmine
-            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight 
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
             var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
-            tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
+            // Spawn on the client too
+            tileObj.GetComponent<NetworkObject>().Spawn();
         }
-        
-        private void SpawnRobot()
+
+        public void ReplaceMineByClassicTile(LandmineTile landmineTile)
         {
-            const int xIndex = GridXYStartIndex + 2;
-            const int yIndex = (GridYEndIndex - GridXYStartIndex) / 2 + Constants.GameSettings.GridPadding;
-            var robotObj = Instantiate(robotPrefab, new Vector3(xIndex, 1, yIndex), Quaternion.identity);
-            robotObj.name = "Robot";
+            // Only host can replace the landmine by a classic tile
+            if (!NetworkManager.Singleton.IsHost) return;
+            // Get the position of the landmine tile
+            var x = (int) landmineTile.transform.position.x;
+            var y = (int) landmineTile.transform.position.z;
+            // Despawn the landmine tile
+            landmineTile.GetComponent<NetworkObject>().Despawn();
+            _landmines[(x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                       + (y - Constants.GameSettings.GridPadding)] = false;
+            // Replace the landmine tile by a classic tile
+            var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
+            tileObj.name = $"Tile {x} {y}";
+            tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);
 
         public bool CanMoveLeft(float newX) => CanGoToNewX(newX);
-        
+
         private static bool CanGoToNewX(float newX) => newX is >= GridXYStartIndex and < GridXEndIndex;
-        
+
         public bool CanMoveUp(float newY) => CanGoToNewY(newY);
 
         public bool CanMoveDown(float newY) => CanGoToNewY(newY);
-        
+
         private static bool CanGoToNewY(float newY) => newY is >= GridXYStartIndex and < GridYEndIndex;
+
+
     }
 }

@@ -37,7 +37,7 @@ namespace Controllers
         {
             var questionsObj = JsonUtils<Questions>.Read("Json/questions");
             _questions = questionsObj.Shuffle();
-            _soundManager = FindObjectOfType<SoundManager>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
         }
 
         private void OnEnable()

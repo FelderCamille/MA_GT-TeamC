@@ -24,9 +24,9 @@ namespace Core
         
         private void Start()
         {
-            _soundManager = FindObjectOfType<SoundManager>();
-            _resourcesPrefab = FindObjectOfType<Ressources>();
-            _bonusRowPrefab = FindObjectOfType<BonusRow>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
+            _resourcesPrefab = FindFirstObjectByType<Ressources>();
+            _bonusRowPrefab = FindFirstObjectByType<BonusRow>();
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);

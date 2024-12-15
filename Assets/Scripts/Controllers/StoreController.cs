@@ -25,10 +25,9 @@ namespace Controllers
 
         private void Awake()
         {
-
-            _soundManager = FindObjectOfType<SoundManager>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
             // Retrieve robot
-            _robot = FindObjectOfType<RobotController>();
+            _robot = FindFirstObjectByType<RobotController>();
             // Init close button
             closeButton.Init(CloseStore);
             // Init repair button

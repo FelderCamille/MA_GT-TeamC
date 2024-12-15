@@ -15,7 +15,7 @@ namespace UI
         public HorizontalLayoutGroup bonusesEmplacement;
         public BonusButton bonusButtonPrefab;
         
-        public void Init(BonusType bonusType, RobotController robot, Action action)
+        public void Init(BonusType bonusType, Action action)
         {
             // Retrieve bonuses of the given type
             var bonuses = Constants.Bonus.BonusesPerType(bonusType);
@@ -30,7 +30,7 @@ namespace UI
                 var bonusButtonObj = Instantiate(bonusButtonPrefab, bonusesEmplacement.transform);
                 bonusButtonObj.name = bonus.Name;
                 bonusButtonObj.InitBonusButton( 
-                    () => bonus.ApplyBonus(resourcesManager, robot, action), 
+                    () => bonus.ApplyBonus(resourcesManager, action), 
                     bonus
                 );
             }

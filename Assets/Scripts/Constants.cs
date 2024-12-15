@@ -34,7 +34,7 @@ public static class Constants
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
         public const int Vision = 0;
-        public const int Money = 1000;
+        public const int Money = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
     }
@@ -57,18 +57,19 @@ public static class Constants
         public const KeyCode MoveRight = KeyCode.RightArrow;
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
-        public const KeyCode Rotation = KeyCode.LeftShift;
         public const KeyCode ClearMine = KeyCode.D;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
     public static class Values
     {
+        public const int RevivePrice = 1500;
         public const int RepairPrice = 500;
         public const int HealthRemovedWhenFailureMin = 10;
         public const int HealthRemovedWhenFailureMax = 15;
         public const int HealthRemovedWhenExplosionMin = 20;
         public const int HealthRemovedWhenExplosionMax = 30;
+        public const int SmallRepairValue = 25;
     }
 
     public static class Bonus

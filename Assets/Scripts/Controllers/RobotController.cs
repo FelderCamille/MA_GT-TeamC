@@ -148,6 +148,12 @@ namespace Controllers
             repeatedWaveEffect.SetActive(true);
             repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
         }
+        
+        public void HideMines()
+        {
+            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
+            repeatedWaveEffect.SetActive(false);
+        }
 
     }
 }

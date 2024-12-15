@@ -183,13 +183,33 @@ namespace Controllers
             if (!NetworkManager.Singleton.IsHost) return;
             var isLeft = clientId == 0;
             // Compute emplacement
+            var (position, rotation) = ComputeRobotEmplacement(clientId);
+            // Spawn the robot
+            var robot = Instantiate(playerPrefab, position, rotation);
+            robot.name = $"Robot {clientId}";
+            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+        }
+        
+        public void ResetRobotSpawn(RobotController robot)
+        {
+            // Compute emplacement
+            var (position, rotation) = ComputeRobotEmplacement(robot.OwnerClientId);
+            // Reset the robot spawn (automatically updated by the ClientTransform)
+            robot.transform.position = position;
+            robot.transform.rotation = rotation;
+        }
+
+        private (Vector3, Quaternion) ComputeRobotEmplacement(ulong clientId)
+        {
+            var isLeft = clientId == 0;
+            // Compute emplacement
             var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
             const int yIndex = MapHeight / 2;
             var rotationY = isLeft ? 90f : 270f;
-            // Spawn the robot
-            var robot = Instantiate(playerPrefab, new Vector3(xIndex, 0, yIndex), Quaternion.Euler(0, rotationY, 0));
-            robot.name = $"Robot {clientId}";
-            robot.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            // Return position and rotation
+            var position = new Vector3(xIndex, 0, yIndex);
+            var rotation = Quaternion.Euler(0, rotationY, 0);
+            return (position, rotation);
         }
 
         private void GenerateMap()

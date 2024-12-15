@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using NUnit.Framework;
 using Unity.Netcode;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace Net
@@ -49,6 +51,42 @@ namespace Net
 		{
 			base.OnNetworkDespawn();
 			// TODO
+		}
+
+		// There is 2 variables because if the camps have some shared space it can be the 2 at the same time
+		private bool _isOnOwnField = false;
+		private bool _isOnEnemyField = false;
+
+		/// <summary>
+		/// Is the player on its own camp/field (demine mode)
+		/// </summary>
+		public bool IsOnOwnField
+		{
+			// Updated by `FieldController`
+			get => _isOnOwnField;
+			internal set { this._isOnOwnField = value; } // TODO: Events (or remove and use `Update`) ?
+		}
+
+		/// <summary>
+		/// Is the player on the enemy's camp/field (mine mode)
+		/// </summary>
+		public bool IsOnEnemyField
+		{
+			// Updated by `FieldController`
+			get => _isOnEnemyField;
+			internal set { this._isOnEnemyField = value; } // TODO: Events (or remove and use `Update`) ?
+		}
+
+		private bool _isNearBase = false;
+
+		/// <summary>
+		/// Is the player near its base (can open the store)
+		/// </summary>
+		public bool IsNearBase
+		{
+			// Updated by `BaseController`
+			get => _isNearBase;
+			internal set { this._isNearBase = value; } // TODO: Events (or remove and use `Update`) ?
 		}
 
 		[Rpc(SendTo.Server)]

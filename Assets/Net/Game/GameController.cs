@@ -5,11 +5,20 @@ using UnityEngine;
 
 namespace Net
 {
+	/// <summary>
+	/// The Game Controller works as a proxy (to get all necessary game objects).
+	/// And the main logic unit (even if player does a lot too)
+	/// </summary>
 	public class GameController : NetworkBehaviour
 	{
+		// Global "configuration"
 		[Header("The sound manager")]
 		public SoundManager SoundManager;
 
+		[Header("Global UI controller")]
+		public UI.UIController uM;
+
+		// Gameplay content
 		[Header("Camp for player 1")]
 		public CampController Camp1;
 
@@ -19,8 +28,15 @@ namespace Net
 		[Header("Mine prefab")]
 		public MineController Mine;
 
-		[Header("Position to spawn the initial mines when the 2 players are connected")]
-		public List<Transform> MineInitial = new();
+		[Header(
+			"Position to spawn the initial mines when the 2 players are connected. (for player 1)"
+		)]
+		public List<Transform> MineInitialsPlayer1 = new();
+
+		[Header(
+			"Position to spawn the initial mines when the 2 players are connected (for player 2)"
+		)]
+		public List<Transform> MineInitialsPlayer2 = new();
 
 		// The registered players
 		private PlayerController Player1;
@@ -47,14 +63,6 @@ namespace Net
 				player.Camp = this.Camp2;
 
 				this.Player2 = player;
-
-				// if (this.IsServer)
-				// {
-				// 	foreach (var mine in MineInitial)
-				// 	{
-				// 		this.SetMineRpc(mine.position, mine.rotation, false);
-				// 	}
-				// }
 
 				// TODO: start game (and "lock")
 			}

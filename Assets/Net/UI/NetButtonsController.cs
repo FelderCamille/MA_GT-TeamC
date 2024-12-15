@@ -4,7 +4,7 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Net
+namespace Net.UI
 {
 	public class NetButtons : MonoBehaviour
 	{

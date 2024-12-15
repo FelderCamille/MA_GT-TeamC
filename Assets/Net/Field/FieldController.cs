@@ -12,7 +12,7 @@ namespace Net
 		{
 			if (other.TryGetComponent<PlayerBody>(out var body))
 			{
-				Debug.Log($"Enter Field {body.player.name}");
+				this.UpdateFieldStatus(body.player, true);
 			}
 		}
 
@@ -20,7 +20,19 @@ namespace Net
 		{
 			if (other.TryGetComponent<PlayerBody>(out var body))
 			{
-				Debug.Log($"Leave Field {body.player.name}");
+				this.UpdateFieldStatus(body.player, false);
+			}
+		}
+
+		private void UpdateFieldStatus(PlayerController player, bool entering)
+		{
+			if (player.Camp.field == this)
+			{
+				player.IsOnOwnField = entering;
+			}
+			else
+			{
+				player.IsOnEnemyField = entering;
 			}
 		}
 	}

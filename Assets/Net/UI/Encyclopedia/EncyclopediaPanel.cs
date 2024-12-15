@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 
-namespace Net
+namespace Net.UI
 {
 	// Mosltly taken from the other EncyclopediaController
-	public class EncyclopediaController : MonoBehaviour
+	public class EncyclopediaPanel : MonoBehaviour
 	{
 		[Header("The sound manager")]
 		public SoundManager SoundManager;
@@ -21,17 +21,17 @@ namespace Net
 		public Text pageNumber;
 
 		// Navigation
-		private Section[] _sections;
-		private int _currentSectionIndex = 0;
-		private int _currentPageIndex = 0;
+		private Section[] sections;
+		private int currentSectionIndex = 0;
+		private int currentPageIndex = 0;
 
 		void Awake()
 		{
 			// Load encyclopedia
-			_sections = JsonUtils<Encyclopedia>.Read("Json/encyclopedia").sections;
+			sections = JsonUtils<Encyclopedia>.Read("Json/encyclopedia").sections;
 
 			// Construct sections tabs
-			for (var i = 0; i < _sections.Length; i++)
+			for (var i = 0; i < sections.Length; i++)
 			{
 				var sectionTabObj = Instantiate(
 					sectionTabPrefab,
@@ -43,7 +43,7 @@ namespace Net
 					false
 				); // To avoid the Transform component to be at (0,0,0)
 
-				var section = _sections[i];
+				var section = sections[i];
 				sectionTabObj.name = "Section tab n°" + i + " (\"" + section.title + "\")";
 				sectionTabObj.Init(section.title, i, OnSectionClicked);
 			}
@@ -62,10 +62,10 @@ namespace Net
 		private void OnSectionClicked(SectionTab sectionTab)
 		{
 			// If same section, reset page
-			var currentSection = _sections[_currentSectionIndex];
+			var currentSection = sections[currentSectionIndex];
 			if (sectionTab.Text == currentSection.title)
 			{
-				_currentPageIndex = 0;
+				currentPageIndex = 0;
 				UpdatePageContent();
 				return;
 			}
@@ -76,8 +76,8 @@ namespace Net
 		private void SetSection(int index)
 		{
 			// Update section
-			_currentSectionIndex = index;
-			_currentPageIndex = 0; // Reset page index
+			currentSectionIndex = index;
+			currentPageIndex = 0; // Reset page index
 			// Update page
 			UpdatePageContent();
 		}
@@ -90,7 +90,7 @@ namespace Net
 			}
 
 			// Go to next page
-			++_currentPageIndex;
+			++currentPageIndex;
 			UpdatePageContent();
 		}
 
@@ -102,29 +102,29 @@ namespace Net
 			}
 
 			// Go to previous page
-			--_currentPageIndex;
+			--currentPageIndex;
 			UpdatePageContent();
 		}
 
 		private void UpdatePageContent()
 		{
 			// Update page content
-			var currentSection = _sections[_currentSectionIndex];
-			var currentPage = currentSection.pages[_currentPageIndex];
+			var currentSection = sections[currentSectionIndex];
+			var currentPage = currentSection.pages[currentPageIndex];
 
 			GetComponentInChildren<TextMeshProUGUI>().text =
 				"<style=\"Title\">" + currentPage.title + "</style>\n\n" + currentPage.content;
 			// Update page number
-			pageNumber.text = (_currentPageIndex + 1) + "/" + currentSection.pages.Length;
+			pageNumber.text = (currentPageIndex + 1) + "/" + currentSection.pages.Length;
 
 			// Update previous button state
 			this.previousPageButton.SetEnable(this.HasPreviousPage());
 			this.nextPageButton.SetEnable(this.HasNextPage());
 		}
 
-		private bool HasPreviousPage() => _currentPageIndex > 0;
+		private bool HasPreviousPage() => currentPageIndex > 0;
 
 		private bool HasNextPage() =>
-			_currentPageIndex < _sections[_currentSectionIndex].pages.Length - 1;
+			currentPageIndex < sections[currentSectionIndex].pages.Length - 1;
 	}
 }

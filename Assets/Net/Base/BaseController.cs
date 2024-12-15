@@ -13,30 +13,33 @@ namespace Net
 			this.truc.SetActive(false);
 		}
 
-		void OnTriggerEnter(Collider other)
+		void OnTriggerEnter(Collider collider)
 		{
-			// Only show the base as "editable" for the localplayer
-			// TODO: only the local player and for example to the player1 is this is base1
-			if (
-				other.TryGetComponent<PlayerController>(out var player)
-				&& player.IsLocalPlayer
-				&& player.Camp.baseController == this
-			)
+			if (this.GetPlayer(collider, out var player))
 			{
-				this.truc.SetActive(true);
+				this.truc.SetActive(player.IsNearBase = true);
 			}
 		}
 
-		void OnTriggerExit(Collider other)
+		void OnTriggerExit(Collider collider)
 		{
-			if (
-				other.TryGetComponent<PlayerController>(out var player)
-				&& player.IsLocalPlayer
-				&& player.Camp.baseController == this
-			)
+			if (this.GetPlayer(collider, out var player))
 			{
-				this.truc.SetActive(false);
+				this.truc.SetActive(player.IsNearBase = false);
 			}
+		}
+
+		// Get the player, owner of the base
+		private bool GetPlayer(Collider other, out PlayerController player)
+		{
+			if (other.TryGetComponent<PlayerBody>(out var body))
+			{
+				player = body.player;
+				return player.IsLocalPlayer && player.Camp.baseController == this;
+			}
+
+			player = null;
+			return false;
 		}
 	}
 }

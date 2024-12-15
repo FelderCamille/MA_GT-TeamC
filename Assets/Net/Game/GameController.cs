@@ -16,7 +16,7 @@ namespace Net
 		public SoundManager SoundManager;
 
 		[Header("Global UI controller")]
-		public UI.UIController uM;
+		public UI.UIController UIProxy;
 
 		// Gameplay content
 		[Header("Camp for player 1")]
@@ -26,7 +26,7 @@ namespace Net
 		public CampController Camp2;
 
 		[Header("Mine prefab")]
-		public MineController Mine;
+		public MineController MinePrefab;
 
 		[Header(
 			"Position to spawn the initial mines when the 2 players are connected. (for player 1)"
@@ -41,6 +41,9 @@ namespace Net
 		// The registered players
 		private PlayerController Player1;
 		private PlayerController Player2;
+
+		// The local player (to interact with, ...) // TODO: remove ?
+		private PlayerController PlayerLocal;
 
 		/// <summary>
 		/// Store the player and affects its camp
@@ -70,17 +73,25 @@ namespace Net
 			var spawnPlayer = player.Camp.spawnPosition;
 			player.Body.Body.position = spawnPlayer.position;
 			player.Body.Body.rotation = spawnPlayer.rotation;
+
+			if (player.IsLocalPlayer)
+			{
+				this.PlayerLocal = player;
+			}
 		}
 
-		[Rpc(SendTo.Everyone)]
-		public void SetMineRpc(Vector3 position, Quaternion rotation, bool firstInit)
+		void LateUpdate()
 		{
-			Debug.Log("Mine here");
-			// TODO: set player owner
+			if (this.PlayerLocal == null)
+			{
+				return;
+			}
 
-			var mine = Instantiate(this.Mine, position, rotation);
-			// TODO: better
-			mine.firstInit = firstInit;
+			// TODO: remove (just temporary)
+
+			var HUD = this.UIProxy.panelHUD;
+			HUD.OnOwnFieldText.SetActive(this.PlayerLocal.IsOnOwnField);
+			HUD.OnEnemyFieldText.SetActive(this.PlayerLocal.IsOnEnemyField);
 		}
 	}
 }

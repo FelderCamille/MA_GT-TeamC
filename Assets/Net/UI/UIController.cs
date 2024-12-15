@@ -11,6 +11,7 @@ namespace Net.UI
 		public EncyclopediaPanel panelEncyclopedia;
 		public StorePanel panelStore;
 		public QuestionPanel panelQuestion;
+		public HUDPanel panelHUD;
 
 		// Start is called once before the first execution of Update after the MonoBehaviour is created
 		void Start() { }

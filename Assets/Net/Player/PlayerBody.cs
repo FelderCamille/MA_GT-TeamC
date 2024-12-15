@@ -11,10 +11,10 @@ namespace Net
 	public class PlayerBody : NetworkBehaviour
 	{
 		[Header("The default speed of the robot (straight)")]
-		public float speedMovement = 7;
+		public float speedMovement = 6;
 
 		[Header("The default rotating speed of the robot")]
-		public float speedRotation = 250;
+		public float speedRotation = 200;
 
 		[Header("The body for movement")]
 		public Rigidbody Body;

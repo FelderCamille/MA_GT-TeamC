@@ -5,17 +5,33 @@ namespace Net
 {
 	public class MineController : NetworkBehaviour
 	{
-		// Indicator that th mine is at seen range
-		public GameObject asSeen;
+		[Header("On \"debug\", always show this element, no matter the player")]
+		public GameObject DebugIndicator;
 
-		// Indicator that the mine editable (de-mine)
+		[Header("Indicator that the mine editable (de-mine)")]
 		public GameObject asEditable;
 
-		public bool firstInit = false;
+		[Header("The mine object")]
+		public Renderer Mine;
+
+		/// <summary>
+		/// Player that set this mine
+		/// </summary>
+		internal PlayerController Player;
+
+		// TODO: the question of this mine
+
+		// FIXME: better
+		internal bool firstInit = false;
+
+		void Start()
+		{
+			this.DebugIndicator.SetActive(Constants.DebugShowMines);
+		}
 
 		void OnTriggerEnter(Collider other)
 		{
-			// TODO: explosion (on robot)
+			// TODO: explosion
 
 			if (other.TryGetComponent<PlayerBody>(out var playerBody))
 			{
@@ -56,14 +72,22 @@ namespace Net
 		}
 
 		// Player sees the mine
-		public void MarkAsShown()
+		public void Show()
 		{
-			this.asSeen.SetActive(true);
+			// FIXME better
+			this.Mine.enabled = true;
 		}
 
-		public void MarkAsUnshown()
+		public void Hide(PlayerController player)
 		{
-			this.asSeen.SetActive(false);
+			if (player == this.Player)
+			{
+				this.Show();
+				return;
+			}
+
+			// FIXME better
+			this.Mine.enabled = false;
 		}
 	}
 }

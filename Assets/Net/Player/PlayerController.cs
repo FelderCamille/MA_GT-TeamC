@@ -27,11 +27,9 @@ namespace Net
 		internal CampController Camp;
 		private GameController Game;
 
-		void Start()
-		{
+		void Start() =>
 			// Reverse relation
 			this.Body.player = this;
-		}
 
 		public override void OnNetworkSpawn()
 		{
@@ -89,9 +87,31 @@ namespace Net
 			internal set { this._isNearBase = value; } // TODO: Events (or remove and use `Update`) ?
 		}
 
+		[Rpc(SendTo.Everyone)]
+		public void SetMineRpc(Vector3 position, Quaternion rotation, bool firstInit)
+		{
+			// TODO: move in GameController ?
+			var mine = Instantiate(this.Game.MinePrefab, position, rotation);
+			// TODO: better
+			mine.firstInit = firstInit;
+			mine.Player = this;
+
+			if (!this.IsLocalPlayer)
+			{
+				mine.Hide(null);
+			}
+		}
+
 		[Rpc(SendTo.Server)]
 		void MineRpc()
 		{
+			if (!this.IsOnEnemyField)
+			{
+				Debug.Log("Can only set a mine on a enemy field");
+				// TODO: better (check with collider)
+				return;
+			}
+
 			if (this.editableMines.Count > 0)
 			{
 				Debug.Log("CAN not set a mine near another one");
@@ -99,9 +119,7 @@ namespace Net
 				return;
 			}
 
-			Debug.Log("Mine here from here");
-			// TODO: check (and use a Game manager)
-			this.Game.SetMineRpc(this.Body.Body.position, this.Body.Body.rotation, true);
+			this.SetMineRpc(this.Body.Body.position, this.Body.Body.rotation, true);
 		}
 
 		//
@@ -120,12 +138,68 @@ namespace Net
 				this.MineRpc();
 			}
 
-			if (Input.GetKeyDown(KeyCode.V))
+			this.UglyTempStuf();
+		}
+
+		private MineController currentlyEditable = null;
+
+		// Bonus
+		private bool hasVision = false;
+
+		// Mine that could be demined // TODO: this is probably not optimum
+		private List<MineController> editableMines = new();
+
+		public void SeeMine(MineController mine, PlayerMineCollider.TYPE cType)
+		{
+			if (!this.IsLocalPlayer)
 			{
-				this.hasVision = !this.hasVision;
+				// Ignore other player
+				return;
 			}
 
+			if (cType == PlayerMineCollider.TYPE.INTERACTION)
+			{
+				this.editableMines.Add(mine);
+				return;
+			}
+
+			if (
+				cType != PlayerMineCollider.TYPE.NORMAL
+				|| (cType == PlayerMineCollider.TYPE.EXTENDED && !this.hasVision)
+			)
+			{
+				return;
+			}
+
+			mine.Show();
+		}
+
+		public void SeeNoMine(MineController mine, PlayerMineCollider.TYPE cType)
+		{
+			if (!this.IsLocalPlayer)
+			{
+				// Ignore other player
+				return;
+			}
+
+			if (cType == PlayerMineCollider.TYPE.INTERACTION)
+			{
+				this.editableMines.Remove(mine);
+				return;
+			}
+
+			if (cType == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
+			{
+				return;
+			}
+
+			mine.Hide(this);
+		}
+
+		private void UglyTempStuf()
+		{
 			// TODO: only temp
+
 			List<MineController> toRemove = new();
 			foreach (var mine in this.editableMines)
 			{
@@ -139,6 +213,7 @@ namespace Net
 				this.editableMines.Remove(t);
 			}
 
+			// TODO: better a collider in front of the player ?
 			if (
 				Physics.Raycast(
 					Body.Body.position,
@@ -181,56 +256,6 @@ namespace Net
 			}
 
 			this.lookingAtAMineInd.SetActive(false);
-		}
-
-		private MineController currentlyEditable = null;
-
-		// Bonus
-		private bool hasVision = false;
-
-		// Mine that could be demined // TODO: this is probably not optimum
-		private List<MineController> editableMines = new();
-
-		public void SeeMine(MineController mine, PlayerMineCollider.TYPE cType)
-		{
-			if (!this.IsLocalPlayer)
-			{
-				// Ignore other player
-				return;
-			}
-
-			if (cType == PlayerMineCollider.TYPE.NORMAL)
-			{
-				this.editableMines.Add(mine);
-			}
-
-			if (cType == PlayerMineCollider.TYPE.EXTENDED && !this.hasVision)
-			{
-				return;
-			}
-
-			mine.MarkAsShown();
-		}
-
-		public void SeeNoMine(MineController mine, PlayerMineCollider.TYPE cType)
-		{
-			if (!this.IsLocalPlayer)
-			{
-				// Ignore other player
-				return;
-			}
-
-			if (cType == PlayerMineCollider.TYPE.NORMAL)
-			{
-				this.editableMines.Remove(mine);
-			}
-
-			if (cType == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
-			{
-				return;
-			}
-
-			mine.MarkAsUnshown();
 		}
 	}
 }

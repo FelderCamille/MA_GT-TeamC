@@ -53,3 +53,17 @@ Nature:
 - [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)
 - [Explosion effect](https://www.youtube.com/watch?v=cvQiQglPI18)
 - [Setup multiplayer](https://www.youtube.com/watch?v=3yuBOB3VrCk)
+
+
+## Tools
+
+
+### Format
+
+csharpier - https://csharpier.com/
+
+```bash
+dotnet format ./MA_GT-TeamC.sln
+```
+
+> With VSCode - https://marketplace.visualstudio.com/items?itemName=csharpier.csharpier-vscode

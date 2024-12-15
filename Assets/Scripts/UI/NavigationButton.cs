@@ -1,43 +1,41 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class NavigationButton : MonoBehaviour
-    {
-        public Button button;
+	public class NavigationButton : MonoBehaviour
+	{
+		public Button button;
 
-        public bool IsEnabled { get; private set; }
+		public bool IsEnabled { get; private set; }
 
-        public void Init(bool enable, Action onClickCallback)
-        {
-            button.onClick.AddListener(() => onClickCallback());
-            if (enable)
-            {
-                IsEnabled = false;
-                Enable();
-            }
-            else
-            {
-                IsEnabled = true;
-                Disable();
-            }
-        }
-        
-        public void Disable()
-        {
-            if (!IsEnabled) return;
-            button.interactable = false;
-            IsEnabled = false;
-        }
+		public void Init(bool enable, Action onClickCallback)
+		{
+			button.onClick.AddListener(() => onClickCallback());
+			if (enable)
+			{
+				IsEnabled = false;
+				Enable();
+			}
+			else
+			{
+				IsEnabled = true;
+				Disable();
+			}
+		}
 
-        public void Enable()
-        {
-            if (IsEnabled) return;
-            button.interactable = true;
-            IsEnabled = true;
-        }
+		public void SetEnable(bool enable)
+		{
+			if (enable == IsEnabled)
+				return;
 
-    }
+			button.interactable = IsEnabled = enable;
+		}
+
+		public void Disable() => this.SetEnable(false);
+
+		public void Enable() => this.SetEnable(true);
+	}
 }

@@ -419,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asSeen: {fileID: 5738238745341203253}
   asEditable: {fileID: 8227542182920840646}
+  firstInit: 0
 --- !u!135 &7701316992649491797
 SphereCollider:
   m_ObjectHideFlags: 0

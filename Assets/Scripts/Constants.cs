@@ -6,6 +6,8 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
+    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugFillIPAddressOnClient = true;
     
     public static class Scenes
     {

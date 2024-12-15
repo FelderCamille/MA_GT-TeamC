@@ -32,6 +32,8 @@ namespace Controllers
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             // Get objects from the scene
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
+            // Disable join button if debug mode is enabled
+            if (Constants.DebugAllowOnlyOneConnection) joinButton.enabled = false;
             // Initialize buttons
             hostButton.Init(OnHostButtonClick);
             joinButton.Init(OnJoinButtonClick);
@@ -55,6 +57,7 @@ namespace Controllers
             chooseRoleEmplacement.SetActive(false);
             roleChoosedEmplacement.SetActive(true);
             ipAddress.interactable = true;
+            if (Constants.DebugFillIPAddressOnClient) ipAddress.text = GetLocalIPAddress();
             _isHost = false;
         }
 
@@ -113,16 +116,14 @@ namespace Controllers
         
         private void OnClientConnectedCallback(ulong clientId)
         {
-            /*
-             * GoToGameScene();
-             */
-            
-            // Host and client connected, go to the game scene
-            if (clientId > 0)
+            if (Constants.DebugAllowOnlyOneConnection)
             {
                 GoToGameScene();
             }
-            
+            else if (clientId > 0) // Host and client connected, go to the game scene
+            {
+                GoToGameScene();
+            }
         }
         
     }

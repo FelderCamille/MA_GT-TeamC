@@ -51,7 +51,7 @@ namespace Controllers
         /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
         /// </summary>
         private bool[][] _paddingTiles;
-
+        
         public float MinX => GridXYStartIndex;
         public float MaxX => GridXEndIndex;
         public float MinZ => GridXYStartIndex;
@@ -70,13 +70,10 @@ namespace Controllers
             }
             // Generate the map
             GenerateMap();
-            // Spawn robot (only the host can spawn the robots)
-            if (NetworkManager.Singleton.IsHost)
+            // Spawn robot
+            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
-                foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
-                {
-                    SpawnRobot(clientId);
-                }
+                SpawnRobot(clientId);
             }
         }
 
@@ -169,17 +166,21 @@ namespace Controllers
                 yIndex -= 1;
             }
             // Place the tent
+            if (!NetworkManager.Singleton.IsHost) return;
             var tentObj = Instantiate(
                 tentTilePrefab,
                 new Vector3(xIndex, 0, yIndex),
                 Quaternion.Euler(0, rotationY, 0)
                 );
             tentObj.name = $"Tent {clientId}";
+            tentObj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
         }
 
         
         private void SpawnRobot(ulong clientId)
         {
+            // Only host can spawn the robot
+            if (!NetworkManager.Singleton.IsHost) return;
             var isLeft = clientId == 0;
             // Compute emplacement
             var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
@@ -281,8 +282,6 @@ namespace Controllers
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
             // Spawn on the client too
             tileObj.GetComponent<NetworkObject>().Spawn(true);
-            // Set the parent
-            // TODO - tileObj.transform.SetParent(transform, false);
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

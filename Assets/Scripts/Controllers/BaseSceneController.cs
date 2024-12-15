@@ -113,11 +113,16 @@ namespace Controllers
         
         private void OnClientConnectedCallback(ulong clientId)
         {
+            /*
+             * GoToGameScene();
+             */
+            
             // Host and client connected, go to the game scene
             if (clientId > 0)
             {
                 GoToGameScene();
             }
+            
         }
         
     }

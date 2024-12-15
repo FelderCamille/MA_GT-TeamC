@@ -9,30 +9,26 @@ using Unity.Netcode;
 
 namespace Controllers
 {
-    public class LandmineController : MonoBehaviour, ILandmine
+    public class LandmineController : NetworkBehaviour, ILandmine
     {
         
         [Header("Settings")]
-        //public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
+        [SerializeField] private float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine; // One tile of distance, no diagonal
         private SoundManager _soundManager;
         private QuestionController _questionOverlay;
-        private RobotController _robot;
-        public LandmineTile landmine;
-        public ParticleSystem explosionEffect;
-        public float collidingDistance = 1.0f; // Correspond à 3 tuiles de distance
-
+        [SerializeField] private LandmineTile landmine;
+        [SerializeField] private ParticleSystem explosionEffect;
 
         private void Start()
         { 
-            _questionOverlay = FindObjectOfType<QuestionController>(true);
-            _robot = FindObjectOfType<RobotController>();
-            _soundManager = FindObjectOfType<SoundManager>();
+            _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
+            _soundManager = FindFirstObjectByType<SoundManager>();
         }
 
         [ClientRpc]
         private void SyncExplosionClientRpc(Vector3 explosionPosition)
         {
-            // Jouer l'effet d'explosion côté client
+            // Jouer l'effet d'explosion cï¿½tï¿½ client
             explosionEffect.Play();
             // Optionnel : Ajouter une animation ou autre effet
             Debug.Log($"Mine exploded at {explosionPosition}");
@@ -67,17 +63,20 @@ namespace Controllers
 
         public void DetectRobotApproach()
         {
-            {
-                // Vérifiez si la touche pour désamorcer est pressée et si aucune question n'est active
-                if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
+            /*
+             
+            // Vï¿½rifiez si la touche pour dï¿½samorcer est pressï¿½e et si aucune question n'est active
+            if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
 
-                // Vérifiez si le robot est dans le rayon de déminage
-                if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
+            // Vï¿½rifiez si le robot est dans le rayon de dï¿½minage
+            if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
 
-                // Affichez la question
-                ShowQuestionOverlay();
-                _soundManager.playOpenMineSound();
-            }
+            // Affichez la question
+            ShowQuestionOverlay();
+            _soundManager.playOpenMineSound();
+            */
+            
+            
             /*
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
@@ -97,6 +96,7 @@ namespace Controllers
         
         public void OnLandmineCleared(LandmineCleared state)
         {
+            /*
             // Manage robot
             switch (state)
             {
@@ -115,6 +115,7 @@ namespace Controllers
                 default:
                     throw new Exception("Unknown landmine cleared state");
             }
+            */
             // Remove landmine
             if (state == LandmineCleared.AnswerSuccess)
             {

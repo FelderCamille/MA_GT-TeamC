@@ -107,6 +107,8 @@ namespace Controllers
         {
             // Initialize the array
             _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
+            // Only host can compute the landmines emplacement
+            if (!NetworkManager.Singleton.IsHost) return;
             // Compute the emplacements
             for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
             {
@@ -269,14 +271,18 @@ namespace Controllers
 
         private void GenerateGridTile(int x, int y)
         {
+            if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement must be a classic tile or a landmine
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
             var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
-            tileObj.transform.SetParent(transform, false);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
+            // Spawn on the client too
+            tileObj.GetComponent<NetworkObject>().Spawn(true);
+            // Set the parent
+            // TODO - tileObj.transform.SetParent(transform, false);
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

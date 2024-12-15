@@ -37,5 +37,24 @@ namespace Objects
             }
             action();
         }
+
+        public void RemoveBonus(ResourcesManager resourcesManager, RobotController robot)
+        {
+            // Check if the bonus has the bonus
+            var hasBonus = resourcesManager.HasBonus(this);
+            if (!hasBonus) return;
+            // Remove the bonus from the player
+            resourcesManager.RemoveBonus(this);
+            // Apply the bonus
+            switch (BonusType)
+            {
+                case BonusType.Vision:
+                    resourcesManager.MultiplyVision(1 / Multiplier);
+                    robot.HideMines();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

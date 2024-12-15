@@ -12,8 +12,9 @@ namespace Core
         private BonusRow _bonusRowPrefab;
         private FeedbackPopup _feedbackPopup;
         
-        // Audio
+        // References
         private SoundManager _soundManager;
+        private GameOverController _gameOver;
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
@@ -27,6 +28,7 @@ namespace Core
             _soundManager = FindFirstObjectByType<SoundManager>();
             _resourcesPrefab = FindFirstObjectByType<Ressources>();
             _bonusRowPrefab = FindFirstObjectByType<BonusRow>();
+            _gameOver = FindFirstObjectByType<GameOverController>(FindObjectsInactive.Include);
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
@@ -82,9 +84,22 @@ namespace Core
         /// </summary>
         public void ReduceHealth(float value)
         {
+            // Reduce the health
+            if (_health - value < 0) value = _health;
             _health -= value;
+            // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
             _feedbackPopup.ShowHealthLost(value);
+            // Manage game over
+            if (_health <= 0)
+            {
+                var bonuses = new List<Objects.Bonus>(_appliedBonuses); // Copy the list to avoid concurrent modification
+                foreach (var bonus in bonuses)
+                {
+                    bonus.RemoveBonus(this, GetComponent<RobotController>());
+                }
+                _gameOver.Show(this);
+            }
         }
 
         /// <summary>
@@ -99,12 +114,17 @@ namespace Core
         /// <summary>
         /// Increase the health of the robot to the maximum
         /// </summary>
-        public void Repair()
+        public void Repair(bool partial = false)
         {
-            _health = Constants.GameSettings.Health;
+            // If the health was at 0, hide the game over screen
+            if (_health <= 0) _gameOver.Hide(this);
+            // If total repair, set the health to the maximum. If partial, add a small value
+            if (!partial)  _health = Constants.GameSettings.Health;
+            else _health = Constants.Values.SmallRepairValue;
+            // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
+            // Play the repair sound
             _soundManager.PlayRepairSound();
-
         }
         
         public float GetVisionDistance()
@@ -116,7 +136,9 @@ namespace Core
         public void MultiplyVision(double multiplier)
         {
             _soundManager.PlayVisionSound();
+            Debug.Log("Vision before: " + _visionDistance);
             _visionDistance *= (float) multiplier;
+            Debug.Log("Vision after: " + _visionDistance);
         }
         
         // Bonus
@@ -132,6 +154,14 @@ namespace Core
             _appliedBonuses.Add(bonus);
             // Show the bonus on the UI
             _bonusRowPrefab.AddBonus(bonus);
+        }
+        
+        public void RemoveBonus(Objects.Bonus bonus)
+        {
+            // Remove the bonus from the list
+            _appliedBonuses.Remove(bonus);
+            // Remove the bonus from the UI
+            _bonusRowPrefab.RemoveBonus(bonus);
         }
 
     }

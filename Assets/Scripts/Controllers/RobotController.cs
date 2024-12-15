@@ -145,8 +145,15 @@ namespace Controllers
 
         public void ShowMines()
         {
+            Debug.Log("Show mines");
             repeatedWaveEffect.SetActive(true);
             repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
+        }
+        
+        public void HideMines()
+        {
+            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
+            repeatedWaveEffect.SetActive(false);
         }
 
     }

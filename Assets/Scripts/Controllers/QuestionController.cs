@@ -22,17 +22,9 @@ namespace Controllers
         private Question[] _questions;
         private readonly List<QuestionButton> _buttons = new ();
         
-        public LandmineController Mine
-        {
-            private get;
-            set;
-        }
-
-        public bool IsAnswering
-        {
-            get;
-            private set;
-        }
+        public LandmineController Mine {private get; set;}
+        public bool IsAnswering {get; private set;}
+        public RobotController Robot {private get; set;}
         
         private void Awake()
         {
@@ -87,7 +79,7 @@ namespace Controllers
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
             // Manage mine
-            // TODO - var robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(r => r.IsHost);
+            print("2: " + Robot.OwnerClientId);
             Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;

@@ -28,7 +28,6 @@ namespace Controllers
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
-            _robot = _robots.First(r => r.IsOwner);
         }
 
         private void Update()
@@ -59,11 +58,11 @@ namespace Controllers
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
             foreach (var robot in _robots)
             {
-                if (!robot.IsOwner) return;
                 if (!(Vector3.Distance(transform.position, robot.gameObject.transform.position) < collidingDistance)) return;
+                print("Landmine at position " + transform.position + " is close to robot at position " + robot.gameObject.transform.position);
                 // Show question overlay
                 _soundManager.playOpenMineSound();
-                ShowQuestionOverlay();  
+                ShowQuestionOverlay(robot);  
             }
         }
 
@@ -117,10 +116,12 @@ namespace Controllers
             OnLandmineCleared(LandmineCleared.Explosion);
         }
         
-        private void ShowQuestionOverlay()
+        private void ShowQuestionOverlay(RobotController robot)
         {
             // Define mine in the question overlay
             _questionOverlay.Mine = this;
+            _questionOverlay.Robot = robot;
+            _robot = robot;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }

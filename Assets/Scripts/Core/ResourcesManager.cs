@@ -96,7 +96,7 @@ namespace Core
                 var bonuses = new List<Objects.Bonus>(_appliedBonuses); // Copy the list to avoid concurrent modification
                 foreach (var bonus in bonuses)
                 {
-                    bonus.RemoveBonus(this, GetComponent<RobotController>());
+                    bonus.RemoveBonus(this);
                 }
                 _gameOver.Show(this);
             }

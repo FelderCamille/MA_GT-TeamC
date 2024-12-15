@@ -1,11 +1,12 @@
-using Core;
 using System;
+using Core;
 using System.Collections;
+using System.Linq;
 using Objects;
 using UI;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Unity.Netcode;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -19,24 +20,20 @@ namespace Controllers
         [SerializeField] private LandmineTile landmine;
         [SerializeField] private ParticleSystem explosionEffect;
 
+        private RobotController[] _robots = new RobotController[2];
+        private RobotController _robot;
+        
         private void Start()
         { 
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
-        }
-
-        [ClientRpc]
-        private void SyncExplosionClientRpc(Vector3 explosionPosition)
-        {
-            // Jouer l'effet d'explosion c�t� client
-            explosionEffect.Play();
-            // Optionnel : Ajouter une animation ou autre effet
-            Debug.Log($"Mine exploded at {explosionPosition}");
+            _robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
+            _robot = _robots.First(r => r.IsOwner);
         }
 
         private void Update()
         {
-            DetectRobotApproach();
+            DetectRobotsApproach();
         }
 
         private void OnCollisionEnter(Collision other)
@@ -55,48 +52,24 @@ namespace Controllers
             }
         }
 
-        private void OnDrawGizmos()
+        public void DetectRobotsApproach()
         {
-            Gizmos.color = Color.yellow; // Couleur du rayon
-            Gizmos.DrawWireSphere(transform.position, collidingDistance); // Rayon autour de la mine
-        }
-
-        public void DetectRobotApproach()
-        {
-            /*
-             
-            // V�rifiez si la touche pour d�samorcer est press�e et si aucune question n'est active
-            if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
-
-            // V�rifiez si le robot est dans le rayon de d�minage
-            if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
-
-            // Affichez la question
-            ShowQuestionOverlay();
-            _soundManager.playOpenMineSound();
-            */
-            
-            
-            /*
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
-            // Check if the distance between the robot and the landmine permits to answer the question, if not return
-            if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
-            // Check if the robot faces the landmine
-            if (_robot.Direction == RobotDirection.FacingRight && transform.position.x > _robot.transform.position.x ||
-                _robot.Direction == RobotDirection.FacingLeft && transform.position.x < _robot.transform.position.x ||
-                _robot.Direction == RobotDirection.FacingUp && transform.position.z > _robot.transform.position.z ||
-                _robot.Direction == RobotDirection.FacingDown && transform.position.z < _robot.transform.position.z)
+            // Check if the distance between the robots and the landmine permits to answer the question, if not return
+            foreach (var robot in _robots)
             {
-                ShowQuestionOverlay();
+                if (!robot.IsOwner) return;
+                if (!(Vector3.Distance(transform.position, robot.gameObject.transform.position) < collidingDistance)) return;
+                // Show question overlay
                 _soundManager.playOpenMineSound();
-            }*/
+                ShowQuestionOverlay();  
+            }
         }
 
         
         public void OnLandmineCleared(LandmineCleared state)
         {
-            /*
             // Manage robot
             switch (state)
             {
@@ -115,7 +88,6 @@ namespace Controllers
                 default:
                     throw new Exception("Unknown landmine cleared state");
             }
-            */
             // Remove landmine
             if (state == LandmineCleared.AnswerSuccess)
             {

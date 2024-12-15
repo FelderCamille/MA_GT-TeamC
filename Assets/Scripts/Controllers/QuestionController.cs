@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Objects;
 using UI;
@@ -86,6 +87,7 @@ namespace Controllers
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
             // Manage mine
+            // TODO - var robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(r => r.IsHost);
             Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;

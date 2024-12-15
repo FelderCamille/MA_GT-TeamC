@@ -28,7 +28,7 @@ namespace Controllers
         private void Start()
          {
              // Attach camera
-             FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
+             if (IsOwner) FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
              // Initialize references
              _grid = FindFirstObjectByType<GridController>();
              _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);

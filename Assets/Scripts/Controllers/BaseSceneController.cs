@@ -31,7 +31,7 @@ namespace Controllers
             NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCallback;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             // Get objects from the scene
-            _sceneLoader = FindObjectOfType<SceneLoader>();
+            _sceneLoader = FindFirstObjectByType<SceneLoader>();
             // Initialize buttons
             hostButton.Init(OnHostButtonClick);
             joinButton.Init(OnJoinButtonClick);

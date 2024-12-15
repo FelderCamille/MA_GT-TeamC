@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Objects;
 using UI;
@@ -11,6 +10,7 @@ namespace Controllers
 
     public class GridController : MonoBehaviour, IGrid
     {
+        private const int RobotSpawnDistance = 2;
         private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
         private const int GridXEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridWidth;
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
@@ -180,7 +180,7 @@ namespace Controllers
         {
             var isLeft = clientId == 0;
             // Compute emplacement
-            var xIndex = isLeft ? (GridXYStartIndex + 3) : (GridXEndIndex - 3); // Spawn the robot some cases away from the tent
+            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
             const int yIndex = MapHeight / 2;
             var rotationY = isLeft ? 90f : 270f;
             // Spawn the robot

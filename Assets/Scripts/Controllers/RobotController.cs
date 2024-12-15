@@ -25,48 +25,21 @@ namespace Controllers
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
 
-        /*private void Start()
-        {
-            // Initialize references
-            _grid = FindObjectOfType<GridController>();
-            _questionOverlay = FindObjectOfType<QuestionController>(true);
-            _storeOverlay = FindObjectOfType<StoreController>(true);
-            _resourcesManager = gameObject.AddComponent<ResourcesManager>();
-            _soundManager = FindObjectOfType<SoundManager>();
-
-            // Set robot color for debugging
-            if (IsOwner)
-            {
-                GetComponent<MeshRenderer>().materials[0].color = Color.green;
-            }
-
-            // Play single wave effect at the start
-            singleWaveEffect.Play();
-        }*/
-
-
         private void Start()
          {
-             // Initialiser les références
-             _grid = FindObjectOfType<GridController>();
-             _questionOverlay = FindObjectOfType<QuestionController>(true);
-             _storeOverlay = FindObjectOfType<StoreController>(true);
-             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
-             _soundManager = FindObjectOfType<SoundManager>();
-
-             // Set robot color for debugging
+             // Attach camera
+             FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
+             // Initialize references
+             _grid = FindFirstObjectByType<GridController>();
+             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
+             _storeOverlay = FindFirstObjectByType<StoreController>(FindObjectsInactive.Include);
+             _soundManager = FindFirstObjectByType<SoundManager>();
+             _resourcesManager = GetComponent<ResourcesManager>();
+             // TODO (TEMP): Set robot color for debugging
              if (IsOwner)
              {
-                 GetComponent<MeshRenderer>().materials[0].color = Color.green;
-
-                 // Attacher la caméra au robot contrôlé par le joueur
-                 FollowPlayerCameraController cameraController = GetComponentInChildren<FollowPlayerCameraController>();
-                 if (cameraController != null)
-                 {
-                     cameraController.SetRobotToFollow(transform); // Associer la caméra au robot contrôlé
-                 }
+                 GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
              }
-
              // Play single wave effect at the start
              singleWaveEffect.Play();
          }

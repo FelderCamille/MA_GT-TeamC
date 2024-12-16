@@ -122,7 +122,6 @@ namespace Controllers
         public void IndicateClearedMine()
         {
             _resourcesManager.IncreaseClearedMinesCounter();
-            _resourcesManager.IncreaseScore(Constants.Score.ClearMineSuccess);
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
@@ -130,7 +129,7 @@ namespace Controllers
         {
             var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
             _resourcesManager.ReduceHealth(value);
-            _resourcesManager.IncreaseScore(Constants.Score.MineNotCleared);
+            _resourcesManager.IncreaseExplodedMinesCount();
         }
 
         public bool Repair()

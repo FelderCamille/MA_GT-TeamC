@@ -19,7 +19,7 @@ namespace Core
         // Robot properties
         private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
-        private int _score = 0;
+        private int _explodedMines = 0;
         private float _health = Constants.GameSettings.Health;
         private float _visionDistance = Constants.GameSettings.Vision;
         private readonly List<Objects.Bonus> _appliedBonuses = new ();
@@ -73,7 +73,7 @@ namespace Core
         /// Cleared mines
         /// </summary>
         public int ClearedMines => _clearedMines;
-
+        
         /// <summary>
         /// Increase cleared mines counter
         /// </summary>
@@ -82,6 +82,13 @@ namespace Core
             _clearedMines += 1;
             _resourcesPrefab.SetMines(_clearedMines);
             _feedbackPopup.ShowMineAsCleared();
+        }
+        
+        public int ExplodedMines => _explodedMines;
+        
+        public void IncreaseExplodedMinesCount()
+        {
+            _explodedMines += 1;
         }
         
         // Health
@@ -171,12 +178,11 @@ namespace Core
         
         // Score
         
-        public int Score => _score;
+        public int ClearedMinesScore => _clearedMines * Constants.Score.ClearMineSuccess;
 
-        public void IncreaseScore(int value)
-        {
-            _score += value;
-        }
+        public int ExplodedMinesScore => _explodedMines * Constants.Score.MineNotCleared; // MinesNotCleared is negative
+        
+        public int TotalScore => ClearedMinesScore + ExplodedMinesScore;
 
     }
 

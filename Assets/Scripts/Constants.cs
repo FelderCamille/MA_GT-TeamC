@@ -6,7 +6,7 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
-    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugAllowOnlyOneConnection = true;
     public static readonly bool DebugFillIPAddressOnClient = true;
     
     public static class Scenes
@@ -26,7 +26,7 @@ public static class Constants
         public const int GridHeight = 10; // Should be odd
         public const int GridPadding = 10;
         // Timer
-        public const float Timer = 10 * 60f; // 10 min
+        public const float Timer = 0.1f * 60f; // 10 min
         // Landmines
         public const int NumberOfLandmines = 5;
         public const int NumberOfTileClearLandmine = 1;

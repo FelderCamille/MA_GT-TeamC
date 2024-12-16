@@ -12,17 +12,24 @@ namespace UI
         [SerializeField] private Text totalScore;
         [SerializeField] private Text result;
         
-        public void Init(ulong clientId, ResourcesManager resourcesManager, ResourcesManager otherResourcesManager)
+        public void Init(ulong clientId, bool isCurrent, ResourcesManager resourcesManager, ResourcesManager otherResourcesManager)
         {
             // Set name (client id starts from 0)
-            playerTitle.text += (clientId + 1) + ". " + (clientId == 0 ? " (hébergeur)" : "");
+            playerTitle.text += " " + (clientId + 1) + " " + (isCurrent ? " (vous)" : "");
             // Compute player's result
-            clearedMines.text += resourcesManager.ClearedMines + ". Score : " + resourcesManager.ClearedMinesScore;
-            explodedMines.text += resourcesManager.ExplodedMines + ". Score : " + resourcesManager.ExplodedMinesScore;
+            clearedMines.text += resourcesManager.ClearedMines + " (score : " + resourcesManager.ClearedMinesScore + ")";
+            explodedMines.text += resourcesManager.ExplodedMines + " (score : " + resourcesManager.ExplodedMinesScore + ")";
             // Set total score
             totalScore.text += resourcesManager.TotalScore;
             // Set result
-            result.text = resourcesManager.TotalScore > otherResourcesManager.TotalScore ? "Gagnant !" : "Perdu...";
+            if (otherResourcesManager != null)
+            {
+                result.text = resourcesManager.TotalScore > otherResourcesManager.TotalScore ? "Gagnant !" : "Perdant.";
+            }
+            else
+            {
+                result.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -31,6 +31,8 @@ namespace Controllers
 
         private void Start()
          {
+             // Do not destroy the gameObject when the scene is changed
+             DontDestroyOnLoad(gameObject);
              // Attach camera
              if (IsOwner) FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
              // Initialize references

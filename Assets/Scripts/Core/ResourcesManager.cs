@@ -180,7 +180,7 @@ namespace Core
         
         public int ClearedMinesScore => _clearedMines * Constants.Score.ClearMineSuccess;
 
-        public int ExplodedMinesScore => _explodedMines * Constants.Score.MineNotCleared; // MinesNotCleared is negative
+        public int ExplodedMinesScore => _explodedMines * Constants.Score.MineExplosion; // MineExplosion is negative
         
         public int TotalScore => ClearedMinesScore + ExplodedMinesScore;
 

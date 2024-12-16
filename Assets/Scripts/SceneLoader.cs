@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,7 +15,15 @@ public class SceneLoader : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LoadSceneWithTransition(scene));
+            if (scene == Constants.Scenes.Result)
+            {
+                if (!NetworkManager.Singleton.IsHost) return;
+                NetworkManager.Singleton.SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+            }
+            else
+            {
+                StartCoroutine(LoadSceneWithTransition(scene));
+            }
         }
     }
     

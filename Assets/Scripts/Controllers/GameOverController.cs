@@ -64,7 +64,7 @@ namespace Controllers
             // Go to result scene
             _sceneLoader.ShowScene(Constants.Scenes.Result);
             // Quit game
-            NetworkManager.Singleton.Shutdown();
+            NetworkManager.Singleton.Shutdown(); // TODO: do not do that.
         }
     }
 }

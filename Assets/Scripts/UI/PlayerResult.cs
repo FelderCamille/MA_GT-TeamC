@@ -1,4 +1,5 @@
-using Core;
+using Objects;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +13,32 @@ namespace UI
         [SerializeField] private Text totalScore;
         [SerializeField] private Text result;
         
-        public void Init(ulong clientId, bool isCurrent, ResourcesManager resourcesManager, ResourcesManager otherResourcesManager)
+        public void Init(PlayerResultData currentPlayer, PlayerResultData otherPlayerResult)
         {
             // Set name (client id starts from 0)
-            playerTitle.text += " " + (clientId + 1) + " " + (isCurrent ? " (vous)" : "");
+            var isMe = NetworkManager.Singleton.LocalClientId == currentPlayer.clientId;
+            playerTitle.text += " " + (currentPlayer.clientId + 1) + " " + (isMe ? " (vous)" : "");
             // Compute player's result
-            clearedMines.text += resourcesManager.ClearedMines + " (score : " + resourcesManager.ClearedMinesScore + ")";
-            explodedMines.text += resourcesManager.ExplodedMines + " (score : " + resourcesManager.ExplodedMinesScore + ")";
+            clearedMines.text += currentPlayer.clearedMines + " (" + currentPlayer.ClearedMinesScore + " pts)";
+            explodedMines.text += currentPlayer.explodedMines + " (" + currentPlayer.ExplodedMinesScore + " pts)";
             // Set total score
-            totalScore.text += resourcesManager.TotalScore;
+            totalScore.text += currentPlayer.TotalScore + " pts";
             // Set result
-            if (otherResourcesManager != null)
+            var resultText = "Égalité";
+            var color = Color.white;
+            Debug.Log("Player " + isMe + " current=" + currentPlayer.TotalScore + " other=" + otherPlayerResult.TotalScore);
+            if (currentPlayer.TotalScore > otherPlayerResult.TotalScore)
             {
-                result.text = resourcesManager.TotalScore > otherResourcesManager.TotalScore ? "Gagnant !" : "Perdant.";
+                resultText = "Gagnant !";
+                color = Color.green;
             }
-            else
+            else if (currentPlayer.TotalScore < otherPlayerResult.TotalScore)
             {
-                result.gameObject.SetActive(false);
+                resultText = "Perdant.";
+                color = Color.red;
             }
+            result.text = resultText;
+            result.color = color;
         }
     }
 }

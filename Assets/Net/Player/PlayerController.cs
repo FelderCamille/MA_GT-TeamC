@@ -8,6 +8,15 @@ using UnityEngine;
 
 namespace Net
 {
+	// Identifier used through network
+	// Mainly because "complex" object can not be syncronized
+	public enum PlayerIdentifer
+	{
+		UNSET,
+		PLAYER1,
+		PLAYER2,
+	}
+
 	public class PlayerController : NetworkBehaviour
 	{
 		public bool InGameCamera = false;
@@ -21,6 +30,9 @@ namespace Net
 		[Header("The body of the player (with collision physics, ...)")]
 		public PlayerBody Body;
 
+		[Header("The collider to detect if there is mines nearby (and forbid the mining)")]
+		public CapsuleCollider NearByMines;
+
 		[Header("Ressources object of the player")]
 		public PlayerResources Resources;
 
@@ -29,6 +41,14 @@ namespace Net
 		/// </summary>
 		internal CampController Camp;
 		internal GameController Game;
+
+		// Managed by Game
+		internal NetworkVariable<PlayerIdentifer> identifier = new(PlayerIdentifer.UNSET);
+
+		/// <summary>
+		/// The mine that the player can currently interact (demine)
+		/// </summary>
+		private MineController MineInteractive = null;
 
 		void Start() =>
 			// Reverse relation
@@ -54,6 +74,7 @@ namespace Net
 			// TODO
 		}
 
+		// TODO: as network variables (to known when the enemy is on "our" field)
 		// There is 2 variables because if the camps have some shared space it can be the 2 at the same time
 		private bool _isOnOwnField = false;
 		private bool _isOnEnemyField = false;
@@ -90,38 +111,32 @@ namespace Net
 			internal set { this._isNearBase = value; } // TODO: Events (or remove and use `Update`) ?
 		}
 
-		[Rpc(SendTo.Everyone)]
-		public void SetMineRpc(Vector3 position, Quaternion rotation, bool firstInit)
-		{
-			// TODO: move in GameController ?
-			var mine = Instantiate(this.Game.MinePrefab, position, rotation);
-			// TODO: better
-			mine.firstInit = firstInit;
-			mine.Player = this;
-
-			if (!this.IsLocalPlayer)
-			{
-				mine.Hide(null);
-			}
-		}
-
 		[Rpc(SendTo.Server)]
-		void MineRpc()
+		void LayMineRpc()
 		{
-			if (!this.IsOnEnemyField)
+			// The server has authority if the player can effectively set or not the mine
+
+			if (!this.IsOnEnemyField && !this.Game.Configuration.PLAYER_OWN_FIELD_MINING)
 			{
 				Debug.Log("Can only set a mine on a enemy field");
 				return;
 			}
 
-			if (this.editableMines.Count > 0)
+			var hits = Physics.SphereCastAll(
+				NearByMines.transform.position,
+				NearByMines.radius,
+				new Vector3(1, 1, 1)
+			);
+			foreach (var hit in hits)
 			{
-				Debug.Log("CAN not set a mine near another one");
-				// TODO: better (check with collider)
-				return;
+				if (hit.collider.TryGetComponent<MineController>(out var mine))
+				{
+					Debug.Log("Can not set a mine near another one");
+					return;
+				}
 			}
 
-			this.SetMineRpc(this.Body.Body.position, this.Body.Body.rotation, true);
+			this.Game.LayMine(this);
 		}
 
 		/// <summary>
@@ -130,17 +145,39 @@ namespace Net
 		/// <param name="mine">The mine that exploded</param>
 		public void WalkedOnMine(MineController mine)
 		{
-			if (!this.IsServer)
+			if (this.IsServer)
 			{
+				// TODO: get correct value from mine + store for stats
+				this.Resources.DeltaHealthRpc(-20);
 				return;
 			}
-
-			// TODO: get correct value from mine + store for stats
-			this.Resources.DeltaHealthRpc(-5);
 		}
 
-		private bool openStore = false;
-		private bool openEncyclo = false;
+		/// <summary>
+		/// Handle the feedback/repercussion of demining
+		/// </summary>
+		/// <param name="mine">that the player answered</param>
+		/// <param name="correct">was the response correct</param>
+		public void DemineResult(MineController mine, bool correct)
+		{
+			this.MineInteractive = null;
+
+			if (correct)
+			{
+				mine.ExtractMine();
+				// TODO: score/stats
+			}
+			else
+			{
+				mine.Explode(this);
+
+				if (this.IsServer)
+				{
+					// TODO: get correct value from mine + store for stats
+					this.Resources.DeltaHealthRpc(-10);
+				}
+			}
+		}
 
 		void Update()
 		{
@@ -149,67 +186,44 @@ namespace Net
 				return;
 			}
 
+			this.lookingAtAMineInd.SetActive(this.MineInteractive != null);
+
+			// Encyclopedia is always available?
 			if (Input.GetKeyDown(KeyCode.Q))
 			{
-				// TODO: better
-				this.Game.UIProxy.PanelEncyclopedia.gameObject.SetActive(
-					this.openEncyclo = !this.openEncyclo
-				);
+				this.Game.UIProxy.PanelEncyclopedia.Toogle();
 			}
 
 			if (IsNearBase && Input.GetKeyDown(KeyCode.E))
 			{
-				this.Game.UIProxy.PanelStore.gameObject.SetActive(this.openStore = !this.openStore);
+				this.Game.UIProxy.PanelStore.Toogle(this);
+			}
+			if (this.MineInteractive != null && Input.GetKeyDown(KeyCode.E))
+			{
+				this.Game.UIProxy.PanelQuestion.Toogle(this, this.MineInteractive);
 			}
 
-			if (this.openStore || this.openEncyclo)
+			if (this.Game.UIProxy.HasPanelInteractiveOpen())
 			{
 				return;
 			}
 
-			this.Body.HandleMovement();
+			this.Body.HandleMovement(Time.deltaTime);
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				this.MineRpc();
+				this.LayMineRpc();
 			}
-
-			this.UglyTempStuf();
 		}
 
-		// TODO
-		private MineController currentlyEditable = null;
-
-		// Bonus
+		// TODO: FROM Bonus
 		private bool hasVision = false;
 
-		// Mine that could be demined // TODO: this is probably not optimum
-		private List<MineController> editableMines = new();
-
-		public void SeeMine(MineController mine, PlayerMineCollider.TYPE cType)
-		{
-			if (!this.IsLocalPlayer)
-			{
-				return;
-			}
-
-			if (cType == PlayerMineCollider.TYPE.INTERACTION)
-			{
-				this.editableMines.Add(mine);
-				return;
-			}
-
-			if (
-				cType != PlayerMineCollider.TYPE.NORMAL
-				|| (cType == PlayerMineCollider.TYPE.EXTENDED && !this.hasVision)
-			)
-			{
-				return;
-			}
-
-			mine.Show();
-		}
-
-		public void SeeNoMine(MineController mine, PlayerMineCollider.TYPE type)
+		/// <summary>
+		/// When a mine touches one of the player collider
+		/// </summary>
+		/// <param name="mine">the mine that enters the collider</param>
+		/// <param name="type">the type of the collider</param>
+		public void OnMineTriggerEnter(MineController mine, PlayerMineCollider.TYPE type)
 		{
 			if (!this.IsLocalPlayer)
 			{
@@ -218,36 +232,45 @@ namespace Net
 
 			if (type == PlayerMineCollider.TYPE.INTERACTION)
 			{
-				this.editableMines.Remove(mine);
+				// TODO: better (for now, let's suppose that it can not have multiple mine here)
+				this.MineInteractive = mine;
+				return;
+			}
+
+			if (type == PlayerMineCollider.TYPE.EXTENDED && !this.hasVision)
+			{
+				// Vision is not set
+				return;
+			}
+
+			mine.Show();
+		}
+
+		/// <summary>
+		/// When a mine exits one of the player collider
+		/// </summary>
+		/// <param name="mine">the mine that exits the collider</param>
+		/// <param name="type">the type of the collider</param>
+		public void OnMineTriggerExit(MineController mine, PlayerMineCollider.TYPE type)
+		{
+			if (!this.IsLocalPlayer)
+			{
+				return;
+			}
+
+			if (type == PlayerMineCollider.TYPE.INTERACTION)
+			{
+				this.MineInteractive = null;
 				return;
 			}
 
 			if (type == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
 			{
+				// Only hide with from extended if vision
 				return;
 			}
 
 			mine.Hide(this);
-		}
-
-		private void UglyTempStuf()
-		{
-			// TODO: only temp (should only get one)
-
-			List<MineController> toRemove = new();
-			foreach (var mine in this.editableMines)
-			{
-				if (!mine.gameObject.activeSelf)
-				{
-					toRemove.Add(mine);
-				}
-			}
-			foreach (var t in toRemove)
-			{
-				this.editableMines.Remove(t);
-			}
-
-			this.lookingAtAMineInd.SetActive(this.editableMines.Count > 0);
 		}
 	}
 }

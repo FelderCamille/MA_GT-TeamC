@@ -13,6 +13,10 @@ namespace Net
 	public class GameController : NetworkBehaviour
 	{
 		// Global "configuration"
+		[Header("Game configuration (mostly debug/dev)")]
+		public GameConfiguration Configuration;
+
+		// Global content
 		[Header("The sound manager")]
 		public SoundManager SoundManager;
 
@@ -40,11 +44,16 @@ namespace Net
 		public List<Transform> MineInitialsPlayer2 = new();
 
 		// The registered players
-		private PlayerController Player1;
-		private PlayerController Player2;
+		internal PlayerController Player1;
+		internal PlayerController Player2;
 
 		// The local player (to interact with, ...) // TODO: remove ?
-		private PlayerController PlayerLocal;
+		internal PlayerController PlayerLocal;
+
+		/// <summary>
+		/// Used to set mine ids
+		/// </summary>
+		private NetworkVariable<uint> mineCounter = new(0);
 
 		private HUDRessourcesPlayer HUDRessources1;
 		private HUDRessourcesPlayer HUDRessources2;
@@ -74,6 +83,7 @@ namespace Net
 				// Mostly for log/debug
 				player.name = "Player 1";
 				player.Camp = this.Camp1;
+				player.identifier.Value = PlayerIdentifer.PLAYER1;
 
 				this.Player1 = player;
 			}
@@ -82,15 +92,14 @@ namespace Net
 				// Mostly for log/debug
 				player.name = "Player 2";
 				player.Camp = this.Camp2;
+				player.identifier.Value = PlayerIdentifer.PLAYER2;
 
 				this.Player2 = player;
 
 				// TODO: start game (and "lock")
 			}
 
-			var spawnPlayer = player.Camp.spawnPosition;
-			player.Body.Body.position = spawnPlayer.position;
-			player.Body.Body.rotation = spawnPlayer.rotation;
+			this.MovePlayerToSpawn(player);
 
 			if (player.IsLocalPlayer)
 			{
@@ -111,6 +120,33 @@ namespace Net
 					)
 				);
 			hud.Init();
+		}
+
+		/// <summary>
+		/// Move a player ot its spawn position
+		/// </summary>
+		public void MovePlayerToSpawn(PlayerController player)
+		{
+			var spawnPlayer = player.Camp.spawnPosition;
+			player.Body.Body.position = spawnPlayer.position;
+			player.Body.Body.rotation = spawnPlayer.rotation;
+		}
+
+		/// <param name="player">that sets the mine</param>
+		public void LayMine(PlayerController player)
+		{
+			var body = player.Body.Body;
+			this.LayMineRpc(body.position, body.rotation, player.identifier.Value);
+		}
+
+		// Real spawn of the object, with necessary data so the mine can get it's owner
+		[Rpc(SendTo.Server)]
+		private void LayMineRpc(Vector3 position, Quaternion rotation, PlayerIdentifer identifer)
+		{
+			var mine = Instantiate(this.MinePrefab, position, rotation);
+
+			mine.GetComponent<NetworkObject>().Spawn();
+			mine.InitRpc(identifer, this.mineCounter.Value += 1);
 		}
 
 		void LateUpdate()
@@ -146,8 +182,8 @@ namespace Net
 			resources.Health.OnValueChanged += this.OnHealthChange;
 			resources.Money.OnValueChanged += this.OnMoneyChange;
 
-			this.OnMoneyChange(resources.Health.Value, resources.Health.Value);
-			this.OnHealthChange(resources.Money.Value, resources.Money.Value);
+			this.OnHealthChange(resources.Health.Value, resources.Health.Value);
+			this.OnMoneyChange(resources.Money.Value, resources.Money.Value);
 		}
 
 		public void Clear()

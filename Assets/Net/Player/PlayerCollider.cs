@@ -30,7 +30,7 @@ namespace Net
 		{
 			if (other.TryGetComponent<MineController>(out var mine))
 			{
-				this.player.SeeMine(mine, this.type);
+				this.player.OnMineTriggerEnter(mine, this.type);
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Net
 		{
 			if (other.TryGetComponent<MineController>(out var mine))
 			{
-				this.player.SeeNoMine(mine, this.type);
+				this.player.OnMineTriggerExit(mine, this.type);
 			}
 		}
 	}

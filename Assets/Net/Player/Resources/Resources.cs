@@ -1,5 +1,3 @@
-using System.Data.SqlTypes;
-using Mono.Cecil.Cil;
 using Unity.Netcode;
 
 namespace Net
@@ -13,7 +11,7 @@ namespace Net
 		public readonly NetworkVariable<int> Money = new(Constants.GameSettings.Money);
 		public readonly NetworkVariable<int> Health = new((int)Constants.GameSettings.Health);
 
-		public void SetHealth(int health)
+		private void SetHealth(int health)
 		{
 			if (health < 0)
 			{
@@ -32,11 +30,11 @@ namespace Net
 		/// <summary>
 		/// Update health
 		/// </summary>
-		/// <param name="health">health to add (use negativeto reduce)</param>
+		/// <param name="delta">health to add (use negativeto reduce)</param>
 		[Rpc(SendTo.Server)]
-		public void DeltaHealthRpc(int health)
+		public void DeltaHealthRpc(int delta)
 		{
-			this.SetHealth(this.Health.Value + health);
+			this.SetHealth(this.Health.Value + delta);
 		}
 	}
 }

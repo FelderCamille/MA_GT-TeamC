@@ -9,11 +9,8 @@ using Utils;
 namespace Net.UI
 {
 	// Mosltly taken from the other EncyclopediaController
-	public class EncyclopediaPanel : MonoBehaviour
+	public class EncyclopediaPanel : PanelInteractive
 	{
-		[Header("The sound manager")]
-		public SoundManager SoundManager;
-
 		[Header("Content")]
 		public SectionTab sectionTabPrefab;
 		public NavigationButton previousPageButton;
@@ -24,6 +21,36 @@ namespace Net.UI
 		private Section[] sections;
 		private int currentSectionIndex = 0;
 		private int currentPageIndex = 0;
+
+		public override bool IsOpen()
+		{
+			return this.gameObject.activeSelf;
+		}
+
+		public void Open()
+		{
+			this.gameObject.SetActive(true);
+		}
+
+		public override void Close()
+		{
+			this.gameObject.SetActive(false);
+		}
+
+		/// <summary>
+		/// Simply toggles the state of the panel
+		/// </summary>
+		public void Toogle()
+		{
+			if (this.IsOpen())
+			{
+				this.Close();
+			}
+			else
+			{
+				this.Open();
+			}
+		}
 
 		void Awake()
 		{

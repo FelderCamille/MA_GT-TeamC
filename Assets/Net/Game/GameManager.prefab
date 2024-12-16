@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4770826727237941649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024273803140629569}
+  - component: {fileID: 4129812270364066677}
+  m_Layer: 0
+  m_Name: GameConfiguration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1024273803140629569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770826727237941649}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 516.15405, y: 779.0309, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 430438510148312858}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4129812270364066677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770826727237941649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b146cc3f9e5fc817b9ef45e5f0eeba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SHOW_DEBUG_MINES: 1
+  PLAYER_SELF_DEMINing: 0
 --- !u!1 &9117651452711037588
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +76,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1024273803140629569}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6795035046424053100
@@ -66,8 +113,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14572cf463baa4ad6a05fbb4e9f1e930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Configuration: {fileID: 4129812270364066677}
   SoundManager: {fileID: 0}
+  UIProxy: {fileID: 0}
   Camp1: {fileID: 0}
   Camp2: {fileID: 0}
-  Mine: {fileID: -3611903373917104838, guid: 7128136850f0093d085543d0425a0acd, type: 3}
-  MineInitial: []
+  MinePrefab: {fileID: 0}
+  MineInitialsPlayer1: []
+  MineInitialsPlayer2: []

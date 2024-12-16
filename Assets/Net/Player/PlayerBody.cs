@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Net;
 using UnityEngine;
 
@@ -18,11 +19,19 @@ namespace Net
 		[Header("The body for movement")]
 		public Rigidbody Body;
 
+		[Header("Elements to show/hide when needed")]
+		public List<GameObject> visuals;
+
 		/// <summary>
 		/// The player this body is controlled from.
 		/// Set by the controller
 		/// </summary>
 		internal PlayerController player;
+
+		public void Start()
+		{
+			this.Body.GetComponent<Renderer>().enabled = false;
+		}
 
 		/// <summary>
 		/// Move the body of the player.
@@ -51,6 +60,22 @@ namespace Net
 				var force = Body.rotation.eulerAngles + new Vector3(0, isLeft ? -1 : 1, 0) * delta;
 
 				Body.MoveRotation(Quaternion.Euler(force.x, force.y, force.z));
+			}
+		}
+
+		public void Show()
+		{
+			foreach (var visual in visuals)
+			{
+				visual.SetActive(true);
+			}
+		}
+
+		public void Hide()
+		{
+			foreach (var visual in visuals)
+			{
+				visual.SetActive(false);
 			}
 		}
 

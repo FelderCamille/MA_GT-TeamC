@@ -83,6 +83,7 @@ namespace Net
 				// Mostly for log/debug
 				player.name = "Player 1";
 				player.Camp = this.Camp1;
+
 				player.identifier.Value = PlayerIdentifer.PLAYER1;
 
 				this.Player1 = player;
@@ -92,6 +93,7 @@ namespace Net
 				// Mostly for log/debug
 				player.name = "Player 2";
 				player.Camp = this.Camp2;
+
 				player.identifier.Value = PlayerIdentifer.PLAYER2;
 
 				this.Player2 = player;

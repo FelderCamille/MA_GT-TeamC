@@ -2877,6 +2877,10 @@ PrefabInstance:
       propertyPath: PLAYER_OWN_FIELD_MINING
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4129812270364066677, guid: 3a9619bd39d38262c9b2ce312ca232a7, type: 3}
+      propertyPath: PLAYER_USE_INSIDE_CAMERA
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4267738941933330979, guid: 3a9619bd39d38262c9b2ce312ca232a7, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 735625267

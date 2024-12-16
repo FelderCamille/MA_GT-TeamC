@@ -182,14 +182,12 @@ namespace Net
 
 		public void Hide()
 		{
-			// TODO: better (and arrow)
-			this.Body.Body.GetComponent<Renderer>().enabled = false;
+			this.Body.Hide();
 		}
 
 		public void Show()
 		{
-			// TODO: better (and arrow)
-			this.Body.Body.GetComponent<Renderer>().enabled = true;
+			this.Body.Show();
 		}
 
 		void Update()
@@ -211,7 +209,11 @@ namespace Net
 			{
 				this.Game.UIProxy.PanelStore.Toogle(this);
 			}
-			if (this.MineInteractive != null && Input.GetKeyDown(KeyCode.E))
+			if (
+				this.MineInteractive != null
+				&& this.MineInteractive.gameObject.activeSelf
+				&& Input.GetKeyDown(KeyCode.E)
+			)
 			{
 				this.Game.UIProxy.PanelQuestion.Toogle(this, this.MineInteractive);
 			}

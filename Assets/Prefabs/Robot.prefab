@@ -10220,6 +10220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b347aa20b654649a98c67cc7222433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robotObject: {fileID: 3529641740243480905}
+  directionalArrowObject: {fileID: 1641227033775017419}
   singleWaveEffect: {fileID: 4559391236562489012}
   repeatedWaveEffect: {fileID: 328797594239721830}
   moveSpeed: 5

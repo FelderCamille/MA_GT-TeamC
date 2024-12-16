@@ -10,6 +10,9 @@ namespace Controllers
         private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
 
         // Effects
+        [Header("Parts")]
+        [SerializeField] private GameObject robotObject;
+        [SerializeField] private GameObject directionalArrowObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private GameObject repeatedWaveEffect;
 
@@ -21,6 +24,7 @@ namespace Controllers
         private SoundManager _soundManager;
 
         // Movements
+        [Header("Movements")]
         [SerializeField] private float moveSpeed = 5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
@@ -153,6 +157,18 @@ namespace Controllers
         {
             repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
             repeatedWaveEffect.SetActive(false);
+        }
+
+        public void Hide()
+        {
+            robotObject.SetActive(false); 
+            directionalArrowObject.SetActive(false);
+        }
+
+        public void Show()
+        {
+            robotObject.SetActive(true); 
+            directionalArrowObject.SetActive(true);
         }
 
     }

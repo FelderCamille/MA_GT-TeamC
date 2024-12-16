@@ -27,7 +27,11 @@ namespace Controllers
         
         public void Show(ResourcesManager resourcesManager)
         {
+            // Set resources manager
             _resources = resourcesManager;
+            // Hide the robot
+            _resources.GetComponent<RobotController>().Hide();
+            // Show game over screen
             gameObject.SetActive(true);
             // Check if the player can revive
             if (_resources.HasEnoughMoneyToBuy(Constants.Values.RevivePrice)) reviveButton.Enabled();
@@ -44,10 +48,14 @@ namespace Controllers
         {
             if (_resources != null && _resources.HasEnoughMoneyToBuy(Constants.Values.RevivePrice))
             {
+                // Repair the robot
                 _resources.ReduceMoney(Constants.Values.RevivePrice);
                 _resources.Repair();
+                // Reset robot spawn
                 var robot = _resources.GetComponent<RobotController>();
                 if (_gridController != null && robot != null) _gridController.ResetRobotSpawn(robot);
+                // Show the robot
+                if (robot != null) robot.Show();
             }
         }
         

@@ -133,12 +133,10 @@ namespace Core
             return _visionDistance;
         }
         
-        public void MultiplyVision(double multiplier)
+        public void SetVision(double multiplier)
         {
             _soundManager.PlayVisionSound();
-            Debug.Log("Vision before: " + _visionDistance);
-            _visionDistance *= (float) multiplier;
-            Debug.Log("Vision after: " + _visionDistance);
+            _visionDistance = (float) multiplier;
         }
         
         // Bonus

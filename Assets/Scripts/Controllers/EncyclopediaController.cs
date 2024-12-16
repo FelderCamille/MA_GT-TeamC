@@ -15,18 +15,16 @@ namespace Controllers
         private SoundManager _soundManager;
 
         [Header("Content")]
-        public SectionTab sectionTabPrefab;
-        public NavigationButton previousPageButton;
-        public NavigationButton nextPageButton;
-        public Text pageNumber;
+        [SerializeField] private SectionTab sectionTabPrefab;
+        [SerializeField] private NavigationButton previousPageButton;
+        [SerializeField] private NavigationButton nextPageButton;
+        [SerializeField] private Text pageNumber;
 
         private Section[] _sections;
         private int _currentSectionIndex = 0;
         private int _currentPageIndex = 0;
-
-        private bool _isOpened;
-
-        public bool IsOpened => _isOpened;
+        
+        public bool IsOpened { get; private set; }
 
         private void Awake()
         {
@@ -51,7 +49,7 @@ namespace Controllers
         private void OnEnable()
         {
             // Change is opened status
-            _isOpened = true;
+            IsOpened = true;
             // Display encyclopedia page
             UpdatePageContent();
             _soundManager.playOpenBookSound();
@@ -59,7 +57,7 @@ namespace Controllers
 
         private void OnDisable()
         {
-            _isOpened = false;
+            IsOpened = false;
             _soundManager.playCloseBookSound();
         }
 

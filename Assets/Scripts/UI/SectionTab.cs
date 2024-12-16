@@ -7,8 +7,8 @@ namespace UI
     
     public class SectionTab : MonoBehaviour
     {
-        public Text title;
-        public Button button;
+        [SerializeField] private Text title;
+        [SerializeField] private Button button;
 
         public string Text => title.text;
 

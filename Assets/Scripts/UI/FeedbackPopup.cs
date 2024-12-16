@@ -6,9 +6,9 @@ namespace UI
 {
     public class FeedbackPopup : MonoBehaviour
     {
-        public GameObject panel;
-        public Text text;
-        public Image image;
+        [SerializeField] private GameObject panel;
+        [SerializeField] private Text text;
+        [SerializeField] private Image image;
         
         private IEnumerator Show(string message, string icon, Color color)
         {

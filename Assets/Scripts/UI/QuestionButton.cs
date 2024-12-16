@@ -6,10 +6,10 @@ namespace UI
 {
     public class QuestionButton : MonoBehaviour
     {
-        public Button button;
-        public Text buttonText;
-        public GameObject correctBorder;
-        public GameObject wrongBorder;
+        [SerializeField] private Button button;
+        [SerializeField] private Text buttonText;
+        [SerializeField] private GameObject correctBorder;
+        [SerializeField] private GameObject wrongBorder;
         
         private const int NumberOfBlinks = 2;
         
@@ -18,6 +18,8 @@ namespace UI
             buttonText.text = text;
             button.onClick.AddListener(() => StartCoroutine(onClickCallback));
         }
+        
+        public string GetText() => buttonText.text;
 
         public IEnumerator ShowResult(bool isCorrectResponse)
         {

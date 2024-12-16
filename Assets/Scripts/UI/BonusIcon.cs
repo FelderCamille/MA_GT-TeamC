@@ -5,7 +5,7 @@ namespace UI
 {
     public class BonusIcon : MonoBehaviour
     {
-        public Image icon;
+        [SerializeField] private Image icon;
         
         public void Init(string sprite)
         {

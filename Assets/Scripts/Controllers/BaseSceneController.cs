@@ -67,7 +67,7 @@ namespace Controllers
             chooseRoleEmplacement.SetActive(true);
             ipAddress.interactable = true;
             port.interactable = true;
-            startButton.enabled = true;
+            startButton.Enable();
         }
         
         private void OnStartClick()
@@ -75,7 +75,7 @@ namespace Controllers
             // Disable input fields and start button
             ipAddress.interactable = false;
             port.interactable = false;
-            startButton.enabled = false;
+            startButton.Disable();
             // Set connection data and start host or client
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ipAddress.text, UInt16.Parse(port.text));
             if (_isHost)

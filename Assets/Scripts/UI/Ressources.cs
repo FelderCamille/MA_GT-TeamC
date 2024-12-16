@@ -6,9 +6,9 @@ namespace UI
 {
     public class Ressources : MonoBehaviour
     {
-        public Text money;
-        public Text health;
-        public Text clearedMines;
+        [SerializeField] private Text money;
+        [SerializeField] private Text health;
+        [SerializeField] private Text clearedMines;
 
         public void SetMoney(int value)
         {

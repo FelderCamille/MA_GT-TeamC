@@ -119,27 +119,30 @@ namespace Controllers
             }
         }
 
-        public void IncreaseClearedMineCounter()
+        public void IndicateClearedMine()
         {
             _resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
-
-        public void ReduceHealth(float value)
+        
+        public void IndicateExplodedMine(bool failure = false)
         {
+            var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
             _resourcesManager.ReduceHealth(value);
+            _resourcesManager.IncreaseExplodedMinesCount();
         }
 
         public bool Repair()
         {
-            if (!_resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice)) return false;
-            _resourcesManager.ReduceMoney(Constants.Values.RepairPrice);
+            if (!_resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair)) return false;
+            _resourcesManager.ReduceMoney(Constants.Prices.Repair);
             _resourcesManager.Repair();
             return true;
         }
 
         public bool CanRepair()
         {
-            return _resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice) && _resourcesManager.NeedRepair();
+            return _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair) && _resourcesManager.NeedRepair();
         }
 
         public bool CanBuyBonus(Bonus bonus)

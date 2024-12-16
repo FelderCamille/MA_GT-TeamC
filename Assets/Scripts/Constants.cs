@@ -26,7 +26,7 @@ public static class Constants
         public const int GridHeight = 10; // Should be odd
         public const int GridPadding = 10;
         // Timer
-        public const float Timer = 10 * 60f; // 10 min
+        public const float Timer = 10f * 60f; // 10 min
         // Landmines
         public const int NumberOfLandmines = 5;
         public const int NumberOfTileClearLandmine = 1;
@@ -61,15 +61,31 @@ public static class Constants
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
-    public static class Values
+    public static class Prices
     {
-        public const int RevivePrice = 1500;
-        public const int RepairPrice = 500;
-        public const int HealthRemovedWhenFailureMin = 10;
-        public const int HealthRemovedWhenFailureMax = 15;
-        public const int HealthRemovedWhenExplosionMin = 20;
-        public const int HealthRemovedWhenExplosionMax = 30;
-        public const int SmallRepairValue = 25;
+        public const int Revive = 1500;
+        public const int Repair = 500;
+        public const int Vision = 100;
+        // Rewards
+        public const int ClearMineSuccess = 200;
+    }
+
+    public static class Health
+    {
+        // Explosion
+        public const int RemovedWhenFailure = 20;
+        public const int RemovedWhenExplosion = 30;
+        // Repair
+        public const int SmallRepair = 25;
+    }
+    
+    public static class Score
+    {
+        // Clear mine
+        public const int ClearMineSuccess = 100;
+        public const int MineExplosion = -200;
+        // Final score
+        public const int MineNotCleared = -100;
     }
 
     public static class Bonus

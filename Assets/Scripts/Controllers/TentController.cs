@@ -32,13 +32,13 @@ namespace Controllers
         {
             if (_robot.OwnerClientId == 0)
             {
-                _tentXPosition = transform.position.x + TentLength;
+                _tentXPosition = transform.position.x + TentLength - 1;
                 _tentZ1Position = transform.position.z - TentLength / 2;
                 _tentZ2Position = transform.position.z + TentLength / 2 - 1;
             }
             else
             {
-                _tentXPosition = transform.position.x - TentLength + 1;
+                _tentXPosition = transform.position.x - TentLength;
                 _tentZ1Position = transform.position.z - TentLength / 2 + 1;
                 _tentZ2Position = transform.position.z + TentLength / 2;
             }

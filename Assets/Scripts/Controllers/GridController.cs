@@ -217,7 +217,7 @@ namespace Controllers
         {
             var isLeft = clientId == 0;
             // Compute emplacement
-            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
+            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance - 1) : (GridXEndIndex - RobotSpawnDistance);
             const int yIndex = MapHeight / 2;
             var rotationY = isLeft ? 90f : 270f;
             // Return position and rotation

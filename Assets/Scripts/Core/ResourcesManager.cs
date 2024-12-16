@@ -19,6 +19,7 @@ namespace Core
         // Robot properties
         private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
+        private int _score = 0;
         private float _health = Constants.GameSettings.Health;
         private float _visionDistance = Constants.GameSettings.Vision;
         private readonly List<Objects.Bonus> _appliedBonuses = new ();
@@ -34,6 +35,8 @@ namespace Core
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(_clearedMines);
         }
+        
+        // Money
         
         /// <summary>
         /// Check if their is enough money to buy something
@@ -63,6 +66,8 @@ namespace Core
             _money -= value;
             _resourcesPrefab.SetMoney(_money);
         }
+        
+        // Mines
 
         /// <summary>
         /// Cleared mines
@@ -78,6 +83,8 @@ namespace Core
             _resourcesPrefab.SetMines(_clearedMines);
             _feedbackPopup.ShowMineAsCleared();
         }
+        
+        // Health
 
         /// <summary>
         /// Reduce the health of the robot
@@ -127,6 +134,8 @@ namespace Core
             _soundManager.PlayRepairSound();
         }
         
+        // Bonus
+        
         public float GetVisionDistance()
         {
             _soundManager.PlayVisionSound();
@@ -138,8 +147,6 @@ namespace Core
             _soundManager.PlayVisionSound();
             _visionDistance = (float) multiplier;
         }
-        
-        // Bonus
         
         public bool HasBonus(Objects.Bonus bonus)
         {
@@ -160,6 +167,15 @@ namespace Core
             _appliedBonuses.Remove(bonus);
             // Remove the bonus from the UI
             _bonusRowPrefab.RemoveBonus(bonus);
+        }
+        
+        // Score
+        
+        public int Score => _score;
+
+        public void IncreaseScore(int value)
+        {
+            _score += value;
         }
 
     }

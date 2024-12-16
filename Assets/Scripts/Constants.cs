@@ -66,15 +66,26 @@ public static class Constants
         public const int Revive = 1500;
         public const int Repair = 500;
         public const int Vision = 100;
+        // Rewards
+        public const int ClearMineSuccess = 200;
     }
 
     public static class Health
     {
-        public const int RemovedWhenFailureMin = 10;
-        public const int RemovedWhenFailureMax = 15;
-        public const int RemovedWhenExplosionMin = 20;
-        public const int RemovedWhenExplosionMax = 30;
+        // Explosion
+        public const int RemovedWhenFailure = 20;
+        public const int RemovedWhenExplosion = 30;
+        // Repair
         public const int SmallRepair = 25;
+    }
+    
+    public static class Score
+    {
+        // Clear mine
+        public const int ClearMineSuccess = 100;
+        public const int MineExplosion = -200;
+        // Final score
+        public const int MineNotCleared = -100;
     }
 
     public static class Bonus

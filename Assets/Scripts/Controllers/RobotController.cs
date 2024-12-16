@@ -119,14 +119,18 @@ namespace Controllers
             }
         }
 
-        public void IncreaseClearedMineCounter()
+        public void IndicateClearedMine()
         {
             _resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseScore(Constants.Score.ClearMineSuccess);
+            _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
-
-        public void ReduceHealth(float value)
+        
+        public void IndicateExplodedMine(bool failure = false)
         {
+            var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
             _resourcesManager.ReduceHealth(value);
+            _resourcesManager.IncreaseScore(Constants.Score.MineNotCleared);
         }
 
         public bool Repair()

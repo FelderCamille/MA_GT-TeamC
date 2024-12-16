@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Objects;
@@ -26,10 +25,9 @@ namespace Controllers
 
         private void Awake()
         {
-
-            _soundManager = FindObjectOfType<SoundManager>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
             // Retrieve robot
-            _robot = FindObjectOfType<RobotController>();
+            _robot = FindFirstObjectByType<RobotController>();
             // Init close button
             closeButton.Init(CloseStore);
             // Init repair button
@@ -39,7 +37,7 @@ namespace Controllers
             {
                 var bonusSectionObj = Instantiate(storeBonusSectionPrefab, bonusSectionsEmplacement.transform);
                 bonusSectionObj.name = "Section " + bonusType;
-                bonusSectionObj.Init(bonusType, _robot, CheckIfCanBuy);
+                bonusSectionObj.Init(bonusType, CheckIfCanBuy);
             }
         }
 

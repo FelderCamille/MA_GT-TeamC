@@ -13,7 +13,7 @@ namespace Objects
         public double Multiplier;
         protected BonusType BonusType;
         
-        public void ApplyBonus(ResourcesManager resourcesManager, RobotController robot, Action action)  
+        public void ApplyBonus(ResourcesManager resourcesManager, Action action)  
         {
             // Check if the bonus is already applied
             var hasBonus = resourcesManager.HasBonus(this);
@@ -26,6 +26,7 @@ namespace Objects
             // Add the bonus to the player
             resourcesManager.AddBonus(this);
             // Apply the bonus
+            var robot = resourcesManager.GetComponent<RobotController>();
             switch (BonusType)
             {
                 case BonusType.Vision:
@@ -36,6 +37,26 @@ namespace Objects
                     throw new NotImplementedException();
             }
             action();
+        }
+
+        public void RemoveBonus(ResourcesManager resourcesManager)
+        {
+            // Check if the bonus has the bonus
+            var hasBonus = resourcesManager.HasBonus(this);
+            if (!hasBonus) return;
+            // Remove the bonus from the player
+            resourcesManager.RemoveBonus(this);
+            // Apply the bonus
+            var robot = resourcesManager.GetComponent<RobotController>();
+            switch (BonusType)
+            {
+                case BonusType.Vision:
+                    resourcesManager.MultiplyVision(1 / Multiplier);
+                    robot.HideMines();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

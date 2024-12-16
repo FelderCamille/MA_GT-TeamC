@@ -15,7 +15,7 @@ namespace Controllers
         private void Start()
         {
             // Get scene loader from the scene
-            _sceneLoader = FindObjectOfType<SceneLoader>();
+            _sceneLoader = FindFirstObjectByType<SceneLoader>();
             // Initialize buttons
             startButton.Init(OnStartButtonClick);
             encyclopediaButton.Init(OnEncyclopediaButtonClick);

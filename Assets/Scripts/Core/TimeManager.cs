@@ -15,8 +15,8 @@ namespace Core
         private void Start()
         {
             // Get objects
-            _sceneLoader = FindObjectOfType<SceneLoader>();
-            _timePrefab = FindObjectOfType<UI.Time>();
+            _sceneLoader = FindFirstObjectByType<SceneLoader>();
+            _timePrefab = FindFirstObjectByType<UI.Time>();
             // Set time
             _timePrefab.SetTime(_time);
         }

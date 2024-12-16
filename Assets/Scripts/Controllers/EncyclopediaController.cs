@@ -30,7 +30,7 @@ namespace Controllers
 
         private void Awake()
         {
-            _soundManager = FindObjectOfType<SoundManager>();
+            _soundManager = FindFirstObjectByType<SoundManager>();
             // Load encyclopedia
             var encyclopediaObj = JsonUtils<Encyclopedia>.Read("Json/encyclopedia");
             _sections = encyclopediaObj.sections;

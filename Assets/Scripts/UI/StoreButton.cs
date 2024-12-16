@@ -11,7 +11,7 @@ namespace UI
         public Text buttonName;
         public Text price;
         
-        protected void Init(Action onClickCallback, string text, int money, string sprite)
+        public void Init(Action onClickCallback, string text, int money, string sprite)
         {
             button.onClick.AddListener(() => onClickCallback());
             buttonName.text = text;

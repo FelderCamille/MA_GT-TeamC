@@ -6,6 +6,8 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
+    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugFillIPAddressOnClient = true;
     
     public static class Scenes
     {
@@ -26,13 +28,13 @@ public static class Constants
         // Timer
         public const float Timer = 10 * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 2;
+        public const int NumberOfLandmines = 5;
         public const int NumberOfTileClearLandmine = 1;
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
         public const int Vision = 0;
-        public const int Money = 1000;
+        public const int Money = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
     }
@@ -55,18 +57,19 @@ public static class Constants
         public const KeyCode MoveRight = KeyCode.RightArrow;
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
-        public const KeyCode Rotation = KeyCode.LeftShift;
         public const KeyCode ClearMine = KeyCode.D;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
     public static class Values
     {
+        public const int RevivePrice = 1500;
         public const int RepairPrice = 500;
         public const int HealthRemovedWhenFailureMin = 10;
         public const int HealthRemovedWhenFailureMax = 15;
         public const int HealthRemovedWhenExplosionMin = 20;
         public const int HealthRemovedWhenExplosionMax = 30;
+        public const int SmallRepairValue = 25;
     }
 
     public static class Bonus

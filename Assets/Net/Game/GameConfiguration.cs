@@ -15,5 +15,11 @@ namespace Net
 
 		[Header("Allow a player to mine its own field")]
 		public bool PLAYER_OWN_FIELD_MINING = false;
+
+		[Header("Keep the other player visible")]
+		public bool PLAYER_SHOW_OTHER = false;
+
+		[Header("Use the camera of the player")]
+		public bool PLAYER_USE_INSIDE_CAMERA = true;
 	}
 }

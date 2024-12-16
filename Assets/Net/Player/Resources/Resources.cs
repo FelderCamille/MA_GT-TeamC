@@ -27,6 +27,17 @@ namespace Net
 			this.Health.Value = health;
 		}
 
+		private void SetMoney(int money)
+		{
+			if (money < 0)
+			{
+				this.SetMoney(0);
+				return;
+			}
+
+			this.Money.Value = money;
+		}
+
 		/// <summary>
 		/// Update health
 		/// </summary>
@@ -35,6 +46,16 @@ namespace Net
 		public void DeltaHealthRpc(int delta)
 		{
 			this.SetHealth(this.Health.Value + delta);
+		}
+
+		/// <summary>
+		/// Update money
+		/// </summary>
+		/// <param name="delta">money to add (use negative to increase)</param>
+		[Rpc(SendTo.Server)]
+		public void ReduceMoneyRpc(int delta)
+		{
+			this.SetMoney(this.Money.Value - delta);
 		}
 	}
 }

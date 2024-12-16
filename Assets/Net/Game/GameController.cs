@@ -105,6 +105,10 @@ namespace Net
 			{
 				this.PlayerLocal = player;
 			}
+			else if (!Configuration.PLAYER_SHOW_OTHER)
+			{
+				player.Hide();
+			}
 
 			HUDRessourcesPlayer hud = player.IsLocalPlayer
 				? (
@@ -161,6 +165,19 @@ namespace Net
 			var HUD = this.UIProxy.PanelHUD;
 			HUD.OnOwnFieldText.SetActive(this.PlayerLocal.IsOnOwnField);
 			HUD.OnEnemyFieldText.SetActive(this.PlayerLocal.IsOnEnemyField);
+
+			// TODO: better
+			var powers = this.PlayerLocal.PowerUps;
+			if (powers.hasActivePowerUp)
+			{
+				HUD.countdownPowerUp.gameObject.SetActive(true);
+				HUD.countdownPowerUp.text =
+					"PowerUp active: " + powers.Countdown.Value.ToString() + "s";
+			}
+			else
+			{
+				HUD.countdownPowerUp.gameObject.SetActive(false);
+			}
 		}
 	}
 

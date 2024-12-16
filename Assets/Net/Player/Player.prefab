@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 306139546777372407}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 0, y: 10, z: -2}
+  m_LocalPosition: {x: 0, y: 15, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -421,6 +421,50 @@ Transform:
   - {fileID: 121283049404982417}
   m_Father: {fileID: 5322268713543949509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7354576267392897249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3012188339086052230}
+  - component: {fileID: 1471185648056605557}
+  m_Layer: 6
+  m_Name: PowerUps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3012188339086052230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354576267392897249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8159320585945655843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1471185648056605557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354576267392897249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d40dd8e1bad54067ae7dc9c4aa3fd39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8425015608909211668
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +611,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4355715728863684552, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5438528198797431175}
+    - targetCorrespondingSourceObject: {fileID: 4355715728863684552, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3012188339086052230}
     - targetCorrespondingSourceObject: {fileID: 330268576279990574, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}
       insertIndex: 1
       addedObject: {fileID: 8872091134776908610}
@@ -631,12 +678,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9649883e3bf3f06db207bf67b5e5ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InGameCamera: 0
   MyCamera: {fileID: 3904476464645860964}
   lookingAtAMineInd: {fileID: 1414085878722347996}
   Body: {fileID: 1378811119534584459}
   NearByMines: {fileID: 5080120739510282115}
   Resources: {fileID: 2312510698295937982}
+  PowerUps: {fileID: 1471185648056605557}
 --- !u!54 &2669575672902597336 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 7513440523968902963, guid: 0bd42da7a9f8e5771a18fa8f66efba9f, type: 3}

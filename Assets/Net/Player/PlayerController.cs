@@ -19,8 +19,6 @@ namespace Net
 
 	public class PlayerController : NetworkBehaviour
 	{
-		public bool InGameCamera = false;
-
 		// "In-game" camera
 		public Camera MyCamera;
 
@@ -35,6 +33,9 @@ namespace Net
 
 		[Header("Ressources object of the player")]
 		public PlayerResources Resources;
+
+		[Header("Bonuses object of the player")]
+		public PlayerPowerUps PowerUps;
 
 		/// <summary>
 		/// The camp of the player, set by the GameController
@@ -62,7 +63,7 @@ namespace Net
 			Game.RegisterPlayer(this);
 
 			// For the "in-game" camera
-			if (InGameCamera)
+			if (Game.Configuration.PLAYER_USE_INSIDE_CAMERA)
 			{
 				this.MyCamera.gameObject.SetActive(this.IsLocalPlayer);
 			}
@@ -179,6 +180,18 @@ namespace Net
 			}
 		}
 
+		public void Hide()
+		{
+			// TODO: better (and arrow)
+			this.Body.Body.GetComponent<Renderer>().enabled = false;
+		}
+
+		public void Show()
+		{
+			// TODO: better (and arrow)
+			this.Body.Body.GetComponent<Renderer>().enabled = true;
+		}
+
 		void Update()
 		{
 			if (!this.IsLocalPlayer)
@@ -215,9 +228,6 @@ namespace Net
 			}
 		}
 
-		// TODO: FROM Bonus
-		private bool hasVision = false;
-
 		/// <summary>
 		/// When a mine touches one of the player collider
 		/// </summary>
@@ -232,12 +242,21 @@ namespace Net
 
 			if (type == PlayerMineCollider.TYPE.INTERACTION)
 			{
+				if (mine.Player == this && !Game.Configuration.PLAYER_SELF_DEMINING)
+				{
+					// can not demine its own mine
+					return;
+				}
+
 				// TODO: better (for now, let's suppose that it can not have multiple mine here)
 				this.MineInteractive = mine;
 				return;
 			}
 
-			if (type == PlayerMineCollider.TYPE.EXTENDED && !this.hasVision)
+			if (
+				type == PlayerMineCollider.TYPE.EXTENDED
+				&& !(this.PowerUps.powerUp == PowerUp.VISION)
+			)
 			{
 				// Vision is not set
 				return;
@@ -264,7 +283,7 @@ namespace Net
 				return;
 			}
 
-			if (type == PlayerMineCollider.TYPE.NORMAL && this.hasVision)
+			if (type == PlayerMineCollider.TYPE.NORMAL && this.PowerUps.powerUp == PowerUp.VISION)
 			{
 				// Only hide with from extended if vision
 				return;

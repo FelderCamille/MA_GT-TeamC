@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using BaseUI = UI;
 
@@ -18,6 +19,9 @@ namespace Net.UI
 		// TODO: remove (just temporary)
 		public GameObject OnOwnFieldText;
 		public GameObject OnEnemyFieldText;
+
+		// TODO: better
+		public TextMeshProUGUI countdownPowerUp;
 
 		// Start is called once before the first execution of Update after the MonoBehaviour is created
 		void Start() { }

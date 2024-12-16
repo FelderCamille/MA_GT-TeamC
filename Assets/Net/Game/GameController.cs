@@ -92,6 +92,11 @@ namespace Net
 			player.Body.Body.position = spawnPlayer.position;
 			player.Body.Body.rotation = spawnPlayer.rotation;
 
+			if (player.IsLocalPlayer)
+			{
+				this.PlayerLocal = player;
+			}
+
 			HUDRessourcesPlayer hud = player.IsLocalPlayer
 				? (
 					this.HUDRessources1 = new HUDRessourcesPlayer(
@@ -123,6 +128,7 @@ namespace Net
 		}
 	}
 
+	// TODO: move elsewhere
 	public class HUDRessourcesPlayer
 	{
 		private readonly PlayerController player;

@@ -61,15 +61,20 @@ public static class Constants
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
-    public static class Values
+    public static class Prices
     {
-        public const int RevivePrice = 1500;
-        public const int RepairPrice = 500;
-        public const int HealthRemovedWhenFailureMin = 10;
-        public const int HealthRemovedWhenFailureMax = 15;
-        public const int HealthRemovedWhenExplosionMin = 20;
-        public const int HealthRemovedWhenExplosionMax = 30;
-        public const int SmallRepairValue = 25;
+        public const int Revive = 1500;
+        public const int Repair = 500;
+        public const int Vision = 100;
+    }
+
+    public static class Health
+    {
+        public const int RemovedWhenFailureMin = 10;
+        public const int RemovedWhenFailureMax = 15;
+        public const int RemovedWhenExplosionMin = 20;
+        public const int RemovedWhenExplosionMax = 30;
+        public const int SmallRepair = 25;
     }
 
     public static class Bonus

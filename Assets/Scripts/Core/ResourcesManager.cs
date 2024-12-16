@@ -120,7 +120,7 @@ namespace Core
             if (_health <= 0) _gameOver.Hide(this);
             // If total repair, set the health to the maximum. If partial, add a small value
             if (!partial)  _health = Constants.GameSettings.Health;
-            else _health = Constants.Values.SmallRepairValue;
+            else _health = Constants.Health.SmallRepair;
             // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
             // Play the repair sound

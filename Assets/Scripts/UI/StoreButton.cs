@@ -21,7 +21,7 @@ namespace UI
 
         public void InitRepairButton(Action onClickCallback)
         {
-            Init(onClickCallback, "Réparer", Constants.Values.RepairPrice, "Icons/repair");
+            Init(onClickCallback, "Réparer", Constants.Prices.Repair, "Icons/repair");
         }
         
         public void Enabled()

@@ -82,11 +82,11 @@ namespace Controllers
                         robot.IncreaseClearedMineCounter();
                         break;
                     case LandmineCleared.AnswerFailure:
-                        var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
+                        var hTRFailure = Random.Range(Constants.Health.RemovedWhenFailureMin, Constants.Health.RemovedWhenFailureMax);
                         robot.ReduceHealth(hTRFailure);
                         break;
                     case LandmineCleared.Explosion:
-                        var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
+                        var hTRExplosion = Random.Range(Constants.Health.RemovedWhenExplosionMin, Constants.Health.RemovedWhenExplosionMax);
                         robot.ReduceHealth(hTRExplosion);
                         break;
                     default:

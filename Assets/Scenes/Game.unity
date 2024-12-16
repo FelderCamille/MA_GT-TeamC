@@ -3557,6 +3557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 3133543057032349834, guid: f87ba11b6dd52417ebbfcf1a302cfab6, type: 3}
   landmineTilePrefab: {fileID: 1202899067884833650, guid: f3dd44d3bd05e451b902816df468b917, type: 3}
+  safeAreaTilePrefab: {fileID: 3133543057032349834, guid: a0f93351e7cbb4e50bb59bfaa27c4457, type: 3}
   paddingTilePrefab: {fileID: 3133543057032349834, guid: 380fc9e42ec5b4d8eaf372bbe28290ec, type: 3}
   treeTilePrefabs:
   - {fileID: 3133543057032349834, guid: 8c17b348efa024406b3ae88c7bad6538, type: 3}

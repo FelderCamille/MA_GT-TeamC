@@ -118,7 +118,7 @@ namespace Controllers
         [Rpc(SendTo.Everyone)]
         private void ReplaceLandmineRpc()
         {
-            _grid.ReplaceMineByClassicTile(GetComponentInParent<LandmineTile>());
+            _grid.ReplaceMineByTile(GetComponentInParent<LandmineTile>());
         }
 
         public void OnRobotCollided(RobotController robot)

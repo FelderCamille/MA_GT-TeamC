@@ -21,16 +21,20 @@ namespace Controllers
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
             _gridController = FindFirstObjectByType<GridController>();
             // Init buttons
-            reviveButton.Init(Revive, "Réapparaître", Constants.Values.RevivePrice, "Icons/repair");
+            reviveButton.Init(Revive, "Réapparaître", Constants.Prices.Revive, "Icons/repair");
             quitButton.Init(Quit);
         }
         
         public void Show(ResourcesManager resourcesManager)
         {
+            // Set resources manager
             _resources = resourcesManager;
+            // Hide the robot
+            _resources.GetComponent<RobotController>().Hide();
+            // Show game over screen
             gameObject.SetActive(true);
             // Check if the player can revive
-            if (_resources.HasEnoughMoneyToBuy(Constants.Values.RevivePrice)) reviveButton.Enabled();
+            if (_resources.HasEnoughMoneyToBuy(Constants.Prices.Revive)) reviveButton.Enabled();
             else reviveButton.Disable();
         }
         
@@ -42,12 +46,16 @@ namespace Controllers
         
         private void Revive()
         {
-            if (_resources != null && _resources.HasEnoughMoneyToBuy(Constants.Values.RevivePrice))
+            if (_resources != null && _resources.HasEnoughMoneyToBuy(Constants.Prices.Revive))
             {
-                _resources.ReduceMoney(Constants.Values.RevivePrice);
+                // Repair the robot
+                _resources.ReduceMoney(Constants.Prices.Revive);
                 _resources.Repair();
+                // Reset robot spawn
                 var robot = _resources.GetComponent<RobotController>();
                 if (_gridController != null && robot != null) _gridController.ResetRobotSpawn(robot);
+                // Show the robot
+                if (robot != null) robot.Show();
             }
         }
         

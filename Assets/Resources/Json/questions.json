@@ -1,6 +1,7 @@
 {
   "questions": [
     {
+	  "difficulty" : 2,
       "query": "Combien de personnes ont été déplacées ou se sont retrouvées sans abri en Europe après la Seconde Guerre mondiale ?",
       "responses": [
         "10 millions",
@@ -11,6 +12,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel organisme a été fondé en 1950 pour gérer les crises de réfugiés mondiales ?",
       "responses": [
         "CICR",
@@ -21,6 +23,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de personnes ont vécu dans des camps de personnes déplacées (DP) jusqu'à la fin des années 1940 ?",
       "responses": [
         "500 000",
@@ -31,6 +34,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de personnes ont été déplacées en raison de la partition de l'Inde en 1947 ?",
       "responses": [
         "10 millions",
@@ -41,7 +45,8 @@
       "correctIndex": 2
     },
     {
-      "query": "Quelle a été la principale cause de la violence lors de la partition de l'Inde ?",
+	  "difficulty" : 2,		
+      "query": "Quelle a été la principale cause de la violence lors de la partition de l'Inde en 1947 ?",
       "responses": [
         "Conflit ethnique",
         "Différences politiques",
@@ -51,7 +56,8 @@
       "correctIndex": 4
     },
     {
-      "query": "",
+	  "difficulty" : 3,		
+      "query": "Combien de morts ont été causés par les violences de la partition de l'Inde en 1947?",
       "responses": [
         "100 000 et 500 000",
         "200 000 et 2 millions",
@@ -61,6 +67,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de personnes ont fui le Vietnam, le Cambodge et le Laos entre 1975 et 2000 ?",
       "responses": [
         "500 000",
@@ -71,6 +78,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Environ combien de Vietnamiens, surnommés \" boat people \" sont morts en mer durant leur fuite ?",
       "responses": [
         "200'000",
@@ -81,6 +89,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 3,		
       "query": "Quels pays ont accueilli le plus grand nombre de réfugiés vietnamiens ?",
       "responses": [
         "Japon, Corée du Sud, Chine",
@@ -91,6 +100,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 2,		
       "query": "Combien de Rwandais ont fui vers les pays voisins durant le génocide de 1994 ?",
       "responses": [
         "1 million",
@@ -101,6 +111,7 @@
       "correctIndex":  3
     },
     {
+	  "difficulty" : 3,		
       "query": "Environ combien d’Afghans ont fui leur pays après l'invasion soviétique de 1979 ?",
       "responses": [
         "1.7 million",
@@ -111,6 +122,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Quels pays ont principalement accueilli les réfugiés afghans ?",
       "responses": [
         "Iran et Pakistan",
@@ -121,6 +133,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "Depuis le début de la guerre civile en 2011, combien de Syriens ont été déplacés à l'intérieur du pays ou à l’étranger ?",
       "responses": [
         "5 millions",
@@ -131,6 +144,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel pays accueille la majorité des réfugiés syriens ?",
       "responses": [
         "Jordanie",
@@ -141,6 +155,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien d'enfants syriens ne vont plus à l’école à cause de la guerre civile ?",
       "responses": [
         "1 million",
@@ -151,6 +166,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de personnes ont été déplacées durant la guerre de Bosnie-Herzégovine ?",
       "responses": [
         "1 million",
@@ -161,6 +177,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle tragédie a poussé la communauté internationale à intervenir en Bosnie en 1995 ?",
       "responses": [
         "Massacre de Srebrenica",
@@ -171,6 +188,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "Les Accords de Dayton de 1995 ont mis fin au conflit en Bosnie. Quelles étaient les principales communautés ethniques en guerre ?",
       "responses": [
         "Croates, Serbes et Slovènes",
@@ -181,6 +199,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de Colombiens ont été déplacés par la guerre civile entre 1964 et 2016 ?",
       "responses": [
         "2.5 millions",
@@ -191,6 +210,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel groupe rebelle était actif au Pérou entre 1980 et 2000 ?",
       "responses": [
         "FARC",
@@ -201,6 +221,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de Vénézuéliens ont quitté leur pays dans les années 2010 en raison de la crise économique et politique ?",
       "responses": [
         "1.5 million",
@@ -211,7 +232,8 @@
       "correctIndex": 4
     },
     {
-      "query": "Quels pays européens accueillent le plus grand nombre de réfugiés ukrainiens depuis le début de la guerre en 2022?",
+	  "difficulty" : 2,		
+      "query": "Quels pays européens accueillent le plus grand nombre de réfugiés ukrainiens depuis le début de la guerre en 2022 ?",
       "responses": [
         "Pologne, Allemagne, République tchèque",
         "France, Belgique, Pays-Bas",
@@ -221,7 +243,8 @@
       "correctIndex": 1
     },
     {
-      "query": "Combien d'Ukrainiens ont quitté leur pays pour se réfugier en Europe entre 2022 et 2024?",
+	  "difficulty" : 2,		
+      "query": "Combien d'Ukrainiens ont quitté leur pays pour se réfugier en Europe entre 2022 et 2024 ?",
       "responses": [
         "2 millions",
         "4 millions",
@@ -231,6 +254,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Combien de personnes ont été déplacées en Ukraine depuis l'invasion russe de 2022 ?",
       "responses": [
         "2 millions",
@@ -241,6 +265,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Environ combien de Rohingyas ont fui le Myanmar depuis 2017 ?",
       "responses": [
         "500'000",
@@ -251,6 +276,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de Rohingyas vivent encore au Myanmar malgré les persécutions",
       "responses": [
         "200'000",
@@ -261,6 +287,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Où se situe le plus grand camp de réfugiés (Kutupalong) de Rohingyas ?",
       "responses": [
         "Inde",
@@ -271,6 +298,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "En quelle année les Khmers rouges ont-ils pris le pouvoir au Cambodge ?",
       "responses": [
         "1969",
@@ -281,6 +309,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de Cambodgiens sont morts sous le régime des Khmers rouges ?",
       "responses": [
         "1 million",
@@ -291,6 +320,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Quel impact cette crise des boat people cambodgiens a-t-elle eu sur la communauté internationale ?",
       "responses": [
         "Elle a incité la communauté internationale à mettre en place des programmes humanitaires pour les réfugiés",
@@ -301,6 +331,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle bataille de 1916 a causé plus de 700 000 pertes, en morts et blessés, pour les forces impliquées ?",
       "responses": [
         "La bataille de la Somme",
@@ -311,6 +342,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 2,		
       "query": "Combien de soldats ont été impliqués dans la Première Guerre mondiale ?",
       "responses": [
         "22 millions",
@@ -321,6 +353,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 1,		
       "query": "Comment appelle-t-on les soldats gravement défigurés par la guerre, dont le visage a été reconstruit chirurgicalement ?",
       "responses": [
         "Les poilus",
@@ -331,6 +364,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 1,		
       "query": "En 1945, les États-Unis ont largué des bombes atomiques sur deux villes japonaises. Lesquelles ?",
       "responses": [
         "Nagasaki et Hiroshima",
@@ -341,6 +375,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 1,		
       "query": "Combien de soldats ont été mobilisés au total pendant la Seconde Guerre mondiale ?",
       "responses": [
         "50 millions",
@@ -351,6 +386,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 1,		
       "query": "Quel organisme international a été créé en 1945 pour maintenir la paix mondiale après la Seconde Guerre mondiale ?",
       "responses": [
         "La Ligue des Nations",
@@ -361,6 +397,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "En quelle année la guerre de Corée a-t-elle commencé ?",
       "responses": [
         "1948",
@@ -368,10 +405,11 @@
 		"1957",
 		"1963"
       ],
-      "correctIndex": 3
+      "correctIndex": 2
     },
     {
-      "query": "Quelle bataille a permis aux forces de l’ONU de repousser les Nord-Coréens vers le nord ?",
+	  "difficulty" : 2,		
+      "query": "Quelle bataille a permis aux forces de l’ONU de repousser les Nord-Coréens vers le nord, durant la guerre de Corée ?",
       "responses": [
         "La bataille de Séoul",
         "La bataille d'Incheon",
@@ -381,6 +419,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 1,		
       "query": "Quelle armistice est à l'origine de la paix entre les deux Corée en 1953 ?",
       "responses": [
         "Aucun, ils sont toujours en guerre",
@@ -391,6 +430,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 1,		
       "query": "Pendant combien d'années la guerre du Vietnam a-t-elle duré ?",
       "responses": [
         "10 ans",
@@ -401,6 +441,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle quantité de bombes les États-Unis ont-ils larguées sur le Vietnam ?",
       "responses": [
         "2 millions de tonnes",
@@ -411,6 +452,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle ville est tombée aux mains des forces communistes en 1975, marquant la fin du conflit ?",
       "responses": [
         "Hanoï",
@@ -421,6 +463,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 2,		
       "query": "En 1986, combien d’ogives nucléaires possédaient ensemble les États-Unis et l’Union soviétique ?",
       "responses": [
         "50'000",
@@ -431,6 +474,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 1,		
       "query": "Quelle doctrine a permis d’éviter un conflit direct entre les États-Unis et l'Union soviétique en raison de la menace nucléaire ?",
       "responses": [
         "La destruction mutuelle assurée",
@@ -441,6 +485,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle période couvre la guerre froide ?",
       "responses": [
         "1945-1991",
@@ -451,6 +496,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 2,		
       "query": "En quelle année l'Union soviétique a-t-elle envahi l'Afghanistan ?",
       "responses": [
         "1975",
@@ -461,6 +507,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de soldats américains ont perdu la vie durant l’intervention des États-Unis en Afghanistan après 2001 ?",
       "responses": [
         "2'400",
@@ -471,6 +518,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 3,		
       "query": "Quel est le coût total estimé de l’intervention américaine en Afghanistan ?",
       "responses": [
         "500 milliards de dollars",
@@ -481,6 +529,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "En quelle année a débuté le Printemps arabe ?",
       "responses": [
         "2008",
@@ -491,7 +540,8 @@
       "correctIndex": 3
     },
     {
-      "query": "Quel dirigeant égyptien a quitté le pouvoir après les manifestations de la place Tahrir ?",
+	  "difficulty" : 2,		
+      "query": "Quel dirigeant égyptien a quitté le pouvoir après les manifestations de la place Tahrir en 2011?",
       "responses": [
         "Zine el-Abidine Ben Ali",
         "Mouammar Kadhafi",
@@ -501,6 +551,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "Environ combien de Yéménites ont été déplacés en raison du conflit civil déclenché par le Printemps arabe ?",
       "responses": [
         "1 million",
@@ -511,7 +562,8 @@
       "correctIndex": 3
     },
     {
-      "query": "Quelle a été la principale cause de la guerre du Golfe de 1990-1991 ",
+	  "difficulty" : 2,		
+      "query": "Quelle a été la principale cause de la guerre du Golfe de 1990-1991 ?",
       "responses": [
         "L'invasion de l'Iran par l'Irak",
         "L'invasion du Koweït par l'Irak",
@@ -521,6 +573,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel a été le résultat de l’invasion de 2003 concernant les armes de destruction massive en Irak ?",
       "responses": [
         "Des armes nucléaires ont été découvertes",
@@ -531,6 +584,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Quelle organisation terroriste a émergé en Irak après l'invasion et la chute de Saddam Hussein ?",
       "responses": [
         "Al-Qaïda",
@@ -541,6 +595,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 1,		
       "query": "Quel crise à lieu en 1962 ?",
       "responses": [
         "La crise des missiles de Cuba",
@@ -551,6 +606,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "Combien de jours a duré la crise des missiles de Cuba, menaçant de déclencher une guerre nucléaire ?",
       "responses": [
         "7 jours",
@@ -561,6 +617,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "A combien d'individus la communauté Cubano-Américaine, issu de la fuite du régime de Fidel Castro, est-elle estimé aux USA?",
       "responses": [
         "500'000",
@@ -571,6 +628,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Quel type de gaz a été utilisé par l'Allemagne en 1915, marquant le début de l'utilisation d'armes chimiques en guerre ?",
       "responses": [
         "Sarin",
@@ -581,6 +639,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "Dans quel contexte l'Irak a-t-il utilisé des armes chimiques contre les Kurdes, notamment lors du massacre de Halabja ?",
       "responses": [
         "La guerre du Golfe",
@@ -591,16 +650,18 @@
       "correctIndex": 2
     },
     {
-      "query": "Combien de pays ont ratifié la Convention sur les armes chimiques (CIAC)",
+	  "difficulty" : 3,		
+      "query": "Combien de pays ont ratifié la Convention sur les armes chimiques (CIAC) ?",
       "responses": [
         "193",
-        "180",
-		"160",
-		"150"
+        "183",
+		"163",
+		"153"
       ],
       "correctIndex": 1
     },
     {
+	  "difficulty" : 2,		
       "query": "En quelle année l'Union soviétique a-t-elle testé sa première bombe atomique, mettant fin au monopole américain sur l'arme nucléaire ?",
       "responses": [
         "1945",
@@ -611,6 +672,7 @@
       "correctIndex": 3 
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel traité signé en 1968 visait à limiter la prolifération des armes nucléaires ?",
       "responses": [
         "New START",
@@ -621,6 +683,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 1,		
       "query": "Quelle bombe, testée par l'Union soviétique en 1961, est la plus puissante explosion nucléaire jamais enregistrée ?",
       "responses": [
         "Little Boy",
@@ -631,6 +694,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Les mines antipersonnel ont été utilisées pour la première fois à grande échelle durant quel conflit ?",
       "responses": [
         "La Première Guerre mondiale",
@@ -641,6 +705,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de pays environ comptent encore des millions de mines non explosées sur leur territoire ?",
       "responses": [
         "60 pays",
@@ -651,16 +716,18 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 3,		
       "query": "Quel traité, signé en 1997, interdit l’utilisation, la production et le stockage des mines antipersonnel ?",
       "responses": [
         "Traité de Genève",
         "Traité d’Ottawa",
-		"Traité de Paris",
-		"Traité de Rome"
+		"Traité de Canberra",
+		"Traité de Rio"
       ],
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Quelle organisation œuvre activement au retrait des mines et à la sensibilisation des populations ?",
       "responses": [
         "Organisation mondiale de la santé (OMS)",
@@ -671,6 +738,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "En quelle année la Convention sur les armes à sous-munitions a-t-elle été signée, interdisant l'utilisation de ces armes ?",
       "responses": [
         "1997",
@@ -681,6 +749,7 @@
       "correctIndex": 3
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de pays restent lourdement contaminés par les bombes à sous-munitions, nécessitant des efforts de déminage importants ?",
       "responses": [
         "16",
@@ -691,7 +760,8 @@
       "correctIndex": 3
     },
     {
-      "query": "Combien de sous-munitions environ ont été larguées par les États-Unis au Vietnam, au Laos et au Cambodge ?",
+	  "difficulty" : 2,		
+      "query": "Combien de bombes à sous-munitions environ ont été larguées par les États-Unis au Vietnam, au Laos et au Cambodge ?",
       "responses": [
         "170 millions",
         "270 millions",
@@ -701,6 +771,7 @@
       "correctIndex": 2
     },
     {
+	  "difficulty" : 3,		
       "query": "Quelle proportion de victimes des bombes à sous-munitions non explosées sont des enfants ?",
       "responses": [
         "Environ 33 %",
@@ -711,6 +782,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 3,		
       "query": "Entre 2004 et 2020, combien de frappes de drones armés les États-Unis ont-ils menées au Pakistan, en Afghanistan, en Irak et au Yémen ?",
       "responses": [
         "5'000",
@@ -721,6 +793,7 @@
       "correctIndex": 4
     },
     {
+	  "difficulty" : 2,		
       "query": "Quel est le coût approximatif d’un missile Tomahawk, utilisé pour des frappes ciblées lors de la guerre en Irak en 2003 ?",
       "responses": [
         "1.5 million de dollars",
@@ -731,6 +804,7 @@
       "correctIndex": 1
     },
     {
+	  "difficulty" : 3,		
       "query": "Combien de civils pakistanais sont morts lors des frappes de drones entre 2004 et 2018 ?",
       "responses": [
         "500",
@@ -739,6 +813,392 @@
 		"1700"
       ],
       "correctIndex": 2
+    },
+    {
+	  "difficulty" : 3,		
+      "query": "Combien d’enfants soldats sont estimés à être impliqués dans des conflits armés à travers le monde selon l’UNICEF ?",
+      "responses": [
+        "50'000",
+        "100'000",
+		"250'000",
+		"500'000"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 2,		
+      "query": "Quel cadre juridique international interdit le recrutement d’enfants de moins de 18 ans dans des conflits armés ?",
+      "responses": [
+        "Traité sur les droits humains de Genève",
+        "Protocole facultatif à la Convention relative aux droits de l’enfant",
+		"Traité d’Ottawa",
+		"Déclaration universelle des droits de l’homme"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 2,		
+      "query": "Combien de pays n’appliquent toujours pas pleinement les règles internationales contre le recrutement d’enfants soldats ?",
+      "responses": [
+        "55",
+        "65",
+		"75",
+		"85"
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 2,		
+      "query": "A quel âge les plus jeunes enfants sont-ils recrutés ?",
+      "responses": [
+        "6 ans",
+        "10 ans",
+		"14 ans",
+		"16 ans"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 3,		
+      "query": "Combien d'enfants furent mobilisé durant la guerre civile de l'Angola (1975-2002) ?",
+      "responses": [
+        "10'000",
+        "20'000",
+		"30'000",
+		"40'000"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 2,		
+      "query": "Combien coûte annuellement la cyberguerre à l'économie mondiale, selon le CSIS ?",
+      "responses": [
+        "500 milliards de dollars",
+        "1'000 milliards de dollars",
+		"1'500 milliards de dollars",
+		"2'000 milliards de dollars"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 3,		
+      "query": "Quel pourcentage des entreprises mondiales ont été ciblées par des cyberattaques en 2022 ?",
+      "responses": [
+        "20%",
+        "30%",
+		"40%",
+		"50%"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 3,		
+      "query": "Quel groupe de pirates est lié à l’incident SolarWinds de 2020 ?",
+      "responses": [
+        "Fancy Poney",
+        "Anonymous",
+		"Lazarus",
+		"Cozy Bear"
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 2,		
+      "query": "En quelle année le ver informatique Stuxnet a-t-il été découvert, sabotant les centrifugeuses nucléaires iraniennes ?",
+      "responses": [
+        "2010",
+        "2014",
+		"2018",
+		"2022"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 3,		
+      "query": "Quel pays a subi une attaque massive de déni de service (DDoS) en 2007, paralysant ses infrastructures numériques ?",
+      "responses": [
+        "Ukraine",
+        "Estonie",
+		"États-Unis",
+		"Iran"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "A quel organisme correspond l'acronyme \"CICR\", organisation d'aide humanitaire ?",
+      "responses": [
+        "Comité international de la Croix-Rouge",
+        "Centre International de Coordination et de Recherche",
+		"Cellule d'Information et de Communication en Réseau",
+		"Comité d'Innovation et de Création de Ressources"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel pays a envahi l'Ukraine en 2022 ?",
+      "responses": [
+        "La Biélorussie",
+        "La Pologne",
+		"La Moldavie",
+		"La Russie"
+      ],
+      "correctIndex": 4 
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Qui est le dirigeant actuel de la Syrie ?",
+      "responses": [
+        "Donald Trump",
+        "Benyamin Netanyahu",
+		"Bachar el-Assad ",
+		"Vladimir Poutine"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel pays d'Amérique est devenu communiste en 1961, après une révolution commencé en 1959 ?",
+      "responses": [
+        "Le Canada",
+        "Cuba",
+		"Les Etats-Unis",
+		"Aucun de ces pays"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "A quel usage sont prévues les mines anti-personnels ?",
+      "responses": [
+        "Contre les chars",
+        "Contre les personnes",
+		"Contre les appareils utlisant de l'électronique",
+		"Contre les véhicules en général"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel faction a gagné la guerre du Vietnam en 1975 ?",
+      "responses": [
+        "Les Etats-Unis",
+        "Le Sud-Vietnam Liberal",
+		"Le Nord-Vietnam Communiste",
+		"Le Japon"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Que veut dire l'acronyme UNHCR ?",
+      "responses": [
+        "United Nations High Commissioner for Refugees",
+        "Universal Nexus for Health and Community Resilience",
+		"United National Hub for Collaborative Robotics",
+		"Ultimate Network for High-tech and Cybernetic Revolution"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quelles dates correspondent à la Première Guerre Mondiale ?",
+      "responses": [
+        "1870-1877",
+        "1914-1918",
+		"1939-1945",
+		"1955-1975"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quelles dates correspondent à la Seconde Guerre Mondiale ?",
+      "responses": [
+        "1870-1877",
+        "1914-1918",
+		"1939-1945",
+		"1955-1975"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quelles sont les noms des 2 alliances qui se sont confrontées pour la WWI ?",
+      "responses": [
+        "La Triple Alliance et la Triple Entente",
+        "L'Axe et les Alliés",
+		"La Ligue Arabe et l'Alliance du Proche-Orient",
+		"Entente d'Asie Centrale et la Ligue Africaine"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quels pays forment l'\"Axe\" durant la WWII ?",
+      "responses": [
+        "La Suisse, la Belgique et le Liechtenstein",
+        "Les USA, le Royaume-Unis et la France",
+		"L'Australie, le Canada et l'Inde",
+		"L'Allemagne, le Japon et l'Italie"
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Que veut dire l'acronyme UNRRA ?",
+      "responses": [
+        "Union of Natural Resources and Renewable Agriculture",
+        "Ultimate Navigation and Rescue Response Agency",
+		"United Nations Relief and Rehabilitation Administration",
+		"United Network for Radical Research in Astronomy"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Avant 1947, quel pays coloniale administrait l'Inde ?",
+      "responses": [
+        "Le Royaume-Uni",
+        "La France",
+		"Les Etats-Unis",
+		"L'Espagne"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "MSF est l'acronyme de quelle société humanitaire ?",
+      "responses": [
+        "Militaire Sans Frontière",
+        "Médecins Sans Frontière",
+		"Monde Sans Famine",
+		"Mission Suisse de la Formation"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "De quel pays d'Asie Pol Pot fût dictateur?",
+      "responses": [
+        "Cambodge",
+        "Russie",
+		"Inde",
+		"Japon"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Qui était le dictateur de cuba de 1959 à 2011 ?",
+      "responses": [
+        "Ronald Reagan",
+        "John F. Kennedy",
+		"Raúl Castro",
+		"Fidel Castro"
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "UNICEF est l'acronyme de ...",
+      "responses": [
+        "United Nations Initiative for Climate and Environmental Futures",
+        "Union of Nations for Interdisciplinary Collaboration and Economic Flourishing",
+		"United Nations International Children's Emergency Fund",
+		"Universal Network for Innovation and Cultural Exchange Fund"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Dans quel pays les FARC sévissent-ils ?",
+      "responses": [
+        "Les Philipinnes",
+        "La Colombie",
+		"La Russie",
+		"L'Angola"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "L'acronyme CIAC correspond à ...",
+      "responses": [
+        "Consortium pour l’Intégration et l’Avancement des Connaissances",
+        "Collectif pour l’Innovation Agricole et Climatique",
+		"Centre Interdisciplinaire d’Astronomie et de Cosmologie",
+		"Convention Internationale sur les Armes Chimiques "
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel dictateur irakien est connu pour avoir attaqué sa population aux arme chimiques ?",
+      "responses": [
+        "Kim Jong-un ",
+        "Mouammar Kadhafi",
+		"Saddam Hussein",
+		"Bachar el-Assad"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel groupe terroriste Oussama ben Laden a-t-il fondé et dirigé, responsable des attentats du 11 septembre 2001 ?",
+      "responses": [
+        "Al-Qaïda",
+        "Hezbollah",
+		"Daech",
+		"Boko Haram"
+      ],
+      "correctIndex": 1
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Dans quel conflit, la chute de la ville de Saïgon symbolise-t-elle la fin ?",
+      "responses": [
+        "La guerre du Congo",
+        "La guerre du Golf",
+		"Le Printemps Arabe",
+		"La guerre du Vietnam"
+      ],
+      "correctIndex": 4
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel traité, signé en 1919, déclare la fin de la WWI et plante les germes de la WWII ?",
+      "responses": [
+        "Le traité de Frankfort",
+        "Le traité de Versailles",
+		"Le traité de Rome",
+		"Le traité de Genève"
+      ],
+      "correctIndex": 2
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel événement tragique a conduit à l'extermination systématique de 6 millions de Juifs par le régime nazi ?",
+      "responses": [
+        "La conquête de l'URSS",
+        "Les campagnes d'Afrique",
+		"L'Holocauste",
+		"L'aide apporté au régime totalitaire espagnole de Franco"
+      ],
+      "correctIndex": 3
+    },
+    {
+	  "difficulty" : 1,		
+      "query": "Quel groupe armée a reprit Kaboul après le retrait de l'Armée américaine en 2021 ?",
+      "responses": [
+        "Les talibans",
+        "Les rebelles kurdes",
+		"les dissidents irakiens",
+		"L'armée russe"
+      ],
+      "correctIndex": 1
     }
+	
   ]
 }

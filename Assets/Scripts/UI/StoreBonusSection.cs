@@ -11,9 +11,9 @@ namespace UI
 {
     public class StoreBonusSection : MonoBehaviour
     {
-        public Text title;
-        public HorizontalLayoutGroup bonusesEmplacement;
-        public BonusButton bonusButtonPrefab;
+        [SerializeField] private Text title;
+        [SerializeField] private HorizontalLayoutGroup bonusesEmplacement;
+        [SerializeField] private BonusButton bonusButtonPrefab;
         
         public void Init(BonusType bonusType, Action action)
         {

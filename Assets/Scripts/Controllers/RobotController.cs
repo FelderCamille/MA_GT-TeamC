@@ -10,6 +10,9 @@ namespace Controllers
         private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
 
         // Effects
+        [Header("Parts")]
+        [SerializeField] private GameObject robotObject;
+        [SerializeField] private GameObject directionalArrowObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private GameObject repeatedWaveEffect;
 
@@ -21,12 +24,15 @@ namespace Controllers
         private SoundManager _soundManager;
 
         // Movements
+        [Header("Movements")]
         [SerializeField] private float moveSpeed = 5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
 
         private void Start()
          {
+             // Do not destroy the gameObject when the scene is changed
+             DontDestroyOnLoad(gameObject);
              // Attach camera
              if (IsOwner) FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
              // Initialize references
@@ -115,27 +121,30 @@ namespace Controllers
             }
         }
 
-        public void IncreaseClearedMineCounter()
+        public void IndicateClearedMine()
         {
             _resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
-
-        public void ReduceHealth(float value)
+        
+        public void IndicateExplodedMine(bool failure = false)
         {
+            var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
             _resourcesManager.ReduceHealth(value);
+            _resourcesManager.IncreaseExplodedMinesCount();
         }
 
         public bool Repair()
         {
-            if (!_resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice)) return false;
-            _resourcesManager.ReduceMoney(Constants.Values.RepairPrice);
+            if (!_resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair)) return false;
+            _resourcesManager.ReduceMoney(Constants.Prices.Repair);
             _resourcesManager.Repair();
             return true;
         }
 
         public bool CanRepair()
         {
-            return _resourcesManager.HasEnoughMoneyToBuy(Constants.Values.RepairPrice) && _resourcesManager.NeedRepair();
+            return _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair) && _resourcesManager.NeedRepair();
         }
 
         public bool CanBuyBonus(Bonus bonus)
@@ -153,6 +162,18 @@ namespace Controllers
         {
             repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
             repeatedWaveEffect.SetActive(false);
+        }
+
+        public void Hide()
+        {
+            robotObject.SetActive(false); 
+            directionalArrowObject.SetActive(false);
+        }
+
+        public void Show()
+        {
+            robotObject.SetActive(true); 
+            directionalArrowObject.SetActive(true);
         }
 
     }

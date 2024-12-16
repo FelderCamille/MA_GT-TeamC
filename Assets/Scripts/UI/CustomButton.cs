@@ -7,7 +7,7 @@ namespace UI
     public class CustomButton : MonoBehaviour
     {
 
-        public Button button;
+        [SerializeField] private Button button;
         
         public void Init(Action onClickCallback)
         {

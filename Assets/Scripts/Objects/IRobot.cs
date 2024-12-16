@@ -6,13 +6,13 @@ namespace Objects
         /// <summary>
         /// Method <c>IncreaseClearedMineCounter</c> increase the cleared landmine counter
         /// </summary>
-        public void IncreaseClearedMineCounter();
+        public void IndicateClearedMine();
         
         /// <summary>
-        /// Method <c>ReduceHealth</c> reduces the health
+        /// Method <c>IndicateExplodedMine</c> reduces the health
         /// </summary>
-        /// <param name="value">The health to reduce</param>
-        public void ReduceHealth(float value);
+        /// <param name="failure">If the mine exploded because the question was answered wrongly</param>
+        public void IndicateExplodedMine(bool failure = false);
 
         /// <summary>
         /// Method <c>Repair</c> repairs the robot

@@ -19,6 +19,7 @@ namespace Core
         // Robot properties
         private int _money = Constants.GameSettings.Money;
         private int _clearedMines = 0;
+        private int _explodedMines = 0;
         private float _health = Constants.GameSettings.Health;
         private float _visionDistance = Constants.GameSettings.Vision;
         private readonly List<Objects.Bonus> _appliedBonuses = new ();
@@ -34,6 +35,8 @@ namespace Core
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(_clearedMines);
         }
+        
+        // Money
         
         /// <summary>
         /// Check if their is enough money to buy something
@@ -63,12 +66,14 @@ namespace Core
             _money -= value;
             _resourcesPrefab.SetMoney(_money);
         }
+        
+        // Mines
 
         /// <summary>
         /// Cleared mines
         /// </summary>
         public int ClearedMines => _clearedMines;
-
+        
         /// <summary>
         /// Increase cleared mines counter
         /// </summary>
@@ -78,6 +83,15 @@ namespace Core
             _resourcesPrefab.SetMines(_clearedMines);
             _feedbackPopup.ShowMineAsCleared();
         }
+        
+        public int ExplodedMines => _explodedMines;
+        
+        public void IncreaseExplodedMinesCount()
+        {
+            _explodedMines += 1;
+        }
+        
+        // Health
 
         /// <summary>
         /// Reduce the health of the robot
@@ -120,12 +134,14 @@ namespace Core
             if (_health <= 0) _gameOver.Hide(this);
             // If total repair, set the health to the maximum. If partial, add a small value
             if (!partial)  _health = Constants.GameSettings.Health;
-            else _health = Constants.Values.SmallRepairValue;
+            else _health = Constants.Health.SmallRepair;
             // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
             // Play the repair sound
             _soundManager.PlayRepairSound();
         }
+        
+        // Bonus
         
         public float GetVisionDistance()
         {
@@ -133,15 +149,11 @@ namespace Core
             return _visionDistance;
         }
         
-        public void MultiplyVision(double multiplier)
+        public void SetVision(double multiplier)
         {
             _soundManager.PlayVisionSound();
-            Debug.Log("Vision before: " + _visionDistance);
-            _visionDistance *= (float) multiplier;
-            Debug.Log("Vision after: " + _visionDistance);
+            _visionDistance = (float) multiplier;
         }
-        
-        // Bonus
         
         public bool HasBonus(Objects.Bonus bonus)
         {
@@ -163,6 +175,14 @@ namespace Core
             // Remove the bonus from the UI
             _bonusRowPrefab.RemoveBonus(bonus);
         }
+        
+        // Score
+        
+        public int ClearedMinesScore => _clearedMines * Constants.Score.ClearMineSuccess;
+
+        public int ExplodedMinesScore => _explodedMines * Constants.Score.MineExplosion; // MineExplosion is negative
+        
+        public int TotalScore => ClearedMinesScore + ExplodedMinesScore;
 
     }
 

@@ -79,15 +79,13 @@ namespace Controllers
                 {
                     case LandmineCleared.AnswerSuccess:
                         _soundManager.PlayBeepSound();
-                        robot.IncreaseClearedMineCounter();
+                        robot.IndicateClearedMine();
                         break;
                     case LandmineCleared.AnswerFailure:
-                        var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
-                        robot.ReduceHealth(hTRFailure);
+                        robot.IndicateExplodedMine(failure: true);
                         break;
                     case LandmineCleared.Explosion:
-                        var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
-                        robot.ReduceHealth(hTRExplosion);
+                        robot.IndicateExplodedMine();
                         break;
                     default:
                         throw new Exception("Unknown landmine cleared state");

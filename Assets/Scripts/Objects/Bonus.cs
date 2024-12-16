@@ -1,7 +1,6 @@
 using System;
 using Controllers;
 using Core;
-using UnityEngine;
 
 namespace Objects
 {
@@ -30,7 +29,7 @@ namespace Objects
             switch (BonusType)
             {
                 case BonusType.Vision:
-                    resourcesManager.MultiplyVision(Multiplier);
+                    resourcesManager.SetVision(Multiplier);
                     robot.ShowMines();
                     break;
                 default:
@@ -51,7 +50,7 @@ namespace Objects
             switch (BonusType)
             {
                 case BonusType.Vision:
-                    resourcesManager.MultiplyVision(1 / Multiplier);
+                    resourcesManager.SetVision(Constants.GameSettings.Vision);
                     robot.HideMines();
                     break;
                 default:

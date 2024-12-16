@@ -10,7 +10,7 @@ namespace UI
         private const float TimeBeforeFadingInSec = 1;
         private const float ShowAlpha = 0.7f;
 
-        public GameObject landmine;
+        [SerializeField] private GameObject landmine;
         private Material _material;
         private bool _isShown;
 

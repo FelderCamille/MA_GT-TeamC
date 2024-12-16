@@ -68,7 +68,7 @@ namespace Controllers
             _soundManager.PlayCutSound();
             // Manage response
             var question = _questions[_currentQuestionIndex];
-            var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
+            var isCorrect = question.IsCorrectResponse(questionButton.GetText());
             // Show feedback
             if (!isCorrect)
             {

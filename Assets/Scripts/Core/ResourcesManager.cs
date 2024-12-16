@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Controllers;
 using UI;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Core
 {
-    public class ResourcesManager : MonoBehaviour
+    public class ResourcesManager : NetworkBehaviour
     {
         
         private Ressources _resourcesPrefab;
@@ -18,8 +19,8 @@ namespace Core
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
-        private int _clearedMines = 0;
-        private int _explodedMines = 0;
+        private readonly NetworkVariable<int> _clearedMines = new (0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<int> _explodedMines = new (0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private float _health = Constants.GameSettings.Health;
         private float _visionDistance = Constants.GameSettings.Vision;
         private readonly List<Objects.Bonus> _appliedBonuses = new ();
@@ -33,7 +34,7 @@ namespace Core
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
-            _resourcesPrefab.SetMines(_clearedMines);
+            _resourcesPrefab.SetMines(_clearedMines.Value);
         }
         
         // Money
@@ -72,23 +73,23 @@ namespace Core
         /// <summary>
         /// Cleared mines
         /// </summary>
-        public int ClearedMines => _clearedMines;
+        public int ClearedMines => _clearedMines.Value;
         
         /// <summary>
         /// Increase cleared mines counter
         /// </summary>
         public void IncreaseClearedMinesCounter()
         {
-            _clearedMines += 1;
-            _resourcesPrefab.SetMines(_clearedMines);
+            _clearedMines.Value += 1;
+            _resourcesPrefab.SetMines(_clearedMines.Value);
             _feedbackPopup.ShowMineAsCleared();
         }
         
-        public int ExplodedMines => _explodedMines;
+        public int ExplodedMines => _explodedMines.Value;
         
         public void IncreaseExplodedMinesCount()
         {
-            _explodedMines += 1;
+            _explodedMines.Value += 1;
         }
         
         // Health
@@ -175,14 +176,6 @@ namespace Core
             // Remove the bonus from the UI
             _bonusRowPrefab.RemoveBonus(bonus);
         }
-        
-        // Score
-        
-        public int ClearedMinesScore => _clearedMines * Constants.Score.ClearMineSuccess;
-
-        public int ExplodedMinesScore => _explodedMines * Constants.Score.MineExplosion; // MineExplosion is negative
-        
-        public int TotalScore => ClearedMinesScore + ExplodedMinesScore;
 
     }
 

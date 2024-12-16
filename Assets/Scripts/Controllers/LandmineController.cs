@@ -23,7 +23,7 @@ namespace Controllers
         private GridController _grid;
         
         private void Start()
-        { 
+        {
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();

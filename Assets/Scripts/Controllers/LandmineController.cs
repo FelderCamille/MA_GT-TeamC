@@ -21,6 +21,8 @@ namespace Controllers
 
         private RobotController[] _robots;
         private GridController _grid;
+        // Animation
+        private Animator _animator;
 
         public LandmineDifficulty Difficulty { private get; set; }
         
@@ -29,11 +31,18 @@ namespace Controllers
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            DetectRobotsApproach();
+            DetectRobotApproach();
+            if(Input.GetKeyDown(KeyCode.D))
+            {
+                Debug.Log("Trigger 'ArmOut' activated.");
+                _animator.SetTrigger("ArmOut"); // Trigger animation
+                Debug.Log("Action 'ArmOut' done.");
+            }
         }
 
         private void OnCollisionEnter(Collision other)

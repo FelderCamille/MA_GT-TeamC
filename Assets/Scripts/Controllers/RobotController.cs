@@ -22,6 +22,11 @@ namespace Controllers
         private QuestionController _questionOverlay;
         private StoreController _storeOverlay;
         private GridController _grid;
+        // robot
+        private Animator _animator;
+        [SerializeField] private ParticleSystem _mudParticules;
+
+        // Audio
         private SoundManager _soundManager;
 
         // Movements
@@ -44,6 +49,9 @@ namespace Controllers
              if (!IsOwner && !Constants.DebugShowOtherPlayer) Hide();
              // Play single wave effect at the start
              singleWaveEffect.Play();
+            _animator = GetComponent<Animator>();
+            _mudParticules = GetComponentInChildren<ParticleSystem>();
+            _mudParticules.Stop();
          }
 
         private void Update()
@@ -98,16 +106,33 @@ namespace Controllers
             {
                 _moveDirection = transform.forward; // Move forward
                 PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
+                _animator.SetTrigger("MoveForward"); // Trigger animation
+                if (!_mudParticules.isPlaying)
+                {
+                    var shape = _mudParticules.shape;
+                    shape.position = new Vector3(2.5f, -1.2f, -0.5f);
+                    shape.rotation = new Vector3(0, 180, 0);
+                    _mudParticules.Play();
+                }
             }
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
                 _moveDirection = -transform.forward; // Move backward
                 PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
+                _animator.SetTrigger("MoveBackward"); // Trigger animation
+                if (!_mudParticules.isPlaying)
+                {
+                    var shape = _mudParticules.shape;
+                    shape.position = new Vector3(-2.5f, -1.2f, 0.5f);
+                    shape.rotation = new Vector3(0, 0, 0);
+                    _mudParticules.Play();
+                }
             }
             else
             {
                 _moveDirection = Vector3.zero; // No movement
                 _soundManager.moveSoundSource.Stop();
+                _mudParticules.Stop();
             }
 
             // Apply movement respecting grid boundaries

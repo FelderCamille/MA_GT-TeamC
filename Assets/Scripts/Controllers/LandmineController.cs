@@ -18,19 +18,28 @@ namespace Controllers
         private RobotController _robot;
         public LandmineTile landmine;
         public ParticleSystem explosionEffect;
-        public float collidingDistance = 1.0f; // Correspond à 3 tuiles de distance
+        public float collidingDistance = 1.0f; // Correspond ï¿½ 3 tuiles de distance
 
+        // Animation
+        private Animator _animator;
 
         private void Start()
         { 
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
             _soundManager = FindObjectOfType<SoundManager>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
             DetectRobotApproach();
+            if(Input.GetKeyDown(KeyCode.D))
+            {
+                Debug.Log("Trigger 'ArmOut' activated.");
+                _animator.SetTrigger("ArmOut"); // Trigger animation
+                Debug.Log("Action 'ArmOut' done.");
+            }
         }
 
         private void OnCollisionEnter(Collision other)
@@ -58,14 +67,16 @@ namespace Controllers
         public void DetectRobotApproach()
         {
             {
-                // Vérifiez si la touche pour désamorcer est pressée et si aucune question n'est active
+                // Vï¿½rifiez si la touche pour dï¿½samorcer est pressï¿½e et si aucune question n'est active
                 if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
 
-                // Vérifiez si le robot est dans le rayon de déminage
+                // Vï¿½rifiez si le robot est dans le rayon de dï¿½minage
                 if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
 
+                //Debug.Log("Trigger 'ArmOut' activated.");
+                //_animator.SetTrigger("ArmOut"); // Trigger animation
                 // Affichez la question
-                ShowQuestionOverlay();
+                //ShowQuestionOverlay();
                 _soundManager.playOpenMineSound();
             }
             /*

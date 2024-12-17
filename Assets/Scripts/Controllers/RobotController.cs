@@ -18,12 +18,15 @@ namespace Controllers
         private GridController _grid;
         private LandmineController _currentLandmine;
 
+        // robot
+        private Animator _animator;
+
         // Audio
         private SoundManager _soundManager;
 
-        [SerializeField] private float moveSpeed = 5f; // Vitesse de déplacement (modifiable dans l'éditeur)
-        [SerializeField] private float rotationSpeed = 180f; // Vitesse de rotation (en degrés/seconde)
-        private Vector3 moveDirection; // Direction actuelle du déplacement
+        [SerializeField] private float moveSpeed = 5f; // Vitesse de dï¿½placement (modifiable dans l'ï¿½diteur)
+        [SerializeField] private float rotationSpeed = 180f; // Vitesse de rotation (en degrï¿½s/seconde)
+        private Vector3 moveDirection; // Direction actuelle du dï¿½placement
 
         private void Start()
         {
@@ -33,6 +36,7 @@ namespace Controllers
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             singleWaveEffect.Play();
             _soundManager = FindObjectOfType<SoundManager>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -73,7 +77,7 @@ namespace Controllers
         {
             if (Input.GetKey(Constants.Actions.MoveRight))
             {
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Rotation à droite
+                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Rotation ï¿½ droite
                 if (!_soundManager.turnSoundSource.isPlaying)
                 {
                     _soundManager.PlayTankTurnSound();
@@ -81,7 +85,7 @@ namespace Controllers
             }
             else if (Input.GetKey(Constants.Actions.MoveLeft))
             {
-                transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Rotation à gauche
+                transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Rotation ï¿½ gauche
                 if (!_soundManager.turnSoundSource.isPlaying)
                 {
                     _soundManager.PlayTankTurnSound();
@@ -89,21 +93,23 @@ namespace Controllers
             }
             else
             {
-                _soundManager.turnSoundSource.Stop(); // Arrête le son si la rotation cesse
+                _soundManager.turnSoundSource.Stop(); // Arrï¿½te le son si la rotation cesse
             }
 
-            // Déplacement : Toujours avancer/reculer dans la direction actuelle (orientation)
+            // Dï¿½placement : Toujours avancer/reculer dans la direction actuelle (orientation)
             if (Input.GetKey(Constants.Actions.MoveUp))
             {
                 moveDirection = transform.forward; // Avance dans la direction du regard
-                if (!_soundManager.moveSoundSource.isPlaying) // Empêche les répétitions si le son est déjà en cours
+                _animator.SetTrigger("MoveForward"); // Trigger animation
+                if (!_soundManager.moveSoundSource.isPlaying) // Empï¿½che les rï¿½pï¿½titions si le son est dï¿½jï¿½ en cours
                 {
                     _soundManager.PlayTankGoSound();
                 }
             }
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
-                moveDirection = -transform.forward; // Recule dans la direction opposée
+                moveDirection = -transform.forward; // Recule dans la direction opposï¿½e
+                _animator.SetTrigger("MoveBackward"); // Trigger animation
                 if (!_soundManager.moveSoundSource.isPlaying)
                 {
                     _soundManager.PlayTankGoSound();
@@ -112,10 +118,10 @@ namespace Controllers
             else
             {
                 moveDirection = Vector3.zero; // Pas de mouvement
-                _soundManager.moveSoundSource.Stop(); // Arrête le son si le robot s'arrête
+                _soundManager.moveSoundSource.Stop(); // Arrï¿½te le son si le robot s'arrï¿½te
             }
 
-            // Appliquer le déplacement
+            // Appliquer le dï¿½placement
             //transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
             Vector3 newPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;

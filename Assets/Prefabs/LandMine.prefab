@@ -4984,6 +4984,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5096996268205200944}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4913459251685175668}
   m_SourcePrefab: {fileID: 100100000, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}
 --- !u!1 &2453036234079454219 stripped
 GameObject:
@@ -5002,9 +5005,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f661a8135e5cb426aada62c60ae4c3fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collidingDistance: 1.5
   landmine: {fileID: 0}
   explosionEffect: {fileID: 5816956812245839745}
+  collidingDistance: 1.5
 --- !u!65 &3391170532255867504
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5053,6 +5056,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &4913459251685175668
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2453036234079454219}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce290e2820935704ca425648a696adb2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &2972727433834766001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 15046c69d7bd94dd3a9ad08ec588874f, type: 3}

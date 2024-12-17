@@ -6,7 +6,7 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
-    public static readonly bool DebugAllowOnlyOneConnection = true; // Warning, this could break some part of the game if set to "true"
+    public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
     public static readonly bool DebugFillIPAddressOnClient = true;
     public static readonly bool DebugShowOtherPlayer = false;
     
@@ -27,14 +27,14 @@ public static class Constants
         public const int GridHeight = 10; // Should be odd
         public const int GridPadding = 10;
         // Timer
-        public const float Timer = 1f * 60f; // 10 min
+        public const float Timer = 10f * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 5;
+        public const int NumberOfLandmines = 10;
         public const int NumberOfTileClearLandmine = 1;
         public const int SafeAreaWidth = 2;
         // Robot
         public const int NumberOfTileMovement = 1;
-        public const float Health = 10f;
+        public const float Health = 100f;
         public const int Vision = 0;
         public const int Money = 5000;
         // Tent
@@ -85,7 +85,9 @@ public static class Constants
     public static class Score
     {
         // Clear mine
-        public const int ClearMineSuccess = 100;
+        public const int ClearMineEasySuccess = 100;
+        public const int ClearMineMediumSuccess = 250;
+        public const int ClearMineHardSuccess = 400;
         public const int MineExplosion = -200;
         // Final score
         public const int MineNotCleared = -100;

@@ -48,7 +48,9 @@ namespace Controllers
                 player1Result = new PlayerResultData
                 {
                     clientId = player1.OwnerClientId,
-                    clearedMines = player1Resources.ClearedMines, // TODO: adapt to difficulty
+                    clearedMinesEasy = player1Resources.ClearedMinesEasy,
+                    clearedMinesMedium = player1Resources.ClearedMinesMedium,
+                    clearedMinesHard = player1Resources.ClearedMinesHard,
                     explodedMines = player1Resources.ExplodedMines
                 }
             };
@@ -60,7 +62,9 @@ namespace Controllers
                 gameResults.player2Result = new PlayerResultData
                 {
                     clientId = player2.OwnerClientId,
-                    clearedMines = player2Resources.ClearedMines, // TODO: adapt to difficulty
+                    clearedMinesEasy = player2Resources.ClearedMinesEasy,
+                    clearedMinesMedium = player2Resources.ClearedMinesMedium,
+                    clearedMinesHard = player2Resources.ClearedMinesHard,
                     explodedMines = player2Resources.ExplodedMines
                 };
             }

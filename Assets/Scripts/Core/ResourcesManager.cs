@@ -97,6 +97,21 @@ namespace Core
                                    + _clearedMines.Value.clearedMinesHard;
         
         /// <summary>
+        /// Cleared mines easy
+        /// </summary>
+        public int ClearedMinesEasy => _clearedMines.Value.clearedMinesEasy;
+        
+        /// <summary>
+        /// Cleared mines normal (medium)
+        /// </summary>
+        public int ClearedMinesMedium => _clearedMines.Value.clearedMinesNormal;
+        
+        /// <summary>
+        /// Cleared mines hard
+        /// </summary>
+        public int ClearedMinesHard => _clearedMines.Value.clearedMinesHard;
+        
+        /// <summary>
         /// Increase cleared mines counter
         /// </summary>
         public void IncreaseClearedMinesCounter(LandmineDifficulty difficulty)

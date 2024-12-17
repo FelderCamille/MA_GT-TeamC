@@ -8,7 +8,9 @@ namespace UI
     public class PlayerResult : MonoBehaviour
     {
         [SerializeField] private Text playerTitle;
-        [SerializeField] private Text clearedMines;
+        [SerializeField] private Text clearedMinesEasy;
+        [SerializeField] private Text clearedMinesMedium;
+        [SerializeField] private Text clearedMinesHard;
         [SerializeField] private Text explodedMines;
         [SerializeField] private Text totalScore;
         [SerializeField] private Text result;
@@ -19,14 +21,15 @@ namespace UI
             var isMe = NetworkManager.Singleton.LocalClientId == currentPlayer.clientId;
             playerTitle.text += " " + (currentPlayer.clientId + 1) + " " + (isMe ? " (vous)" : "");
             // Compute player's result
-            clearedMines.text += currentPlayer.clearedMines + " (" + currentPlayer.ClearedMinesScore + " pts)";
+            clearedMinesEasy.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesEasyScore + " pts)";
+            clearedMinesMedium.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesMediumScore + " pts)";
+            clearedMinesHard.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesEasyScore + " pts)";
             explodedMines.text += currentPlayer.explodedMines + " (" + currentPlayer.ExplodedMinesScore + " pts)";
             // Set total score
             totalScore.text += currentPlayer.TotalScore + " pts";
             // Set result
             var resultText = "Égalité";
             var color = Color.white;
-            Debug.Log("Player " + isMe + " current=" + currentPlayer.TotalScore + " other=" + otherPlayerResult.TotalScore);
             if (currentPlayer.TotalScore > otherPlayerResult.TotalScore)
             {
                 resultText = "Gagnant !";

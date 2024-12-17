@@ -93,27 +93,49 @@ public static class Constants
 
     public static class Landmines
     {
+        public static string LandmineDifficultyName(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => "Facile",
+                LandmineDifficulty.Medium => "Moyen",
+                LandmineDifficulty.Hard => "Difficile",
+                _ => "Unknown"
+            };
+        }
+        
+        public static Color LandmineDifficultyColor(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => Color.green,
+                LandmineDifficulty.Medium => Color.yellow,
+                LandmineDifficulty.Hard => Color.red,
+                _ => Color.white
+            };
+        }
+        
         public static List<Landmine> LandminesObjects()
         {
             return new List<Landmine>
             {
                 new()
                 {
-                    Name = "Facile",
+                    Name = LandmineDifficultyName(LandmineDifficulty.Easy),
                     Price = 100,
                     Icon = "Icons/bomb",
                     Difficulty = LandmineDifficulty.Easy
                 },
                 new()
                 {
-                    Name = "Moyen",
+                    Name = LandmineDifficultyName(LandmineDifficulty.Medium),
                     Price = 200,
                     Icon = "Icons/bomb",
                     Difficulty = LandmineDifficulty.Medium
                 },
                 new()
                 {
-                    Name = "Difficile",
+                    Name = LandmineDifficultyName(LandmineDifficulty.Hard),
                     Price = 300,
                     Icon = "Icons/bomb",
                     Difficulty = LandmineDifficulty.Hard

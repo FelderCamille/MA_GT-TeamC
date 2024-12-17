@@ -68,7 +68,7 @@ namespace Controllers
                     if(_grid.CanPlaceMine(x, y))
                     {
                         _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
-                        PlaceLandmineRpc(x, y);
+                        PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
                         _soundManager.PlaySetMineSound();
                     } // TODO: add other feedback otherwise
                 } // TODO: add feedback if not enough mines
@@ -134,9 +134,9 @@ namespace Controllers
             }
         }
 
-        public void IndicateClearedMine()
+        public void IndicateClearedMine(LandmineDifficulty difficulty)
         {
-            _resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseClearedMinesCounter(difficulty);
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
@@ -223,10 +223,10 @@ namespace Controllers
         }
         
         [Rpc(SendTo.Everyone)]
-        private void PlaceLandmineRpc(int x, int y)
+        private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty)
         {
             // Place the mine
-            _grid.ReplaceTileByMine(x, y);
+            _grid.ReplaceTileByMine(x, y, difficulty);
         }
 
     }

@@ -21,8 +21,8 @@ namespace Objects
         public ulong clientId;
         public int clearedMines;
         public int explodedMines;
-        public int ClearedMinesScore => clearedMines * Constants.Score.ClearMineSuccess;
-        public int ExplodedMinesScore => explodedMines * Constants.Score.MineExplosion;
+        public int ClearedMinesScore => clearedMines * Constants.Score.ClearMineSuccess; // TODO: adapt to difficulty
+        public int ExplodedMinesScore => explodedMines * Constants.Score.MineExplosion; // TODO: adapt to difficulty
         public int TotalScore => ClearedMinesScore + ExplodedMinesScore;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter

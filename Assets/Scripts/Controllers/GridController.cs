@@ -358,7 +358,7 @@ namespace Controllers
             return true;
         }
         
-        public void ReplaceTileByMine(int x, int y)
+        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
         {
             // Only host can replace the tile by a landmine
             if (!NetworkManager.Singleton.IsHost) return;
@@ -375,6 +375,7 @@ namespace Controllers
             // Replace the classic tile by a landmine tile
             var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             landmineTileObj.name = $"Tile {x} {y} x";
+            landmineTileObj.GetComponentInChildren<LandmineController>().Difficulty = difficulty;
             landmineTileObj.GetComponent<NetworkObject>().Spawn();
         }
 

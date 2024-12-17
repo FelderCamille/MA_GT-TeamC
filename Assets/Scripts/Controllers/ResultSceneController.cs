@@ -48,7 +48,7 @@ namespace Controllers
                 player1Result = new PlayerResultData
                 {
                     clientId = player1.OwnerClientId,
-                    clearedMines = player1Resources.ClearedMines,
+                    clearedMines = player1Resources.ClearedMines, // TODO: adapt to difficulty
                     explodedMines = player1Resources.ExplodedMines
                 }
             };
@@ -60,9 +60,13 @@ namespace Controllers
                 gameResults.player2Result = new PlayerResultData
                 {
                     clientId = player2.OwnerClientId,
-                    clearedMines = player2Resources.ClearedMines,
+                    clearedMines = player2Resources.ClearedMines, // TODO: adapt to difficulty
                     explodedMines = player2Resources.ExplodedMines
                 };
+            }
+            else
+            {
+                player2Result.gameObject.SetActive(false);
             }
             // Update network variable
             _gameResultsData.Value = gameResults;

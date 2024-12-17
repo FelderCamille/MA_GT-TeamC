@@ -21,7 +21,12 @@ namespace Core
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
-        private readonly NetworkVariable<int> _clearedMines = new (0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<ClearedMinesData> _clearedMines = new ( 
+            new ClearedMinesData {
+                clearedMinesEasy = 0,
+                clearedMinesNormal = 0,
+                clearedMinesHard = 0
+             }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private readonly NetworkVariable<int> _explodedMines = new (0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private float _health = Constants.GameSettings.Health;
         private readonly Dictionary<LandmineDifficulty, int> _inventoryMines = new ()
@@ -48,7 +53,7 @@ namespace Core
             // Initialize the resources on the UI
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
-            _resourcesPrefab.SetMines(_clearedMines.Value);
+            _resourcesPrefab.SetMines(ClearedMines);
         }
         
         // Money
@@ -87,15 +92,33 @@ namespace Core
         /// <summary>
         /// Cleared mines
         /// </summary>
-        public int ClearedMines => _clearedMines.Value;
+        public int ClearedMines => _clearedMines.Value.clearedMinesEasy 
+                                   + _clearedMines.Value.clearedMinesNormal 
+                                   + _clearedMines.Value.clearedMinesHard;
         
         /// <summary>
         /// Increase cleared mines counter
         /// </summary>
-        public void IncreaseClearedMinesCounter()
+        public void IncreaseClearedMinesCounter(LandmineDifficulty difficulty)
         {
-            _clearedMines.Value += 1;
-            _resourcesPrefab.SetMines(_clearedMines.Value);
+            // Increment cleared mines count according to difficulty
+            var clearedMinesData = _clearedMines.Value;
+            switch (difficulty)
+            {
+                case LandmineDifficulty.Easy:
+                    clearedMinesData.clearedMinesEasy += 1;
+                    break;
+                case LandmineDifficulty.Medium:
+                    clearedMinesData.clearedMinesNormal += 1;
+                    break;
+                case LandmineDifficulty.Hard:
+                    clearedMinesData.clearedMinesHard += 1;
+                    break;
+            }
+            _clearedMines.Value = clearedMinesData;
+            // Update the UI
+            _resourcesPrefab.SetMines(ClearedMines);
+            // Show feedback
             _feedbackPopup.ShowMineAsCleared();
         }
         
@@ -112,16 +135,17 @@ namespace Core
             if (!_landminesInventoryIcons.ContainsKey(difficulty)) return;
             _landminesInventoryIcons[difficulty].SetNumber(_inventoryMines[difficulty]);
         }
+        
+        public LandmineDifficulty SelectedLandmineDifficulty => _inventoryRowPrefab.SelectedLandmineDifficulty;
 
         public bool CanPlaceMineOfSelectedDifficulty()
         {
-            return _inventoryMines[_inventoryRowPrefab.SelectedLandmineDifficulty] > 0;
+            return _inventoryMines[SelectedLandmineDifficulty] > 0;
         }
         
         public void DecreaseInventoryMineOfSelectedDifficulty()
         {
-            var difficulty = _inventoryRowPrefab.SelectedLandmineDifficulty;
-            DecreaseInventoryMine(difficulty);
+            DecreaseInventoryMine(SelectedLandmineDifficulty);
         }
 
         private void DecreaseInventoryMine(LandmineDifficulty difficulty)
@@ -220,7 +244,7 @@ namespace Core
             // Remove the bonus from the UI
             _inventoryRowPrefab.RemoveBonus(bonus);
         }
-
+        
     }
 
 }

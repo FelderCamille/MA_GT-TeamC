@@ -20,10 +20,7 @@ namespace UI
         {
             Difficulty = difficulty;
             // Choose color according to difficulty
-            var color = Color.green;
-            if (difficulty == LandmineDifficulty.Medium) color = Color.yellow;
-            else if (difficulty == LandmineDifficulty.Hard) color = Color.red;
-            number.color = color;
+            number.color = Constants.Landmines.LandmineDifficultyColor(difficulty);
             // Set color and number
             InitWithNumber(sprite, null);
             // Init button

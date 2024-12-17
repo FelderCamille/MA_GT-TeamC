@@ -58,6 +58,7 @@ public static class Constants
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
         public const KeyCode ClearMine = KeyCode.D;
+        public const KeyCode PlaceMine = KeyCode.M;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 

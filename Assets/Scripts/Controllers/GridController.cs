@@ -332,6 +332,29 @@ namespace Controllers
             tileObj.name = $"Tile {x} {y}";
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
+        
+        public bool? ReplaceTileByMine(int x, int y)
+        {
+            // Only host can replace the tile by a landmine
+            if (!NetworkManager.Singleton.IsHost) return null;
+            // Check if the emplacement is valid
+            if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
+            // Check whether the tile is not already a landmine or on a safe area
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                        + (y - Constants.GameSettings.GridPadding);
+            if (_landmines[index] || _safeAreaGridTiles[index]) return false;
+            // Get the tile
+            var tile = FindObjectsByType<Tile>(FindObjectsSortMode.None).First(t => t.name == $"Tile {x} {y}");
+            // Despawn the tile
+            tile.GetComponent<NetworkObject>().Despawn();
+            // Replace the classic tile by a landmine tile
+            _landmines[index] = true;
+            var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
+            landmineTileObj.name = $"Tile {x} {y} x";
+            landmineTileObj.GetComponent<NetworkObject>().Spawn();
+            // Return true to indicate that the tile has been replaced by a landmine
+            return true;
+        }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);
 
@@ -344,7 +367,5 @@ namespace Controllers
         public bool CanMoveDown(float newY) => CanGoToNewY(newY);
 
         private static bool CanGoToNewY(float newY) => newY is >= GridXYStartIndex and < GridYEndIndex;
-
-
     }
 }

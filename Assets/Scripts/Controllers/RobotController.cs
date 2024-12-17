@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Objects;
 using Unity.Netcode;
@@ -52,12 +53,21 @@ namespace Controllers
         {
             // Only control the robot that we own
             if (!IsOwner) return;
-
             // Do nothing if the robot is answering a question or in the store
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
-
+            // Handle mining
+            HandleMining();
             // Handle movements
             HandleMovements();
+        }
+
+        private void HandleMining()
+        {
+            if (Input.GetKeyDown(Constants.Actions.PlaceMine))
+            {
+                PlaceLandmineRpc();
+                _soundManager.PlaySetMineSound();
+            }
         }
 
         private void HandleMovements()
@@ -172,6 +182,35 @@ namespace Controllers
         {
             robotObject.SetActive(true); 
             directionalArrowObject.SetActive(true);
+        }
+        
+        [Rpc(SendTo.Everyone)]
+        private void PlaceLandmineRpc()
+        {
+            Debug.Log($"Robot {OwnerClientId} wants to place a mine");
+            // Get the robot's position and direction
+            var robotPosition = transform.position;
+            var forwardDirection = transform.forward;
+            Debug.Log("Robot position: " + robotPosition + ", forward direction: " + forwardDirection);
+            // Compute direction
+            var facingLeft = Math.Round(forwardDirection.x) < 0;
+            var facingRight = Math.Round(forwardDirection.x) > 0;
+            var facingUp = Math.Round(forwardDirection.z) > 0;
+            var facingDown = Math.Round(forwardDirection.z) < 0;
+            Debug.Log("Facing left: " + facingLeft + ", facing right: "+ facingRight +", facing up: " + facingUp + ", facing down: " + facingDown);
+            // If the robot is over another tile, we need to place the mine on the next tile
+            var robotPositionX = (int) (facingRight ? Math.Ceiling(robotPosition.x) : (facingLeft ? Math.Floor(robotPosition.x) : Math.Round(robotPosition.x)));
+            var robotPositionZ = (int) (facingUp ? Math.Ceiling(robotPosition.z) : (facingDown ? Math.Floor(robotPosition.z) : Math.Round(robotPosition.z)));
+            Debug.Log($"Robot position X=" + robotPositionX + ", Z=" + robotPositionZ);
+            // Compute offsets
+            var offsetX = facingLeft ? -1 : facingRight ? 1 : 0;
+            var offsetZ = facingDown ? -1 : facingUp ? 1 : 0;
+            // Determine the direction the robot is facing
+            var mineX = robotPositionX + offsetX;
+            var mineZ = robotPositionZ + offsetZ;
+            Debug.Log("Mine will be placed at X=" + mineX + ", Z=" + mineZ);
+            // Place the mine
+            _grid.ReplaceTileByMine(mineX, mineZ);
         }
 
     }

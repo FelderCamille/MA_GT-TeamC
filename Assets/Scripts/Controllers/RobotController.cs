@@ -20,6 +20,7 @@ namespace Controllers
 
         // robot
         private Animator _animator;
+        [SerializeField] private ParticleSystem _mudParticules;
 
         // Audio
         private SoundManager _soundManager;
@@ -37,6 +38,8 @@ namespace Controllers
             singleWaveEffect.Play();
             _soundManager = FindObjectOfType<SoundManager>();
             _animator = GetComponent<Animator>();
+            _mudParticules = GetComponentInChildren<ParticleSystem>();
+            _mudParticules.Stop();
         }
 
         private void Update()
@@ -105,6 +108,13 @@ namespace Controllers
                 {
                     _soundManager.PlayTankGoSound();
                 }
+                if (!_mudParticules.isPlaying)
+                {
+                    var shape = _mudParticules.shape;
+                    shape.position = new Vector3(2.5f, -1.2f, -0.5f);
+                    shape.rotation = new Vector3(0, 180, 0);
+                    _mudParticules.Play();
+                }
             }
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
@@ -114,9 +124,17 @@ namespace Controllers
                 {
                     _soundManager.PlayTankGoSound();
                 }
+                if (!_mudParticules.isPlaying)
+                {
+                    var shape = _mudParticules.shape;
+                    shape.position = new Vector3(-2.5f, -1.2f, 0.5f);
+                    shape.rotation = new Vector3(0, 0, 0);
+                    _mudParticules.Play();
+                }
             }
             else
             {
+                _mudParticules.Stop();
                 moveDirection = Vector3.zero; // Pas de mouvement
                 _soundManager.moveSoundSource.Stop(); // Arr�te le son si le robot s'arr�te
             }

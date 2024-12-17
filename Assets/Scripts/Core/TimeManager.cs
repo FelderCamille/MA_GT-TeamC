@@ -10,7 +10,7 @@ namespace Core
         private UI.Time _timePrefab;
         
         private float _time = Constants.GameSettings.Timer;
-        private bool _isRunning = false;
+        private bool _isRunning; // false by default
 
         private void Start()
         {

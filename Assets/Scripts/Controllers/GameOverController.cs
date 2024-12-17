@@ -12,7 +12,6 @@ namespace Controllers
         
         private SceneLoader _sceneLoader;
         private GridController _gridController;
-        
         private ResourcesManager _resources; // Set by Show/Hide methods
         
         private void Start()

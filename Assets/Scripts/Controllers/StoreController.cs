@@ -4,7 +4,6 @@ using Core;
 using Objects;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Controllers
@@ -81,14 +80,14 @@ namespace Controllers
             gameObject.SetActive(true);
             IsShopping = true;
             JustOpened = true;
-            _soundManager.playOpenTentSound();
+            _soundManager.PlayOpenTentSound();
         }
 
         private void CloseStore()
         {
             IsShopping = false;
             gameObject.SetActive(false);
-            _soundManager.playCloseTentSound();
+            _soundManager.PlayCloseTentSound();
         }
     }
 }

@@ -62,12 +62,16 @@ namespace Controllers
         {
             if (Input.GetKeyDown(Constants.Actions.PlaceMine))
             {
-                var (x, y) = ComputeLandminePlacement();
-                if(_grid.CanPlaceMine(x, y))
+                if (_resourcesManager.CanPlaceMineOfSelectedDifficulty())
                 {
-                    PlaceLandmineRpc(x, y);
-                    _soundManager.PlaySetMineSound();
-                } // TODO: add other feedback otherwise
+                    var (x, y) = ComputeLandminePlacement();
+                    if(_grid.CanPlaceMine(x, y))
+                    {
+                        _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
+                        PlaceLandmineRpc(x, y);
+                        _soundManager.PlaySetMineSound();
+                    } // TODO: add other feedback otherwise
+                } // TODO: add feedback if not enough mines
             }
         }
 

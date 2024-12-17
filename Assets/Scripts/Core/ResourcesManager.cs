@@ -106,20 +106,25 @@ namespace Core
             _explodedMines.Value += 1;
         }
         
-        public bool CanBuyLandmine(LandmineDifficulty difficulty)
-        {
-            return _inventoryMines[difficulty] == 0;
-        }
-        
         public void IncreaseInventoryMine(LandmineDifficulty difficulty)
         {
-            if (!CanBuyLandmine(difficulty)) return; // Can only have one mine of each difficulty
             _inventoryMines[difficulty] += 1;
             if (!_landminesInventoryIcons.ContainsKey(difficulty)) return;
             _landminesInventoryIcons[difficulty].SetNumber(_inventoryMines[difficulty]);
         }
 
-        public void DecreaseInventoryMine(LandmineDifficulty difficulty)
+        public bool CanPlaceMineOfSelectedDifficulty()
+        {
+            return _inventoryMines[_inventoryRowPrefab.SelectedLandmineDifficulty] > 0;
+        }
+        
+        public void DecreaseInventoryMineOfSelectedDifficulty()
+        {
+            var difficulty = _inventoryRowPrefab.SelectedLandmineDifficulty;
+            DecreaseInventoryMine(difficulty);
+        }
+
+        private void DecreaseInventoryMine(LandmineDifficulty difficulty)
         {
             if (_inventoryMines[difficulty] == 0) return;
             _inventoryMines[difficulty] -= 1;

@@ -11,15 +11,32 @@ namespace UI
         [FormerlySerializedAs("landmineIconPrefab")] [SerializeField] private InventoryLandmineIcon inventoryLandmineIconPrefab;
         [FormerlySerializedAs("bonusIconPrefab")] [SerializeField] private InventoryBonusIcon inventoryBonusIconPrefab;
 
+        private InventoryLandmineIcon[] _landminesButtons = new InventoryLandmineIcon[3];
+        public LandmineDifficulty SelectedLandmineDifficulty { get; private set; }
+
         private void Start()
         {
+            // Set default value for selected landmine difficulty
+            SelectedLandmineDifficulty = LandmineDifficulty.Easy;
             // Add all the mines
             foreach (LandmineDifficulty difficulty in Enum.GetValues(typeof(LandmineDifficulty)))
             {
                 var mineIconObj = Instantiate(inventoryLandmineIconPrefab, transform);
                 mineIconObj.name = "Mine " + difficulty;
-                mineIconObj.Init("Icons/bomb", difficulty);
+                var isDefault = difficulty == LandmineDifficulty.Easy;
+                mineIconObj.Init(() => SelectLandmineDifficulty(difficulty), "Icons/bomb", difficulty, isDefault);
+                _landminesButtons[(int) difficulty] = mineIconObj;
             }
+        }
+        
+        private void SelectLandmineDifficulty(LandmineDifficulty difficulty)
+        {
+            if (SelectedLandmineDifficulty == difficulty) return;
+            // Deselect previous landmine difficulty
+            _landminesButtons[(int) SelectedLandmineDifficulty].ToggleSelected();
+            // Update selected landmine difficulty
+            SelectedLandmineDifficulty = difficulty;
+            _landminesButtons[(int) difficulty].ToggleSelected();
         }
 
         public void AddBonus(Bonus bonus)

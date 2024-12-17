@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
@@ -5,6 +6,7 @@ using Objects;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
+using Utils;
 
 namespace Core
 {
@@ -54,7 +56,20 @@ namespace Core
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(ClearedMines);
+            // Give some landmines to set
+            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveEasyLandmine, () => GiveLandmine(LandmineDifficulty.Easy)));
+            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveMediumLandmine, () => GiveLandmine(LandmineDifficulty.Medium)));
+            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveHardLandmine, () => GiveLandmine(LandmineDifficulty.Hard)));
         }
+
+        private void GiveLandmine(LandmineDifficulty difficulty)
+        {
+            Debug.Log("Giving " + difficulty + " landmine");
+            IncreaseInventoryMine(difficulty);
+        }
+        
+        private void GiveMediumLandmine() => IncreaseInventoryMine(LandmineDifficulty.Medium);
+        private void GiveHardLandmine() => IncreaseInventoryMine(LandmineDifficulty.Hard);
         
         // Money
         
@@ -92,8 +107,8 @@ namespace Core
         /// <summary>
         /// Cleared mines
         /// </summary>
-        public int ClearedMines => _clearedMines.Value.clearedMinesEasy 
-                                   + _clearedMines.Value.clearedMinesNormal 
+        private int ClearedMines => _clearedMines.Value.clearedMinesEasy
+                                   + _clearedMines.Value.clearedMinesNormal
                                    + _clearedMines.Value.clearedMinesHard;
         
         /// <summary>

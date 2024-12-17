@@ -95,6 +95,10 @@ public static class Constants
 
     public static class Landmines
     {
+        public static readonly float[] TimeGiveEasyLandmine = { 0f };
+        public static readonly float[] TimeGiveMediumLandmine = { 2f * 60f, 4f * 60f, 6f * 60f };
+        public static readonly float[] TimeGiveHardLandmine = { 8f * 60f };
+        
         public static string LandmineDifficultyName(LandmineDifficulty difficulty)
         {
             return difficulty switch

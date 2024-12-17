@@ -5,7 +5,6 @@ using Objects;
 using UI;
 using UnityEngine;
 using Unity.Netcode;
-using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -21,6 +20,8 @@ namespace Controllers
 
         private RobotController[] _robots;
         private GridController _grid;
+        // Animation
+        private Animator _animator;
 
         public LandmineDifficulty Difficulty { private get; set; }
         
@@ -29,8 +30,9 @@ namespace Controllers
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
+            _animator = GetComponent<Animator>();
         }
-
+        
         private void Update()
         {
             DetectRobotsApproach();
@@ -57,10 +59,12 @@ namespace Controllers
             }
         }
 
-        public void DetectRobotsApproach()
+        private void DetectRobotsApproach()
         {
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
+            // Play arm animation
+            _animator.SetTrigger("ArmOut");
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
             foreach (var robot in FindObjectsByType<RobotController>(FindObjectsSortMode.None))
             {
@@ -70,7 +74,6 @@ namespace Controllers
                 ShowQuestionOverlay(robot);
             }
         }
-
         
         public void OnLandmineCleared(RobotController robot, LandmineCleared state)
         {

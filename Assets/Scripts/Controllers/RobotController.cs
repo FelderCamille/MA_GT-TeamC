@@ -10,18 +10,21 @@ namespace Controllers
     {
         private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
 
-        // Effects
+        // Parts
         [Header("Parts")]
         [SerializeField] private GameObject robotObject;
-        [SerializeField] private GameObject directionalArrowObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private GameObject repeatedWaveEffect;
+        [SerializeField] private ParticleSystem mudParticules;
+        [SerializeField] private Animator animator;
 
         // Controllers
         private ResourcesManager _resourcesManager;
         private QuestionController _questionOverlay;
         private StoreController _storeOverlay;
         private GridController _grid;
+
+        // Audio
         private SoundManager _soundManager;
 
         // Movements
@@ -98,20 +101,44 @@ namespace Controllers
             {
                 _moveDirection = transform.forward; // Move forward
                 PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
+                RunMudAnimation(true);
             }
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
                 _moveDirection = -transform.forward; // Move backward
                 PlaySoundIfNeeded(_soundManager.moveSoundSource, () => _soundManager.PlayTankGoSound());
+                RunMudAnimation(false);
             }
             else
             {
                 _moveDirection = Vector3.zero; // No movement
                 _soundManager.moveSoundSource.Stop();
+                mudParticules.Stop();
             }
-
+            
             // Apply movement respecting grid boundaries
             ApplyMovement();
+        }
+        
+        private void RunMudAnimation(bool moveForward)
+        {
+            if (mudParticules.isPlaying) return;
+            if (moveForward)
+            {
+                animator.SetTrigger("MoveForward"); // Trigger animation
+                var shape = mudParticules.shape;
+                shape.position = new Vector3(2.5f, -1.2f, -0.5f);
+                shape.rotation = new Vector3(0, 180, 0);
+                mudParticules.Play();
+            }
+            else
+            {
+                animator.SetTrigger("MoveBackward"); // Trigger animation
+                var shape = mudParticules.shape;
+                shape.position = new Vector3(-2.5f, -1.2f, 0.5f);
+                shape.rotation = new Vector3(0, 0, 0);
+                mudParticules.Play();
+            }
         }
 
         private void ApplyMovement()
@@ -180,7 +207,6 @@ namespace Controllers
         public void Hide()
         {
             robotObject.SetActive(false); 
-            directionalArrowObject.SetActive(false);
             repeatedWaveEffect.SetActive(false);
             singleWaveEffect.gameObject.SetActive(false);
         }
@@ -189,7 +215,6 @@ namespace Controllers
         {
             if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
-            directionalArrowObject.SetActive(true);
             repeatedWaveEffect.SetActive(true);
             singleWaveEffect.gameObject.SetActive(true);
         }
@@ -217,7 +242,7 @@ namespace Controllers
             // Determine the direction the robot is facing
             var mineX = robotPositionX + offsetX;
             var mineZ = robotPositionZ + offsetZ;
-            Debug.Log("Mine will be placed at X=" + mineX + ", Z=" + mineZ);
+            Debug.Log("Mine will be placed at X=" + mineX + ", Z=" + mineZ + " if possible");
             // Return the emplacement
             return (mineX, mineZ);
         }

@@ -4,12 +4,6 @@ namespace Objects
 {
     public interface ILandmine
     {
-
-        /// <summary>
-        /// Method <c>DetectRobotApproach</c> detects when the robot approach the landmine.
-        /// If the robot is at a certain distance, it manages the question answering.
-        /// </summary>
-        public void DetectRobotsApproach();
         
         /// <summary>
         /// Method <c>OnLandmineCleared</c> is called when the landmine has been cleared.

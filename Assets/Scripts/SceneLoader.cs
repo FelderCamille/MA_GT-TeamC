@@ -29,7 +29,7 @@ public class SceneLoader : MonoBehaviour
     
     private IEnumerator LoadSceneWithTransition(string scene)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene(scene);
     }
     

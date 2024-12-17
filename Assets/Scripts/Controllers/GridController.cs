@@ -21,6 +21,7 @@ namespace Controllers
         [Header("Grid tiles")]
         [SerializeField] private Tile tilePrefab;
         [SerializeField] private LandmineTile landmineTilePrefab;
+        [SerializeField] private Tile safeAreaTilePrefab;
 
         [Header("Padding tiles")]
         [SerializeField] private Tile paddingTilePrefab;
@@ -48,9 +49,14 @@ namespace Controllers
         private readonly Dictionary<DecorTileType, Tile[]> _decorTiles = new();
 
         /// <summary>
-        /// The tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not
+        /// The padding tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not. False if occupied, true otherwise.
         /// </summary>
         private bool[][] _paddingTiles;
+        
+        /// <summary>
+        /// Safe area tiles. Permit to know if an emplacement (x,y) is a safe area or not. True if safe area, false otherwise.
+        /// </summary>
+        private bool[] _safeAreaGridTiles;
         
         public float MinX => GridXYStartIndex;
         public float MaxX => GridXEndIndex;
@@ -62,12 +68,14 @@ namespace Controllers
             // Compute emplacements
             InitPaddingTilesArray();
             ChooseDecorPrefabs();
-            ComputeLandminesEmplacement();
             // Generate the tents (needs to be here to avoid the tent to be generated on a decor)
+            _safeAreaGridTiles = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
             foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
                 SpawnTent(clientId);
             }
+            // Compute landmines emplacement
+            ComputeLandminesEmplacement();
             // Generate the map
             GenerateMap();
             // Spawn robot
@@ -100,27 +108,6 @@ namespace Controllers
             _decorTiles.Add(DecorTileType.Log, new[] { logTilePrefab });
         }
 
-        private void ComputeLandminesEmplacement()
-        {
-            // Initialize the array
-            _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
-            // Only host can compute the landmines emplacement
-            if (!NetworkManager.Singleton.IsHost) return;
-            // Compute the emplacements
-            for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
-            {
-                // Get an index
-                var landmineIndex = Random.Next(0, _landmines.Length);
-                // If their is already a landmine, look for another index
-                while (_landmines[landmineIndex])
-                {
-                    landmineIndex = Random.Next(0, _landmines.Length);
-                }
-                // Set a landmine at this emplacement
-                _landmines[landmineIndex] = true;
-            }
-        }
-
         private void InitPaddingTilesArray()
         {
             // Init the padding tiles array
@@ -145,8 +132,8 @@ namespace Controllers
 
         private void SpawnTent(ulong clientId)
         {
-            var isLeft = clientId == 0;
             // Compute emplacement
+            var isLeft = clientId == 0;
             var xIndex = isLeft ? (GridXYStartIndex - TentController.TentLength) : GridXEndIndex;
             var yIndex = MapHeight / 2;
             const int padding = TentController.TentLength / 2;
@@ -159,11 +146,32 @@ namespace Controllers
                     _paddingTiles[x][y] = false;
                 }
             }
-            // Handle the right tent (needed because of the prefab rotation)
+            // Fix the right tent position because of the prefab orientation
             if (!isLeft)
             {
                 xIndex += TentController.TentLength - 1;
                 yIndex -= 1;
+            }
+            // Compute safe area of the tent
+            int safeAreaXMin, safeAreaXMax;
+            if (isLeft)
+            {
+                safeAreaXMin = 0;
+                safeAreaXMax = Constants.GameSettings.SafeAreaWidth;
+            }
+            else
+            {
+                safeAreaXMax = Constants.GameSettings.GridWidth;
+                safeAreaXMin = safeAreaXMax - Constants.GameSettings.SafeAreaWidth;
+            }
+            const int safeAreaYMin = Constants.GameSettings.GridHeight / 2 - padding;
+            const int safeAreaYMax = Constants.GameSettings.GridHeight / 2 + padding;
+            for (var x = safeAreaXMin; x < safeAreaXMax; x++)
+            {
+                for (var y = safeAreaYMin; y < safeAreaYMax; y++)
+                {
+                    _safeAreaGridTiles[x * Constants.GameSettings.GridHeight + y] = true;
+                }
             }
             // Place the tent
             if (!NetworkManager.Singleton.IsHost) return;
@@ -175,13 +183,32 @@ namespace Controllers
             tentObj.name = $"Tent {clientId}";
             tentObj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
         }
-
+        
+        private void ComputeLandminesEmplacement()
+        {
+            // Initialize the array
+            _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
+            // Only host can compute the landmines emplacement
+            if (!NetworkManager.Singleton.IsHost) return;
+            // Compute the emplacements
+            for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
+            {
+                // Get an index
+                var landmineIndex = Random.Next(0, _landmines.Length);
+                // If their is already a landmine or if it's a safe area tile, look for another index
+                while (_landmines[landmineIndex] || _safeAreaGridTiles[landmineIndex])
+                {
+                    landmineIndex = Random.Next(0, _landmines.Length);
+                }
+                // Set a landmine at this emplacement
+                _landmines[landmineIndex] = true;
+            }
+        }
         
         private void SpawnRobot(ulong clientId)
         {
             // Only host can spawn the robot
             if (!NetworkManager.Singleton.IsHost) return;
-            var isLeft = clientId == 0;
             // Compute emplacement
             var (position, rotation) = ComputeRobotEmplacement(clientId);
             // Spawn the robot
@@ -203,7 +230,7 @@ namespace Controllers
         {
             var isLeft = clientId == 0;
             // Compute emplacement
-            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance) : (GridXEndIndex - RobotSpawnDistance);
+            var xIndex = isLeft ? (GridXYStartIndex + RobotSpawnDistance - 1) : (GridXEndIndex - RobotSpawnDistance);
             const int yIndex = MapHeight / 2;
             var rotationY = isLeft ? 90f : 270f;
             // Return position and rotation
@@ -294,14 +321,15 @@ namespace Controllers
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
             var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
+            if (_safeAreaGridTiles[index]) prefab = safeAreaTilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
             // Spawn on the client too
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
-
-        public void ReplaceMineByClassicTile(LandmineTile landmineTile)
+        
+        public void ReplaceMineByTile(LandmineTile landmineTile)
         {
             // Only host can replace the landmine by a classic tile
             if (!NetworkManager.Singleton.IsHost) return;
@@ -318,6 +346,39 @@ namespace Controllers
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
+        public bool CanPlaceMine(int x, int y)
+        {
+            // Check if the emplacement is valid
+            if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
+            // Check whether the tile is not already a landmine or on a safe area
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                        + (y - Constants.GameSettings.GridPadding);
+            if (_landmines[index] || _safeAreaGridTiles[index]) return false; // TODO: landmines array is always false on client
+            // Otherwise the emplacement is valid
+            return true;
+        }
+        
+        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
+        {
+            // Only host can replace the tile by a landmine
+            if (!NetworkManager.Singleton.IsHost) return;
+            // Check if the emplacement is valid
+            if (!CanPlaceMine(x, y)) return;
+            // Get the tile
+            var tile = FindObjectsByType<Tile>(FindObjectsSortMode.None).First(t => t.name == $"Tile {x} {y}");
+            // Despawn the tile
+            tile.GetComponent<NetworkObject>().Despawn();
+            // Indicate that the tile is now a landmine
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                        + (y - Constants.GameSettings.GridPadding);
+            _landmines[index] = true;
+            // Replace the classic tile by a landmine tile
+            var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
+            landmineTileObj.name = $"Tile {x} {y} x";
+            landmineTileObj.GetComponentInChildren<LandmineController>().Difficulty = difficulty;
+            landmineTileObj.GetComponent<NetworkObject>().Spawn();
+        }
+
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);
 
         public bool CanMoveLeft(float newX) => CanGoToNewX(newX);
@@ -329,7 +390,5 @@ namespace Controllers
         public bool CanMoveDown(float newY) => CanGoToNewY(newY);
 
         private static bool CanGoToNewY(float newY) => newY is >= GridXYStartIndex and < GridYEndIndex;
-
-
     }
 }

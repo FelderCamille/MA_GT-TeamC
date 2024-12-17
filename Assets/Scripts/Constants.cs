@@ -6,8 +6,9 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
-    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
     public static readonly bool DebugFillIPAddressOnClient = true;
+    public static readonly bool DebugShowOtherPlayer = false;
     
     public static class Scenes
     {
@@ -28,8 +29,9 @@ public static class Constants
         // Timer
         public const float Timer = 10f * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 5;
+        public const int NumberOfLandmines = 10;
         public const int NumberOfTileClearLandmine = 1;
+        public const int SafeAreaWidth = 2;
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
@@ -58,6 +60,7 @@ public static class Constants
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
         public const KeyCode ClearMine = KeyCode.D;
+        public const KeyCode PlaceMine = KeyCode.M;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
@@ -82,10 +85,76 @@ public static class Constants
     public static class Score
     {
         // Clear mine
-        public const int ClearMineSuccess = 100;
+        public const int ClearMineEasySuccess = 100;
+        public const int ClearMineMediumSuccess = 250;
+        public const int ClearMineHardSuccess = 400;
         public const int MineExplosion = -200;
         // Final score
         public const int MineNotCleared = -100;
+    }
+
+    public static class Landmines
+    {
+        public static readonly float[] GiveLandmineTimes = { 0f, 2f, 4f, 6f, 8f };
+        
+        public static readonly LandmineDifficulty[] GiveLandmineDifficulties =
+        {
+            LandmineDifficulty.Easy, // 1
+            LandmineDifficulty.Medium, // 2
+            LandmineDifficulty.Medium, // 4
+            LandmineDifficulty.Medium, // 6
+            LandmineDifficulty.Hard, // 8
+        };
+        
+        public static string LandmineDifficultyName(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => "Facile",
+                LandmineDifficulty.Medium => "Moyen",
+                LandmineDifficulty.Hard => "Difficile",
+                _ => "Unknown"
+            };
+        }
+        
+        public static Color LandmineDifficultyColor(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => Color.green,
+                LandmineDifficulty.Medium => Color.yellow,
+                LandmineDifficulty.Hard => Color.red,
+                _ => Color.white
+            };
+        }
+        
+        public static List<Landmine> LandminesObjects()
+        {
+            return new List<Landmine>
+            {
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Easy),
+                    Price = 100,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Easy
+                },
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Medium),
+                    Price = 200,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Medium
+                },
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Hard),
+                    Price = 300,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Hard
+                }
+            };
+        }
     }
 
     public static class Bonus
@@ -94,7 +163,7 @@ public static class Constants
         {
             return bonusType switch
             {
-                BonusType.Vision => "Vision",
+                BonusType.Vision => "Bonus visuel",
                 _ => "Unknown"
             };
         }

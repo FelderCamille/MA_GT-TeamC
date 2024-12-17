@@ -21,6 +21,8 @@ namespace Controllers
 
         private RobotController[] _robots;
         private GridController _grid;
+
+        public LandmineDifficulty Difficulty { private get; set; }
         
         private void Start()
         {
@@ -64,7 +66,7 @@ namespace Controllers
             {
                 if (!(Vector3.Distance(transform.position, robot.gameObject.transform.position) < collidingDistance)) return;
                 // Show question overlay
-                _soundManager.playOpenMineSound();
+                _soundManager.PlayOpenMineSound();
                 ShowQuestionOverlay(robot);
             }
         }
@@ -79,7 +81,7 @@ namespace Controllers
                 {
                     case LandmineCleared.AnswerSuccess:
                         _soundManager.PlayBeepSound();
-                        robot.IndicateClearedMine();
+                        robot.IndicateClearedMine(Difficulty);
                         break;
                     case LandmineCleared.AnswerFailure:
                         robot.IndicateExplodedMine(failure: true);
@@ -118,7 +120,7 @@ namespace Controllers
         [Rpc(SendTo.Everyone)]
         private void ReplaceLandmineRpc()
         {
-            _grid.ReplaceMineByClassicTile(GetComponentInParent<LandmineTile>());
+            _grid.ReplaceMineByTile(GetComponentInParent<LandmineTile>());
         }
 
         public void OnRobotCollided(RobotController robot)
@@ -131,6 +133,7 @@ namespace Controllers
             // Define mine in the question overlay
             _questionOverlay.Mine = this;
             _questionOverlay.Robot = robot;
+            _questionOverlay.Difficulty = Difficulty;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }

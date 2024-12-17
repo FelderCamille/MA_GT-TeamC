@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8161508972344858474}
   - component: {fileID: 4546169036552977199}
   m_Layer: 5
-  m_Name: BonusRow
+  m_Name: InventoryRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,4 +75,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33885a825f947d59692188717f15730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusPrefab: {fileID: 3064061087819370304, guid: 9968a972622054bb9b9e567f3e86573a, type: 3}
+  inventoryLandmineIconPrefab: {fileID: 192685780452308604, guid: e8515dbbef28249de8fb9c0b4482d232, type: 3}
+  inventoryBonusIconPrefab: {fileID: 804976289597018635, guid: f692d494806e24c1c990c29c3cb8a552, type: 3}

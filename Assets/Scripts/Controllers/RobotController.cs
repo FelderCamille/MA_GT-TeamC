@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Objects;
 using Unity.Netcode;
@@ -39,11 +40,8 @@ namespace Controllers
              _storeOverlay = FindFirstObjectByType<StoreController>(FindObjectsInactive.Include);
              _soundManager = FindFirstObjectByType<SoundManager>();
              _resourcesManager = GetComponent<ResourcesManager>();
-             // TODO (TEMP): Set robot color for debugging
-             if (IsOwner)
-             {
-                 GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
-             }
+             // Hide the robot for the enemy
+             if (!IsOwner && !Constants.DebugShowOtherPlayer) Hide();
              // Play single wave effect at the start
              singleWaveEffect.Play();
          }
@@ -52,12 +50,29 @@ namespace Controllers
         {
             // Only control the robot that we own
             if (!IsOwner) return;
-
             // Do nothing if the robot is answering a question or in the store
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
-
+            // Handle mining
+            HandleMining();
             // Handle movements
             HandleMovements();
+        }
+
+        private void HandleMining()
+        {
+            if (Input.GetKeyDown(Constants.Actions.PlaceMine))
+            {
+                if (_resourcesManager.CanPlaceMineOfSelectedDifficulty())
+                {
+                    var (x, y) = ComputeLandminePlacement();
+                    if(_grid.CanPlaceMine(x, y))
+                    {
+                        _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
+                        PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
+                        _soundManager.PlaySetMineSound();
+                    } // TODO: add other feedback otherwise
+                } // TODO: add feedback if not enough mines
+            }
         }
 
         private void HandleMovements()
@@ -119,9 +134,9 @@ namespace Controllers
             }
         }
 
-        public void IndicateClearedMine()
+        public void IndicateClearedMine(LandmineDifficulty difficulty)
         {
-            _resourcesManager.IncreaseClearedMinesCounter();
+            _resourcesManager.IncreaseClearedMinesCounter(difficulty);
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
@@ -166,12 +181,52 @@ namespace Controllers
         {
             robotObject.SetActive(false); 
             directionalArrowObject.SetActive(false);
+            repeatedWaveEffect.SetActive(false);
+            singleWaveEffect.gameObject.SetActive(false);
         }
 
         public void Show()
         {
-            robotObject.SetActive(true); 
+            if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
+            robotObject.SetActive(true);
             directionalArrowObject.SetActive(true);
+            repeatedWaveEffect.SetActive(true);
+            singleWaveEffect.gameObject.SetActive(true);
+        }
+
+        private (int, int) ComputeLandminePlacement()
+        {
+            Debug.Log($"Robot {OwnerClientId} wants to place a mine");
+            // Get the robot's position and direction
+            var robotPosition = transform.position;
+            var forwardDirection = transform.forward;
+            Debug.Log("Robot position: " + robotPosition + ", forward direction: " + forwardDirection);
+            // Compute direction
+            var facingLeft = Math.Round(forwardDirection.x) < 0;
+            var facingRight = Math.Round(forwardDirection.x) > 0;
+            var facingUp = Math.Round(forwardDirection.z) > 0;
+            var facingDown = Math.Round(forwardDirection.z) < 0;
+            Debug.Log("Facing left: " + facingLeft + ", facing right: "+ facingRight +", facing up: " + facingUp + ", facing down: " + facingDown);
+            // If the robot is over another tile, we need to place the mine on the next tile
+            var robotPositionX = (int) (facingRight ? Math.Ceiling(robotPosition.x) : (facingLeft ? Math.Floor(robotPosition.x) : Math.Round(robotPosition.x)));
+            var robotPositionZ = (int) (facingUp ? Math.Ceiling(robotPosition.z) : (facingDown ? Math.Floor(robotPosition.z) : Math.Round(robotPosition.z)));
+            Debug.Log($"Robot position X=" + robotPositionX + ", Z=" + robotPositionZ);
+            // Compute offsets
+            var offsetX = facingLeft ? -1 : facingRight ? 1 : 0;
+            var offsetZ = facingDown ? -1 : facingUp ? 1 : 0;
+            // Determine the direction the robot is facing
+            var mineX = robotPositionX + offsetX;
+            var mineZ = robotPositionZ + offsetZ;
+            Debug.Log("Mine will be placed at X=" + mineX + ", Z=" + mineZ);
+            // Return the emplacement
+            return (mineX, mineZ);
+        }
+        
+        [Rpc(SendTo.Everyone)]
+        private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty)
+        {
+            // Place the mine
+            _grid.ReplaceTileByMine(x, y, difficulty);
         }
 
     }

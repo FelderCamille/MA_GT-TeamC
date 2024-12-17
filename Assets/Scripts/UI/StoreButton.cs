@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Objects;
 
 namespace UI
 {
@@ -11,17 +12,12 @@ namespace UI
         [SerializeField] private Text buttonName;
         [SerializeField] private Text price;
         
-        public void Init(Action onClickCallback, string text, int money, string sprite)
+        protected void Init(Action onClickCallback, string text, int money, string sprite)
         {
             button.onClick.AddListener(() => onClickCallback());
             buttonName.text = text;
             price.text = money.ToString();
             icon.sprite = Resources.Load<Sprite>(sprite);
-        }
-
-        public void InitRepairButton(Action onClickCallback)
-        {
-            Init(onClickCallback, "Réparer", Constants.Prices.Repair, "Icons/repair");
         }
         
         public void Enabled()
@@ -34,4 +30,5 @@ namespace UI
             button.interactable = false;
         }
     }
+    
 }

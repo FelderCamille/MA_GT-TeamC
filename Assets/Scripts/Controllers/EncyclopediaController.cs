@@ -52,13 +52,13 @@ namespace Controllers
             IsOpened = true;
             // Display encyclopedia page
             UpdatePageContent();
-            _soundManager.playOpenBookSound();
+            _soundManager.PlayOpenBookSound();
         }
 
         private void OnDisable()
         {
             IsOpened = false;
-            _soundManager.playCloseBookSound();
+            _soundManager.PlayCloseBookSound();
         }
 
         private void OnSectionClicked(SectionTab sectionTab)

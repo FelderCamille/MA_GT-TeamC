@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 2472652941062866291}
   - component: {fileID: 8284677267761886724}
   m_Layer: 5
-  m_Name: StoreBonusSection
+  m_Name: StoreSection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -354,7 +354,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 3761469636474403522}
   bonusesEmplacement: {fileID: 721549528501709615}
-  bonusButtonPrefab: {fileID: 7580343337024513709, guid: 9f3b14381af4b49a096f81609d3f81fe, type: 3}
+  storeBonusButtonPrefab: {fileID: 8343653240510004117, guid: e3ca772ff34c1456ebb6ae06660d6005, type: 3}
+  storeLandmineButtonPrefab: {fileID: 395436051718906924, guid: 2386481fe4ff14e9a8a4cd0c856c2cf1, type: 3}
 --- !u!1 &6184766662362559786
 GameObject:
   m_ObjectHideFlags: 0

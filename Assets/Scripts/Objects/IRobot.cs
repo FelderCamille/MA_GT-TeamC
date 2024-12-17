@@ -6,7 +6,7 @@ namespace Objects
         /// <summary>
         /// Method <c>IncreaseClearedMineCounter</c> increase the cleared landmine counter
         /// </summary>
-        public void IndicateClearedMine();
+        public void IndicateClearedMine(LandmineDifficulty difficulty);
         
         /// <summary>
         /// Method <c>IndicateExplodedMine</c> reduces the health

@@ -1,5 +1,3 @@
-using Core;
-using UI;
 using UnityEngine;
 
 namespace Controllers
@@ -8,7 +6,7 @@ namespace Controllers
     {
 
         [Header("Content")]
-        public EncyclopediaController encyclopedia;
+        [SerializeField] private EncyclopediaController encyclopedia;
 
         private void Update()
         {

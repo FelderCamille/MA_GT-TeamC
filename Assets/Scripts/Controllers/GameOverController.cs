@@ -7,12 +7,11 @@ namespace Controllers
 {
     public class GameOverController : MonoBehaviour
     {
-        [SerializeField] private StoreButton reviveButton;
+        [SerializeField] private GameOverReviveButton reviveButton;
         [SerializeField] private CustomButton quitButton;
         
         private SceneLoader _sceneLoader;
         private GridController _gridController;
-        
         private ResourcesManager _resources; // Set by Show/Hide methods
         
         private void Start()
@@ -21,7 +20,7 @@ namespace Controllers
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
             _gridController = FindFirstObjectByType<GridController>();
             // Init buttons
-            reviveButton.Init(Revive, "Réapparaître", Constants.Prices.Revive, "Icons/repair");
+            reviveButton.Init(Revive);
             quitButton.Init(Quit);
         }
         

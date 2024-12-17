@@ -4,6 +4,7 @@ using Core;
 using Objects;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Controllers
@@ -13,10 +14,10 @@ namespace Controllers
         public bool IsShopping { get; private set; }
         public bool JustOpened { get; set; }
         
-        public CloseButton closeButton;
-        public StoreButton repairButton;
-        public VerticalLayoutGroup bonusSectionsEmplacement;
-        public StoreBonusSection storeBonusSectionPrefab;
+        [SerializeField] private CloseButton closeButton;
+        [SerializeField] private StoreRepairButton repairButton;
+        [SerializeField] private VerticalLayoutGroup bonusSectionsEmplacement;
+        [SerializeField] private StoreSection storeSectionPrefab;
         
         private RobotController _robot;
 
@@ -25,19 +26,26 @@ namespace Controllers
 
         private void Awake()
         {
+            // Initialize variables
+            JustOpened = true;
+            // Retrieve sound manager
             _soundManager = FindFirstObjectByType<SoundManager>();
             // Retrieve robot
             _robot = FindFirstObjectByType<RobotController>();
             // Init close button
             closeButton.Init(CloseStore);
             // Init repair button
-            repairButton.InitRepairButton(RepairRobot);
+            repairButton.Init(RepairRobot);
+            // Add mines
+            var minesSectionObj = Instantiate(storeSectionPrefab, bonusSectionsEmplacement.transform);
+            minesSectionObj.name = "Section mines";
+            minesSectionObj.InitLandmineSection(CheckIfCanBuy);
             // Add bonus sections
             foreach (var bonusType in Enum.GetValues(typeof(BonusType)).Cast<BonusType>())
             {
-                var bonusSectionObj = Instantiate(storeBonusSectionPrefab, bonusSectionsEmplacement.transform);
+                var bonusSectionObj = Instantiate(storeSectionPrefab, bonusSectionsEmplacement.transform);
                 bonusSectionObj.name = "Section " + bonusType;
-                bonusSectionObj.Init(bonusType, CheckIfCanBuy);
+                bonusSectionObj.InitBonusSection(bonusType, CheckIfCanBuy);
             }
         }
 
@@ -60,10 +68,10 @@ namespace Controllers
             if (_robot.CanRepair()) repairButton.Enabled();
             else repairButton.Disable();
             // Enable/Disable bonuses
-            var bonusButtons = GetComponentsInChildren<BonusButton>();
+            var bonusButtons = GetComponentsInChildren<StoreBonusButton>();
             foreach (var bonusButton in bonusButtons)
             {
-                if (_robot.CanBuyBonus(bonusButton.bonus)) bonusButton.Enabled();
+                if (_robot.CanBuyBonus(bonusButton.Bonus)) bonusButton.Enabled();
                 else bonusButton.Disable();
             }
         }

@@ -3,14 +3,12 @@ using Objects;
 
 namespace UI
 {
-    public class BonusButton : StoreButton
+    public class StoreBonusButton : StoreButton
     {
-
-        public Bonus bonus;
-        
-        public void InitBonusButton(Action onClickCallback, Objects.Bonus bonus)
+        public Bonus Bonus { get; private set; }
+        public void Init(Action onClickCallback, Bonus bonus)
         {
-            this.bonus = bonus;
+            Bonus = bonus;
             var bonusName = bonus.Name + " (" + bonus.Multiplier + ")";
             Init(onClickCallback, bonusName, bonus.Price, bonus.Icon);
         }

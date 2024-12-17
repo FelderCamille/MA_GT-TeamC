@@ -6,7 +6,7 @@ public static class Constants
 {
     
     public static readonly bool DebugShowMines = true;
-    public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
+    public static readonly bool DebugAllowOnlyOneConnection = true; // Warning, this could break some part of the game if set to "true"
     public static readonly bool DebugFillIPAddressOnClient = true;
     public static readonly bool DebugShowOtherPlayer = false;
     
@@ -91,13 +91,44 @@ public static class Constants
         public const int MineNotCleared = -100;
     }
 
+    public static class Landmines
+    {
+        public static List<Landmine> LandminesObjects()
+        {
+            return new List<Landmine>
+            {
+                new()
+                {
+                    Name = "Facile",
+                    Price = 100,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Easy
+                },
+                new()
+                {
+                    Name = "Moyen",
+                    Price = 200,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Medium
+                },
+                new()
+                {
+                    Name = "Difficile",
+                    Price = 300,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Hard
+                }
+            };
+        }
+    }
+
     public static class Bonus
     {
         public static string BonusTypeName(BonusType bonusType)
         {
             return bonusType switch
             {
-                BonusType.Vision => "Vision",
+                BonusType.Vision => "Bonus visuel",
                 _ => "Unknown"
             };
         }

@@ -65,8 +65,12 @@ namespace Controllers
         {
             if (Input.GetKeyDown(Constants.Actions.PlaceMine))
             {
-                PlaceLandmineRpc();
-                _soundManager.PlaySetMineSound();
+                var (x, y) = ComputeLandminePlacement();
+                if(_grid.CanPlaceMine(x, y))
+                {
+                    PlaceLandmineRpc(x, y);
+                    _soundManager.PlaySetMineSound();
+                } // TODO: add other feedback otherwise
             }
         }
 
@@ -183,9 +187,8 @@ namespace Controllers
             robotObject.SetActive(true); 
             directionalArrowObject.SetActive(true);
         }
-        
-        [Rpc(SendTo.Everyone)]
-        private void PlaceLandmineRpc()
+
+        private (int, int) ComputeLandminePlacement()
         {
             Debug.Log($"Robot {OwnerClientId} wants to place a mine");
             // Get the robot's position and direction
@@ -209,8 +212,15 @@ namespace Controllers
             var mineX = robotPositionX + offsetX;
             var mineZ = robotPositionZ + offsetZ;
             Debug.Log("Mine will be placed at X=" + mineX + ", Z=" + mineZ);
+            // Return the emplacement
+            return (mineX, mineZ);
+        }
+        
+        [Rpc(SendTo.Everyone)]
+        private void PlaceLandmineRpc(int x, int y)
+        {
             // Place the mine
-            _grid.ReplaceTileByMine(mineX, mineZ);
+            _grid.ReplaceTileByMine(x, y);
         }
 
     }

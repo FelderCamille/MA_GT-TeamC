@@ -315,7 +315,7 @@ namespace Controllers
             // Spawn on the client too
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
-
+        
         public void ReplaceMineByTile(LandmineTile landmineTile)
         {
             // Only host can replace the landmine by a classic tile
@@ -332,28 +332,37 @@ namespace Controllers
             tileObj.name = $"Tile {x} {y}";
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
-        
-        public bool? ReplaceTileByMine(int x, int y)
+
+        public bool CanPlaceMine(int x, int y)
         {
-            // Only host can replace the tile by a landmine
-            if (!NetworkManager.Singleton.IsHost) return null;
             // Check if the emplacement is valid
             if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
             if (_landmines[index] || _safeAreaGridTiles[index]) return false;
+            // Otherwise the emplacement is valid
+            return true;
+        }
+        
+        public void ReplaceTileByMine(int x, int y)
+        {
+            // Only host can replace the tile by a landmine
+            if (!NetworkManager.Singleton.IsHost) return;
+            // Check if the emplacement is valid
+            if (!CanPlaceMine(x, y)) return;
             // Get the tile
             var tile = FindObjectsByType<Tile>(FindObjectsSortMode.None).First(t => t.name == $"Tile {x} {y}");
             // Despawn the tile
             tile.GetComponent<NetworkObject>().Despawn();
-            // Replace the classic tile by a landmine tile
+            // Indicate that the tile is now a landmine
+            var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+                        + (y - Constants.GameSettings.GridPadding);
             _landmines[index] = true;
+            // Replace the classic tile by a landmine tile
             var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             landmineTileObj.name = $"Tile {x} {y} x";
             landmineTileObj.GetComponent<NetworkObject>().Spawn();
-            // Return true to indicate that the tile has been replaced by a landmine
-            return true;
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

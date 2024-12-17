@@ -40,11 +40,8 @@ namespace Controllers
              _storeOverlay = FindFirstObjectByType<StoreController>(FindObjectsInactive.Include);
              _soundManager = FindFirstObjectByType<SoundManager>();
              _resourcesManager = GetComponent<ResourcesManager>();
-             // TODO (TEMP): Set robot color for debugging
-             if (IsOwner)
-             {
-                 GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
-             }
+             // Hide the robot for the enemy
+             if (!IsOwner && !Constants.DebugShowOtherPlayer) Hide();
              // Play single wave effect at the start
              singleWaveEffect.Play();
          }
@@ -180,12 +177,17 @@ namespace Controllers
         {
             robotObject.SetActive(false); 
             directionalArrowObject.SetActive(false);
+            repeatedWaveEffect.SetActive(false);
+            singleWaveEffect.gameObject.SetActive(false);
         }
 
         public void Show()
         {
-            robotObject.SetActive(true); 
+            if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
+            robotObject.SetActive(true);
             directionalArrowObject.SetActive(true);
+            repeatedWaveEffect.SetActive(true);
+            singleWaveEffect.gameObject.SetActive(true);
         }
 
         private (int, int) ComputeLandminePlacement()

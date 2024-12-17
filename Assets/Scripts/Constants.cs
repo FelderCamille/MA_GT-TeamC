@@ -8,6 +8,7 @@ public static class Constants
     public static readonly bool DebugShowMines = true;
     public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
     public static readonly bool DebugFillIPAddressOnClient = true;
+    public static readonly bool DebugShowOtherPlayer = false;
     
     public static class Scenes
     {

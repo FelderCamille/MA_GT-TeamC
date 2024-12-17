@@ -31,6 +31,7 @@ public static class Constants
         // Landmines
         public const int NumberOfLandmines = 5;
         public const int NumberOfTileClearLandmine = 1;
+        public const int SafeAreaWidth = 2;
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;

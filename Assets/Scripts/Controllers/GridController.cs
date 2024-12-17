@@ -152,13 +152,26 @@ namespace Controllers
                 xIndex += TentController.TentLength - 1;
                 yIndex -= 1;
             }
-            // Add safe area around the tent to remove landmines
-            var safeAreaX = isLeft ? 0 : Constants.GameSettings.GridWidth - 1;
+            // Compute safe area of the tent
+            int safeAreaXMin, safeAreaXMax;
+            if (isLeft)
+            {
+                safeAreaXMin = 0;
+                safeAreaXMax = Constants.GameSettings.SafeAreaWidth;
+            }
+            else
+            {
+                safeAreaXMax = Constants.GameSettings.GridWidth;
+                safeAreaXMin = safeAreaXMax - Constants.GameSettings.SafeAreaWidth;
+            }
             const int safeAreaYMin = Constants.GameSettings.GridHeight / 2 - padding;
             const int safeAreaYMax = Constants.GameSettings.GridHeight / 2 + padding;
-            for (var y = safeAreaYMin; y < safeAreaYMax; y++)
+            for (var x = safeAreaXMin; x < safeAreaXMax; x++)
             {
-                _safeAreaGridTiles[safeAreaX * Constants.GameSettings.GridHeight + y] = true;
+                for (var y = safeAreaYMin; y < safeAreaYMax; y++)
+                {
+                    _safeAreaGridTiles[x * Constants.GameSettings.GridHeight + y] = true;
+                }
             }
             // Place the tent
             if (!NetworkManager.Singleton.IsHost) return;

@@ -353,7 +353,7 @@ namespace Controllers
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
-            if (_landmines[index] || _safeAreaGridTiles[index]) return false;
+            if (_landmines[index] || _safeAreaGridTiles[index]) return false; // TODO: landmines array is always false on client
             // Otherwise the emplacement is valid
             return true;
         }

@@ -57,19 +57,23 @@ namespace Core
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(ClearedMines);
             // Give some landmines to set
-            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveEasyLandmine, () => GiveLandmine(LandmineDifficulty.Easy)));
-            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveMediumLandmine, () => GiveLandmine(LandmineDifficulty.Medium)));
-            StartCoroutine(Scheduler.ScheduleMethod(Constants.Landmines.TimeGiveHardLandmine, () => GiveLandmine(LandmineDifficulty.Hard)));
-        }
-
-        private void GiveLandmine(LandmineDifficulty difficulty)
-        {
-            Debug.Log("Giving " + difficulty + " landmine");
-            IncreaseInventoryMine(difficulty);
+            StartCoroutine(ScheduleGivingMines());
         }
         
-        private void GiveMediumLandmine() => IncreaseInventoryMine(LandmineDifficulty.Medium);
-        private void GiveHardLandmine() => IncreaseInventoryMine(LandmineDifficulty.Hard);
+        /// <summary>
+        /// Generic Coroutine to trigger a method at specified times.
+        /// </summary>
+        private IEnumerator ScheduleGivingMines()
+        {
+            var times = Constants.Landmines.GiveLandmineTimes;
+            for (var i = 0; i < times.Length; i++)
+            {
+                yield return new WaitForSeconds(times[i] * 60f);
+                var difficulty = Constants.Landmines.GiveLandmineDifficulties[i];
+                Debug.Log("Giving " + difficulty + " landmine at " + times[i] + " minutes");;
+                IncreaseInventoryMine(difficulty);
+            }
+        }
         
         // Money
         

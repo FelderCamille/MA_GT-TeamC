@@ -19,7 +19,7 @@ namespace Controllers
         [SerializeField] private InputField ipAddress;
         [SerializeField] private InputField port;
         [SerializeField] private CustomButton backButton;
-        [SerializeField] private CustomButton startButton;
+        [SerializeField] private StartButton startButton;
 
         private SceneLoader _sceneLoader;
         
@@ -78,13 +78,21 @@ namespace Controllers
             startButton.Disable();
             // Set connection data and start host or client
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ipAddress.text, UInt16.Parse(port.text));
-            if (_isHost)
+            try
             {
-                NetworkManager.Singleton.StartHost();
-            }
-            else
-            {
-                NetworkManager.Singleton.StartClient();
+                if (_isHost)
+                {
+                    NetworkManager.Singleton.StartHost();
+                }
+                else
+                {
+                    NetworkManager.Singleton.StartClient();
+                }
+            } catch (Exception e) {
+                Debug.LogError(e);
+                ipAddress.interactable = true;
+                port.interactable = true;
+                startButton.Enable();
             }
         }
         

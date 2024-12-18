@@ -5,11 +5,15 @@ using UnityEngine;
 public static class Constants
 {
     
-    public static readonly bool DebugShowMines = true;
+    public static readonly bool DebugShowMines = false;
+    public static readonly bool DebugAllowOnlyOneConnection = true; // Warning, this could break some part of the game if set to "true"
+    public static readonly bool DebugFillIPAddressOnClient = false;
+    public static readonly bool DebugShowOtherPlayer = false;
     
     public static class Scenes
     {
         public const string Title = "Title";
+        public const string Base = "Base";
         public const string Game = "Game";
         public const string Result = "Result";
     }
@@ -19,19 +23,20 @@ public static class Constants
         // Context
         public const MapTheme GameMapTheme = MapTheme.Nature;
         // Grid
-        public const int GridWidth = 50;
-        public const int GridHeight = 20; // Should be odd
-        public const int GridPadding = 20;
+        public const int GridWidth = 15;
+        public const int GridHeight = 15;
+        public const int GridPadding = 30;
         // Timer
-        public const float Timer = 10 * 60f; // 10 min
+        public const float Timer = 10f * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 20;
+        public const int NumberOfLandmines = 10;
         public const int NumberOfTileClearLandmine = 1;
+        public const int SafeAreaWidth = 2;
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
         public const int Vision = 0;
-        public const int Money = 1000;
+        public const int Money = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
     }
@@ -54,18 +59,104 @@ public static class Constants
         public const KeyCode MoveRight = KeyCode.RightArrow;
         public const KeyCode MoveUp = KeyCode.UpArrow;
         public const KeyCode MoveDown = KeyCode.DownArrow;
-        public const KeyCode Rotation = KeyCode.LeftShift;
         public const KeyCode ClearMine = KeyCode.D;
+        public const KeyCode PlaceMine = KeyCode.M;
         public const KeyCode OpenCloseEncyclopedia = KeyCode.E;
     }
 
-    public static class Values
+    public static class Prices
     {
-        public const int RepairPrice = 500;
-        public const int HealthRemovedWhenFailureMin = 10;
-        public const int HealthRemovedWhenFailureMax = 15;
-        public const int HealthRemovedWhenExplosionMin = 20;
-        public const int HealthRemovedWhenExplosionMax = 30;
+        public const int Revive = 1500;
+        public const int Repair = 500;
+        public const int Vision = 100;
+        // Rewards
+        public const int ClearMineSuccess = 200;
+    }
+
+    public static class Damages
+    {
+        // Explosion
+        public const int RemovedWhenFailureEasy = 20;
+        public const int RemovedWhenFailureMedium = 40;
+        public const int RemovedWhenFailureHard = 60;
+        public const int RemovedWhenExplosion = 30;
+        // Repair
+        public const int SmallRepair = 25;
+    }
+    
+    public static class Score
+    {
+        // Clear mine
+        public const int ClearMineEasySuccess = 100;
+        public const int ClearMineMediumSuccess = 250;
+        public const int ClearMineHardSuccess = 400;
+        public const int MineExplosion = -200;
+        // Final score
+        public const int MineNotCleared = -100;
+    }
+
+    public static class Landmines
+    {
+        public static readonly float[] GiveLandmineTimes = { 0f, 2f, 4f, 6f, 8f };
+        
+        public static readonly LandmineDifficulty[] GiveLandmineDifficulties =
+        {
+            LandmineDifficulty.Easy, // 1
+            LandmineDifficulty.Medium, // 2
+            LandmineDifficulty.Medium, // 4
+            LandmineDifficulty.Medium, // 6
+            LandmineDifficulty.Hard, // 8
+        };
+        
+        public static string LandmineDifficultyName(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => "Facile",
+                LandmineDifficulty.Medium => "Moyen",
+                LandmineDifficulty.Hard => "Difficile",
+                _ => "Unknown"
+            };
+        }
+        
+        public static Color LandmineDifficultyColor(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => Color.green,
+                LandmineDifficulty.Medium => Color.yellow,
+                LandmineDifficulty.Hard => Color.red,
+                _ => Color.white
+            };
+        }
+        
+        public static List<Landmine> LandminesObjects()
+        {
+            return new List<Landmine>
+            {
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Easy),
+                    Price = 100,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Easy
+                },
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Medium),
+                    Price = 200,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Medium
+                },
+                new()
+                {
+                    Name = LandmineDifficultyName(LandmineDifficulty.Hard),
+                    Price = 300,
+                    Icon = "Icons/bomb",
+                    Difficulty = LandmineDifficulty.Hard
+                }
+            };
+        }
     }
 
     public static class Bonus
@@ -74,7 +165,7 @@ public static class Constants
         {
             return bonusType switch
             {
-                BonusType.Vision => "Vision",
+                BonusType.Vision => "Bonus visuel",
                 _ => "Unknown"
             };
         }

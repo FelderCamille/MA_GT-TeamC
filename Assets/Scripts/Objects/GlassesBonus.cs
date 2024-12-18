@@ -6,9 +6,9 @@ namespace Objects
         {
             Name = "Glasses";
             BonusType = BonusType.Vision;
-            Price = 100;
+            Price = Constants.Prices.Vision;
             Icon = "Icons/glasses";
-            Multiplier = 1.5;
+            Multiplier = 2;
         }
     }
 }

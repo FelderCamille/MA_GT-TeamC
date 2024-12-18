@@ -6,9 +6,9 @@ namespace UI
 {
     public class FeedbackPopup : MonoBehaviour
     {
-        public GameObject panel;
-        public Text text;
-        public Image image;
+        [SerializeField] private GameObject panel;
+        [SerializeField] private Text text;
+        [SerializeField] private Image image;
         
         private IEnumerator Show(string message, string icon, Color color)
         {
@@ -24,7 +24,7 @@ namespace UI
 
         public void ShowMineAsCleared()
         {
-            StartCoroutine(Show("+1", "bomb", Color.green));
+            StartCoroutine(Show("+1", "clear_bomb", Color.green));
         }
         
         public void ShowHealthLost(float healthLost)

@@ -6,7 +6,7 @@ namespace UI
 {
     public class NavigationButton : MonoBehaviour
     {
-        public Button button;
+        [SerializeField] private Button button;
 
         public bool IsEnabled { get; private set; }
 

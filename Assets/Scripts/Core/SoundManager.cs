@@ -8,23 +8,24 @@ namespace Core
     public class SoundManager: MonoBehaviour
     {
 
-        public AudioSource[] buySoundSources;
-        public AudioSource[] explosionSoundSources;
-        public AudioSource[] beepSoundSources;
-        public AudioSource cutSoundSource;
-        public AudioSource warSoundSource;
-        public AudioSource natureSoundSource;
-        public AudioSource[] setMineSoundSources;
-        public AudioSource sonarSoundSource;
+        [SerializeField] private AudioSource[] buySoundSources;
+        [SerializeField] private AudioSource[] explosionSoundSources;
+        [SerializeField] private AudioSource[] beepSoundSources;
+        [SerializeField] private AudioSource cutSoundSource;
+        [SerializeField] private AudioSource warSoundSource;
+        [SerializeField] private AudioSource natureSoundSource;
+        [SerializeField] private AudioSource[] setMineSoundSources;
+        [SerializeField] private AudioSource sonarSoundSource;
         public AudioSource moveSoundSource;
         public AudioSource turnSoundSource;
-        public AudioSource repairSoundSource;
-        public AudioSource openMineSoundSource;
-        public AudioSource openTentSoundSource;
-        public AudioSource closeTentSoundSource;
-        public AudioSource openBookSoundSource;
-        public AudioSource closeBookSoundSource;
-        public AudioSource visionSoundSource;
+        [SerializeField] private AudioSource repairSoundSource;
+        [SerializeField] private AudioSource openMineSoundSource;
+        [SerializeField] private AudioSource openTentSoundSource;
+        [SerializeField] private AudioSource closeTentSoundSource;
+        [SerializeField] private AudioSource openBookSoundSource;
+        [SerializeField] private AudioSource closeBookSoundSource;
+        [SerializeField] private AudioSource visionSoundSource;
+        [SerializeField] private AudioSource deniedSoundSource;
 
         private void Start()
         {
@@ -80,27 +81,27 @@ namespace Core
             repairSoundSource.Play();
         }
 
-        public void playOpenMineSound()
+        public void PlayOpenMineSound()
         {
             openMineSoundSource.Play();
         }
 
-        public void playOpenTentSound()
+        public void PlayOpenTentSound()
         {
             openTentSoundSource.Play();
         }
 
-        public void playCloseTentSound()
+        public void PlayCloseTentSound()
         {
             closeTentSoundSource.Play();
         }
 
-        public void playOpenBookSound()
+        public void PlayOpenBookSound()
         {
             openBookSoundSource.Play();
         }
 
-        public void playCloseBookSound()
+        public void PlayCloseBookSound()
         {
             closeBookSoundSource.Play();
         }
@@ -110,9 +111,14 @@ namespace Core
             visionSoundSource.Play();
         }
 
+        public void PlayDeniedSound()
+        {
+            deniedSoundSource.Play();
+        }
+
         private void PlayAmbientSound()
         {
-            var mapTheme = Constants.GameSettings.GameMapTheme;
+            const MapTheme mapTheme = Constants.GameSettings.GameMapTheme;
             switch (mapTheme)
             {
                 case MapTheme.Nature:

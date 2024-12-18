@@ -14,41 +14,52 @@ namespace Controllers
     {
 
         [Header("Content")]
-        public QuestionButton buttonPrefab;
-        
-        private SoundManager _soundManager;
-        private int _currentQuestionIndex = -1; // To start at index 0
-        private Question[] _questions;
+        [SerializeField] private QuestionButton buttonPrefab;
+        [SerializeField] private Text difficulty;
+        [SerializeField] private Text title;
         private readonly List<QuestionButton> _buttons = new ();
-        
-        public LandmineController Mine
-        {
-            private get;
-            set;
-        }
 
-        public bool IsAnswering
+        private SoundManager _soundManager;
+        
+        private readonly Dictionary<LandmineDifficulty, int> _currentQuestionIndex = new ()
         {
-            get;
-            private set;
-        }
+            { LandmineDifficulty.Easy, -1 },
+            { LandmineDifficulty.Medium, -1 },
+            { LandmineDifficulty.Hard, -1 }
+        };
+        private Dictionary<LandmineDifficulty, Question[]> _questionsPerDifficulty;
+        
+        public LandmineController Mine {private get; set;}
+        public bool IsAnswering {get; private set;}
+        public RobotController Robot {private get; set;}
+        public LandmineDifficulty Difficulty { private get; set; }
         
         private void Awake()
         {
             var questionsObj = JsonUtils<Questions>.Read("Json/questions");
-            _questions = questionsObj.Shuffle();
-            _soundManager = FindObjectOfType<SoundManager>();
+            var questions = questionsObj.Shuffle();
+            _questionsPerDifficulty = new Dictionary<LandmineDifficulty, Question[]>()
+            {
+                { LandmineDifficulty.Easy, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Easy) },
+                { LandmineDifficulty.Medium, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Medium) },
+                { LandmineDifficulty.Hard, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Hard) }
+            };
+            _soundManager = FindFirstObjectByType<SoundManager>();
         }
 
         private void OnEnable()
         {
+            // Set difficulty text and color
+            difficulty.text = Constants.Landmines.LandmineDifficultyName(Difficulty);
+            difficulty.color = Constants.Landmines.LandmineDifficultyColor(Difficulty);
+            // Get next question index
+            _currentQuestionIndex[Difficulty]++;
             // Get a question
-            _currentQuestionIndex++;
-            if (_currentQuestionIndex >= _questions.Length)
+            if (CurrentQuestionIndexForDifficulty >= _questionsPerDifficulty[Difficulty].Length)
             {
                 throw new Exception("All questions answered.");
             }
-            var question = _questions[_currentQuestionIndex];
+            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
             // Update _answering
             IsAnswering = true;
             // Remove old buttons
@@ -58,7 +69,7 @@ namespace Controllers
                 DestroyImmediate(GetComponentInChildren<QuestionButton>().gameObject);
             }
             // Update title
-            GetComponentInChildren<Text>().text = question.query;
+            title.text = question.query;
             // Place responses buttons
             for (var i = 0; i < question.responses.Length; i++)
             {
@@ -75,8 +86,8 @@ namespace Controllers
             // Play sound
             _soundManager.PlayCutSound();
             // Manage response
-            var question = _questions[_currentQuestionIndex];
-            var isCorrect = question.IsCorrectResponse(questionButton.buttonText.text);
+            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
+            var isCorrect = question.IsCorrectResponse(questionButton.GetText());
             // Show feedback
             if (!isCorrect)
             {
@@ -86,11 +97,13 @@ namespace Controllers
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
             // Manage mine
-            Mine.OnLandmineCleared(isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
+            Mine.OnLandmineCleared(Robot, isCorrect ? LandmineCleared.AnswerSuccess : LandmineCleared.AnswerFailure);
             // Not answering anymore
             IsAnswering = false;
             // Hide question overlay
             gameObject.SetActive(false);
         }
+        
+        private int CurrentQuestionIndexForDifficulty => _currentQuestionIndex[Difficulty];
     }
 }

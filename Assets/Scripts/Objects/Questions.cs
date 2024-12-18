@@ -18,11 +18,22 @@ namespace Objects
             questions = questions.OrderBy(_ => _random.Next()).ToArray();
             return questions;
         }
+        
+        public Question[] QuestionPerDifficulty(Question[] questionsShuffled, LandmineDifficulty difficulty)
+        {
+            // Filter questions (+1 because difficulty starts at 0 and question.difficulty at 1)
+            return questionsShuffled.Where(question => question.difficulty == (int) difficulty + 1).ToArray();
+        }
     }
     
     [Serializable]
     public class Question
     {
+        /// <summary>
+        /// Difficulty of the question. From 1 = easy to 3 = hard.
+        /// </summary>
+        public int difficulty;
+        
         /// <summary>
         /// The question to ask.
         /// </summary>

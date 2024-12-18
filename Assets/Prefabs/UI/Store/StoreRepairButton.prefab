@@ -53,6 +53,7 @@ MonoBehaviour:
   icon: {fileID: 9118137051168276381}
   buttonName: {fileID: 2362209609570825686}
   price: {fileID: 4193091881290555908}
+  disabledOverlay: {fileID: 3361668376172284313}
 --- !u!1001 &95227672354347221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,6 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3361668376172284313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3455767811943436620, guid: 00e404d13bb264c0b9d726d5ff3f5855, type: 3}
+  m_PrefabInstance: {fileID: 95227672354347221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3406252346972691616 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3321159973719901301, guid: 00e404d13bb264c0b9d726d5ff3f5855, type: 3}

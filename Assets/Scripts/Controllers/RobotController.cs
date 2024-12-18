@@ -167,7 +167,7 @@ namespace Controllers
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
-        public void IndicateExplodedMine() => IndicateExplodedMine(Constants.Health.RemovedWhenExplosion);
+        public void IndicateExplodedMine() => IndicateExplodedMine(Constants.Damages.RemovedWhenExplosion);
         
         public void IndicateExplodedMine(LandmineDifficulty difficulty)
         {
@@ -175,13 +175,13 @@ namespace Controllers
             switch (difficulty)
             {
                 case LandmineDifficulty.Easy:
-                    removedHealth = Constants.Health.RemovedWhenFailureEasy;
+                    removedHealth = Constants.Damages.RemovedWhenFailureEasy;
                     break;
                 case LandmineDifficulty.Medium:
-                    removedHealth = Constants.Health.RemovedWhenFailureMedium;
+                    removedHealth = Constants.Damages.RemovedWhenFailureMedium;
                     break;
                 case LandmineDifficulty.Hard:
-                    removedHealth = Constants.Health.RemovedWhenFailureHard;
+                    removedHealth = Constants.Damages.RemovedWhenFailureHard;
                     break;
                 default:
                     throw new NotImplementedException("Unknown landmine difficulty");
@@ -205,6 +205,8 @@ namespace Controllers
 
         public bool CanRepair()
         {
+            Debug.Log("Has enough money to repair: " + _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair));
+            Debug.Log("Need repair: " + _resourcesManager.NeedRepair());
             return _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair) && _resourcesManager.NeedRepair();
         }
 

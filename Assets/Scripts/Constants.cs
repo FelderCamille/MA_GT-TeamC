@@ -73,7 +73,7 @@ public static class Constants
         public const int ClearMineSuccess = 200;
     }
 
-    public static class Health
+    public static class Damages
     {
         // Explosion
         public const int RemovedWhenFailureEasy = 20;

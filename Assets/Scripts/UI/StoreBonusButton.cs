@@ -9,7 +9,7 @@ namespace UI
         public void Init(Action onClickCallback, Bonus bonus)
         {
             Bonus = bonus;
-            var bonusName = bonus.Name + " (" + bonus.Multiplier + ")";
+            var bonusName = bonus.Name + " (x" + bonus.Multiplier + ")";
             Init(onClickCallback, bonusName, bonus.Price, bonus.Icon);
         }
     }

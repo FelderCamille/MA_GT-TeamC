@@ -15,6 +15,7 @@ namespace Controllers
         [SerializeField] private GameObject robotObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private ParticleSystem repeatedWaveEffect;
+        [SerializeField] private ParticleSystem foreverRepeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
 
@@ -44,9 +45,14 @@ namespace Controllers
              _soundManager = FindFirstObjectByType<SoundManager>();
              _resourcesManager = GetComponent<ResourcesManager>();
              // Hide the robot for the enemy
-             if (!IsOwner && !Constants.DebugShowOtherPlayer) Hide();
-             // Play single wave effect at the start
+             if (!IsOwner && !Constants.DebugShowOtherPlayer)
+             {
+                 Hide();
+                 return;
+             }
+             // Play single wave effect at the start and forever repeated wave effect after
              singleWaveEffect.Play();
+             foreverRepeatedWaveEffect.Play();
          }
 
         private void Update()
@@ -225,11 +231,13 @@ namespace Controllers
 
         public void ShowMines()
         {
+            foreverRepeatedWaveEffect.Stop();
             repeatedWaveEffect.Play();
         }
         
         public void HideMines()
         {
+            foreverRepeatedWaveEffect.Play();
             repeatedWaveEffect.Stop();
         }
 
@@ -238,7 +246,7 @@ namespace Controllers
             robotObject.SetActive(false);
             singleWaveEffect.Stop();
             repeatedWaveEffect.Stop();
-            singleWaveEffect.gameObject.SetActive(false);
+            foreverRepeatedWaveEffect.Stop();
         }
 
         public void Show()
@@ -247,6 +255,7 @@ namespace Controllers
             robotObject.SetActive(true);
             singleWaveEffect.Stop();
             repeatedWaveEffect.Stop();
+            foreverRepeatedWaveEffect.Play();
         }
 
         private (int, int) ComputeLandminePlacement()

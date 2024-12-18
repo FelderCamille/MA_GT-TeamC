@@ -63,28 +63,29 @@ namespace Controllers
 
         private void HandleMining()
         {
-            if (Input.GetKeyDown(Constants.Actions.PlaceMine))
+            // Do nothing if the robot doesn't want to place a mine
+            if (!Input.GetKeyDown(Constants.Actions.PlaceMine)) return;
+            // Check if the robot can place a mine of the selected difficulty
+            if (_resourcesManager.CanPlaceMineOfSelectedDifficulty())
             {
-                if (_resourcesManager.CanPlaceMineOfSelectedDifficulty())
+                var (x, y) = ComputeLandminePlacement();
+                if(_grid.CanPlaceMine(x, y))
                 {
-                    var (x, y) = ComputeLandminePlacement();
-                    if(_grid.CanPlaceMine(x, y))
-                    {
-                        _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
-                        PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
-                        _soundManager.PlaySetMineSound();
-                    }
-                    else
-                    {
-                        _soundManager.PlayDeniedSound();
-                    }
-                   // TODO: add other feedback otherwise
+                    _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
+                    PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
+                    _soundManager.PlaySetMineSound();
                 }
                 else
                 {
                     _soundManager.PlayDeniedSound();
-                }// TODO: add feedback if not enough mines
+                    // TODO: add other feedback otherwise
+                }
             }
+            else
+            {
+                _soundManager.PlayDeniedSound();
+                // TODO: add feedback if not enough mines
+            } 
         }
 
         private void HandleMovements()
@@ -214,8 +215,6 @@ namespace Controllers
 
         public bool CanRepair()
         {
-            Debug.Log("Has enough money to repair: " + _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair));
-            Debug.Log("Need repair: " + _resourcesManager.NeedRepair());
             return _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair) && _resourcesManager.NeedRepair();
         }
 

@@ -2704,6 +2704,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1331596567}
     m_Modifications:
+    - target: {fileID: 2960497048467316315, guid: dac25cc90e9e24dcf8ccf3d8eda90c63, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3099369376809882915, guid: dac25cc90e9e24dcf8ccf3d8eda90c63, type: 3}
       propertyPath: m_Text
       value: Quitter

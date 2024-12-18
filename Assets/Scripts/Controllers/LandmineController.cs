@@ -21,25 +21,19 @@ namespace Controllers
         public float collidingDistance = 1.0f; // Correspond � 3 tuiles de distance
 
         // Animation
-        private Animator _animator;
+        private Animator _animator = null;
 
         private void Start()
         { 
             _questionOverlay = FindObjectOfType<QuestionController>(true);
             _robot = FindObjectOfType<RobotController>();
             _soundManager = FindObjectOfType<SoundManager>();
-            _animator = GetComponent<Animator>();
+            _animator = _robot.GetComponent<Animator>(); // animator controller from robot
         }
 
         private void Update()
         {
             DetectRobotApproach();
-            if(Input.GetKeyDown(KeyCode.D))
-            {
-                Debug.Log("Trigger 'ArmOut' activated.");
-                _animator.SetTrigger("ArmOut"); // Trigger animation
-                Debug.Log("Action 'ArmOut' done.");
-            }
         }
 
         private void OnCollisionEnter(Collision other)
@@ -73,10 +67,10 @@ namespace Controllers
                 // V�rifiez si le robot est dans le rayon de d�minage
                 if (Vector3.Distance(transform.position, _robot.transform.position) > collidingDistance*1.2) return;
 
-                //Debug.Log("Trigger 'ArmOut' activated.");
-                //_animator.SetTrigger("ArmOut"); // Trigger animation
-                // Affichez la question
-                //ShowQuestionOverlay();
+                _animator.SetTrigger("ArmOut");
+
+                // Attend un délai avant d'afficher la question
+                StartCoroutine(DelayedShowQuestionOverlay());
                 _soundManager.playOpenMineSound();
             }
             /*
@@ -97,6 +91,7 @@ namespace Controllers
 
         public void OnLandmineCleared(LandmineCleared state)
         {
+            _animator.SetTrigger("ArmIn");
             // Manage robot
             switch (state)
             {
@@ -143,6 +138,14 @@ namespace Controllers
         {
             OnLandmineCleared(LandmineCleared.Explosion);
         }
+
+        private IEnumerator DelayedShowQuestionOverlay()
+        {
+            yield return new WaitForSeconds(1.0f);
+
+            // Afficher l'overlay
+            ShowQuestionOverlay();
+        }
         
         private void ShowQuestionOverlay()
         {
@@ -151,6 +154,5 @@ namespace Controllers
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }
-        
     }
 }

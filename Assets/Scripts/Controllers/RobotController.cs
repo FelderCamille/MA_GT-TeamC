@@ -37,9 +37,7 @@ namespace Controllers
             _resourcesManager = gameObject.AddComponent<ResourcesManager>();
             singleWaveEffect.Play();
             _soundManager = FindObjectOfType<SoundManager>();
-            _animator = GetComponent<Animator>();
             _mudParticules = GetComponentInChildren<ParticleSystem>();
-            _mudParticules.Stop();
         }
 
         private void Update()
@@ -103,7 +101,6 @@ namespace Controllers
             if (Input.GetKey(Constants.Actions.MoveUp))
             {
                 moveDirection = transform.forward; // Avance dans la direction du regard
-                _animator.SetTrigger("MoveForward"); // Trigger animation
                 if (!_soundManager.moveSoundSource.isPlaying) // Emp�che les r�p�titions si le son est d�j� en cours
                 {
                     _soundManager.PlayTankGoSound();
@@ -119,7 +116,6 @@ namespace Controllers
             else if (Input.GetKey(Constants.Actions.MoveDown))
             {
                 moveDirection = -transform.forward; // Recule dans la direction oppos�e
-                _animator.SetTrigger("MoveBackward"); // Trigger animation
                 if (!_soundManager.moveSoundSource.isPlaying)
                 {
                     _soundManager.PlayTankGoSound();

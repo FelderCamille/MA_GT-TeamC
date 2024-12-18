@@ -21,6 +21,7 @@ namespace Controllers
 
         private RobotController _robot;
         private GridController _grid;
+
         // Animation
         private Animator _animator;
 
@@ -31,8 +32,8 @@ namespace Controllers
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
-            _animator = GetComponent<Animator>();
             _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
+            _animator = _robot.GetComponent<Animator>();
         }
         
         private void Update()
@@ -65,17 +66,22 @@ namespace Controllers
         {
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
-            // Play arm animation
-            _animator.SetTrigger("ArmOut");
+            
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
+
+            // Play arm animation
+            _animator.SetTrigger("ArmOut");
             // Show question overlay
             _soundManager.PlayOpenMineSound();
-            ShowQuestionOverlay(_robot);
+            StartCoroutine(DelayedShowQuestionOverlay(_robot));
+
         }
         
         public void OnLandmineCleared(RobotController robot, LandmineCleared state)
         {
+            _animator.SetTrigger("ArmIn");
+
             // Manage result on robot
             if (robot.IsOwner)
             {
@@ -138,6 +144,14 @@ namespace Controllers
             _questionOverlay.Difficulty = Difficulty;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
+        }
+
+        private IEnumerator DelayedShowQuestionOverlay(RobotController robot)
+        {
+            yield return new WaitForSeconds(1.0f);
+
+            // Afficher l'overlay
+            ShowQuestionOverlay(robot);
         }
         
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1992281744943413024}
   m_Layer: 6
   m_Name: Mud particles
-  m_TagString: Untagged
+  m_TagString: Effects
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14850,6 +14850,7 @@ GameObject:
   - component: {fileID: 6450839028801604615}
   - component: {fileID: 789278331960228392}
   - component: {fileID: 4280640236529247069}
+  - component: {fileID: 328240725032657323}
   m_Layer: 6
   m_Name: Robot
   m_TagString: Player
@@ -14948,6 +14949,18 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &328240725032657323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430937700716701231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2757f197ecdd4e06a8a91df0c76fe3a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7402655900229905455
 GameObject:
   m_ObjectHideFlags: 0
@@ -15130,16 +15143,74 @@ PrefabInstance:
       propertyPath: m_Name
       value: robot
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1108023975585647194}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5701093486189956818}
   m_SourcePrefab: {fileID: 100100000, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}
 --- !u!1 &1291876348715625824 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}
   m_PrefabInstance: {fileID: 2102269943945973809}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1108023975585647194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291876348715625824}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.007616, y: 1.265279, z: 1.7773558}
+  m_Center: {x: -0.008988738, y: 0.6317538, z: 0.0079885125}
+--- !u!54 &5701093486189956818
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291876348715625824}
+  serializedVersion: 4
+  m_Mass: 2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 122
+  m_CollisionDetection: 0
 --- !u!4 &1920356557440956378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 01d50ef14a6d30f42be651857753ef45, type: 3}

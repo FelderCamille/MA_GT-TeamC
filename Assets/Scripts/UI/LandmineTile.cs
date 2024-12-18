@@ -10,24 +10,27 @@ namespace UI
         private const float TimeBeforeFadingInSec = 1;
         private const float ShowAlpha = 0.7f;
 
-        public GameObject landmine;
+        [SerializeField] private GameObject landmine;
         private Material _material;
         private bool _isShown;
-
+        
         private void Awake()
         {
             _material = landmine.GetComponent<Renderer>().material;
-            Hide();
-            StartCoroutine(ShowingThenFadeAfterSeconds(TimeBeforeShowingStartInSec, TimeBeforeFadingStartInSec));
+            if (!Constants.DebugShowMines)
+            {
+                Hide();
+                StartCoroutine(ShowingThenFadeAfterSeconds(TimeBeforeShowingStartInSec, TimeBeforeFadingStartInSec));
+            }
         }
 
         public void Show()
         {
             if (_isShown) return;
-            StartCoroutine(ShowingThenFadeAfterSeconds(0f, TimeBeforeFadingInSec));
+            if (!Constants.DebugShowMines) StartCoroutine(ShowingThenFadeAfterSeconds(0f, TimeBeforeFadingInSec));
         }
 
-        private void Hide()
+        public void Hide()
         {
             ChangeAlpha(0f);
         }
@@ -61,7 +64,6 @@ namespace UI
             var oldColor = _material.color;
             var newColor = new Color(oldColor.r, oldColor.g, oldColor.b, alphaVal);
             _material.SetColor("_Color", newColor);
-
         }
     }
 }

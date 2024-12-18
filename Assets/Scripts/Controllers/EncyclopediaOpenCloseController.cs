@@ -6,8 +6,8 @@ namespace Controllers
     {
 
         [Header("Content")]
-        public EncyclopediaController encyclopedia;
-        
+        [SerializeField] private EncyclopediaController encyclopedia;
+
         private void Update()
         {
             HandleOpening();

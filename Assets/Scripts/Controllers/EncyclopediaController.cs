@@ -1,3 +1,4 @@
+using Core;
 using Objects;
 using TMPro;
 using UI;
@@ -10,22 +11,24 @@ namespace Controllers
     public class EncyclopediaController : MonoBehaviour
     {
 
+        // Audio
+        private SoundManager _soundManager;
+
         [Header("Content")]
-        public SectionTab sectionTabPrefab;
-        public NavigationButton previousPageButton;
-        public NavigationButton nextPageButton;
-        public Text pageNumber;
+        [SerializeField] private SectionTab sectionTabPrefab;
+        [SerializeField] private NavigationButton previousPageButton;
+        [SerializeField] private NavigationButton nextPageButton;
+        [SerializeField] private Text pageNumber;
 
         private Section[] _sections;
         private int _currentSectionIndex = 0;
         private int _currentPageIndex = 0;
-
-        private bool _isOpened;
-
-        public bool IsOpened => _isOpened;
+        
+        public bool IsOpened { get; private set; }
 
         private void Awake()
         {
+            _soundManager = FindFirstObjectByType<SoundManager>();
             // Load encyclopedia
             var encyclopediaObj = JsonUtils<Encyclopedia>.Read("Json/encyclopedia");
             _sections = encyclopediaObj.sections;
@@ -46,14 +49,16 @@ namespace Controllers
         private void OnEnable()
         {
             // Change is opened status
-            _isOpened = true;
+            IsOpened = true;
             // Display encyclopedia page
             UpdatePageContent();
+            _soundManager.PlayOpenBookSound();
         }
 
         private void OnDisable()
         {
-            _isOpened = false;
+            IsOpened = false;
+            _soundManager.PlayCloseBookSound();
         }
 
         private void OnSectionClicked(SectionTab sectionTab)

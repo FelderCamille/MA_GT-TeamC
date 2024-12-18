@@ -6,7 +6,7 @@ namespace UI
 {
     public class CloseButton : MonoBehaviour
     {
-        public Button button;
+        [SerializeField] private Button button;
         
         public void Init(Action onClickCallback)
         {

@@ -10,13 +10,13 @@ namespace Core
         private UI.Time _timePrefab;
         
         private float _time = Constants.GameSettings.Timer;
-        private bool _isRunning = false;
+        private bool _isRunning; // false by default
 
         private void Start()
         {
             // Get objects
-            _sceneLoader = FindObjectOfType<SceneLoader>();
-            _timePrefab = FindObjectOfType<UI.Time>();
+            _sceneLoader = FindFirstObjectByType<SceneLoader>();
+            _timePrefab = FindFirstObjectByType<UI.Time>();
             // Set time
             _timePrefab.SetTime(_time);
         }

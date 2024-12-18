@@ -59,6 +59,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -165,6 +168,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -222,6 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 1202899067884833650}
+  - component: {fileID: 620394711791697178}
   m_Layer: 0
   m_Name: LandmineTile
   m_TagString: Untagged
@@ -259,7 +266,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160aec5f3b2144a194f11a4e71dc1f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 1
+  depth: 1
   landmine: {fileID: 1148198663363304086}
+--- !u!114 &620394711791697178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8613609681951060239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4044179372
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &7824006004112298175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -282,27 +312,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.0080349445
+      value: 0.005620283
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0080349445
+      value: 0.005620283
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0080349445
+      value: 0.005620283
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.0050747
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.201
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0074586
       objectReference: {fileID: 0}
     - target: {fileID: 2972727433834766001, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -361,8 +391,12 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5096996268205200944, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096996268205200944, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_Constraints
-      value: 0
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7168407448531372585, guid: a23c5a5ed0ac8493eb5edb13c4a8becd, type: 3}
       propertyPath: m_Layer

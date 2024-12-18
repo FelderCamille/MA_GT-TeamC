@@ -6,7 +6,7 @@ namespace UI
 {
     public class Time : MonoBehaviour
     {
-        public Text time;
+        [SerializeField] private Text time;
 
         public void SetTime(float value)
         {

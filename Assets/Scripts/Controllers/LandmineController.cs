@@ -1,35 +1,55 @@
+using System;
+using Core;
+using System.Collections;
+using System.Linq;
 using Objects;
 using UI;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace Controllers
 {
-    public class LandmineController : MonoBehaviour, ILandmine
+    public class LandmineController : NetworkBehaviour, ILandmine
     {
         
         [Header("Settings")]
-        public float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine + .5f; // One tile of distance, no diagonal
-
+        [SerializeField] private float collidingDistance = Constants.GameSettings.NumberOfTileClearLandmine; // One tile of distance, no diagonal
+        private SoundManager _soundManager;
         private QuestionController _questionOverlay;
+        [SerializeField] private LandmineTile landmine;
+        [SerializeField] private ParticleSystem explosionEffect;
+
         private RobotController _robot;
-        public LandmineTile landmine;
+        private GridController _grid;
+        // Animation
+        private Animator _animator;
+
+        public LandmineDifficulty Difficulty { private get; set; }
         
         private void Start()
         {
-            _questionOverlay = FindObjectOfType<QuestionController>(true);
-            _robot = FindObjectOfType<RobotController>();
+            _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
+            _soundManager = FindFirstObjectByType<SoundManager>();
+            _grid = FindFirstObjectByType<GridController>();
+            _animator = GetComponent<Animator>();
+            _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
         }
-
+        
         private void Update()
         {
-            DetectRobotApproach();
+            DetectRobotsApproach();
         }
 
         private void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                OnRobotCollided();
+                // Get robot
+                var robot = other.gameObject.GetComponent<RobotController>();
+                // Manage when collision on the robot object and not the prefab
+                if (robot == null) robot = other.gameObject.GetComponentInParent<RobotController>();
+                // Handle collision response
+                OnRobotCollided(robot);
             }
         }
         
@@ -41,52 +61,81 @@ namespace Controllers
             }
         }
 
-        public void DetectRobotApproach()
+        private void DetectRobotsApproach()
         {
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
-            // Check if the distance between the robot and the landmine permits to answer the question, if not return
+            // Play arm animation
+            _animator.SetTrigger("ArmOut");
+            // Check if the distance between the robots and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
-            // Check if the robot faces the landmine
-            if (_robot.Direction == RobotDirection.FacingRight && transform.position.x > _robot.transform.position.x ||
-                _robot.Direction == RobotDirection.FacingLeft && transform.position.x < _robot.transform.position.x ||
-                _robot.Direction == RobotDirection.FacingUp && transform.position.z > _robot.transform.position.z ||
-                _robot.Direction == RobotDirection.FacingDown && transform.position.z < _robot.transform.position.z)
-            {
-                ShowQuestionOverlay();
-            }
-        }
-
-        public void OnLandmineCleared(LandmineCleared state)
-        {
-            // Manage robot
-            switch (state)
-            {
-                case LandmineCleared.AnswerSuccess:
-                    _robot.IncreaseClearedMineCounter();
-                    break;
-                case LandmineCleared.AnswerFailure:
-                    var hTRFailure = Random.Range(Constants.Values.HealthRemovedWhenFailureMin, Constants.Values.HealthRemovedWhenFailureMax);
-                    _robot.ReduceHealth(hTRFailure);
-                    break;
-                case LandmineCleared.Explosion:
-                    var hTRExplosion = Random.Range(Constants.Values.HealthRemovedWhenExplosionMin, Constants.Values.HealthRemovedWhenExplosionMax);
-                    _robot.ReduceHealth(hTRExplosion);
-                    break;
-            }
-            // Remove landmine
-            gameObject.SetActive(false);
-        }
-
-        public void OnRobotCollided()
-        {
-            OnLandmineCleared(LandmineCleared.Explosion);
+            // Show question overlay
+            _soundManager.PlayOpenMineSound();
+            ShowQuestionOverlay(_robot);
         }
         
-        private void ShowQuestionOverlay()
+        public void OnLandmineCleared(RobotController robot, LandmineCleared state)
+        {
+            // Manage result on robot
+            if (robot.IsOwner)
+            {
+                switch (state)
+                {
+                    case LandmineCleared.AnswerSuccess:
+                        _soundManager.PlayBeepSound();
+                        robot.IndicateClearedMine(Difficulty);
+                        break;
+                    case LandmineCleared.AnswerFailure:
+                        robot.IndicateExplodedMine(Difficulty);
+                        break;
+                    case LandmineCleared.Explosion:
+                        robot.IndicateExplodedMine();
+                        break;
+                    default:
+                        throw new Exception("Unknown landmine cleared state");
+                }
+            }
+            // Remove landmine for each client
+            if (state == LandmineCleared.AnswerSuccess)
+            {
+                ReplaceLandmineRpc();
+            }
+            else
+            {
+                StartCoroutine(ExplodeLandmine());
+            }
+        }
+
+        private IEnumerator ExplodeLandmine()
+        {
+            // Play sound
+            _soundManager.PlayExplosionSound();
+            // Play explosion effect
+            landmine.Hide();
+            explosionEffect.Play();
+            // Wait for the explosion to play
+            yield return new WaitForSeconds(explosionEffect.main.duration - 1.5f);
+            // Remove the landmine
+            ReplaceLandmineRpc();
+        }
+
+        [Rpc(SendTo.Everyone)]
+        private void ReplaceLandmineRpc()
+        {
+            _grid.ReplaceMineByTile(GetComponentInParent<LandmineTile>());
+        }
+
+        public void OnRobotCollided(RobotController robot)
+        {
+            OnLandmineCleared(robot, LandmineCleared.Explosion);
+        }
+        
+        private void ShowQuestionOverlay(RobotController robot)
         {
             // Define mine in the question overlay
             _questionOverlay.Mine = this;
+            _questionOverlay.Robot = robot;
+            _questionOverlay.Difficulty = Difficulty;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }

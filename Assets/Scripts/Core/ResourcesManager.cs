@@ -6,7 +6,6 @@ using Objects;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Utils;
 
 namespace Core
 {

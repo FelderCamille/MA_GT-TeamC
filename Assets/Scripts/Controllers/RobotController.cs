@@ -14,7 +14,7 @@ namespace Controllers
         [Header("Parts")]
         [SerializeField] private GameObject robotObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
-        [SerializeField] private GameObject repeatedWaveEffect;
+        [SerializeField] private ParticleSystem repeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
 
@@ -215,20 +215,19 @@ namespace Controllers
 
         public void ShowMines()
         {
-            repeatedWaveEffect.SetActive(true);
-            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
+            repeatedWaveEffect.Play();
         }
         
         public void HideMines()
         {
-            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
-            repeatedWaveEffect.SetActive(false);
+            repeatedWaveEffect.Stop();
         }
 
         public void Hide()
         {
-            robotObject.SetActive(false); 
-            repeatedWaveEffect.SetActive(false);
+            robotObject.SetActive(false);
+            singleWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
             singleWaveEffect.gameObject.SetActive(false);
         }
 
@@ -236,8 +235,8 @@ namespace Controllers
         {
             if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
-            repeatedWaveEffect.SetActive(true);
-            singleWaveEffect.gameObject.SetActive(true);
+            singleWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
         }
 
         private (int, int) ComputeLandminePlacement()

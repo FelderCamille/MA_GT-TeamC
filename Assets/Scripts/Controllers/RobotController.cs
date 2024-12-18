@@ -167,10 +167,31 @@ namespace Controllers
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
-        public void IndicateExplodedMine(bool failure = false)
+        public void IndicateExplodedMine() => IndicateExplodedMine(Constants.Health.RemovedWhenExplosion);
+        
+        public void IndicateExplodedMine(LandmineDifficulty difficulty)
         {
-            var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
-            _resourcesManager.ReduceHealth(value);
+            int removedHealth;
+            switch (difficulty)
+            {
+                case LandmineDifficulty.Easy:
+                    removedHealth = Constants.Health.RemovedWhenFailureEasy;
+                    break;
+                case LandmineDifficulty.Medium:
+                    removedHealth = Constants.Health.RemovedWhenFailureMedium;
+                    break;
+                case LandmineDifficulty.Hard:
+                    removedHealth = Constants.Health.RemovedWhenFailureHard;
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown landmine difficulty");
+            }
+            IndicateExplodedMine(removedHealth);
+        }
+        
+        private void IndicateExplodedMine(int healthToRemove)
+        {
+            _resourcesManager.ReduceHealth(healthToRemove);
             _resourcesManager.IncreaseExplodedMinesCount();
         }
 

@@ -31,6 +31,7 @@ namespace Controllers
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
             _animator = GetComponent<Animator>();
+            _robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
         }
         
         private void Update()
@@ -66,7 +67,7 @@ namespace Controllers
             // Play arm animation
             _animator.SetTrigger("ArmOut");
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
-            foreach (var robot in FindObjectsByType<RobotController>(FindObjectsSortMode.None))
+            foreach (var robot in _robots)
             {
                 if (!(Vector3.Distance(transform.position, robot.gameObject.transform.position) < collidingDistance)) return;
                 // Show question overlay

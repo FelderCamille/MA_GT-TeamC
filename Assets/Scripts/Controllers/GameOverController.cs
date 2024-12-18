@@ -1,3 +1,4 @@
+using System;
 using Core;
 using UI;
 using Unity.Netcode;
@@ -60,10 +61,7 @@ namespace Controllers
         
         private void Quit()
         {
-            // Go to result scene
-            _sceneLoader.ShowScene(Constants.Scenes.Result);
-            // Quit game
-            NetworkManager.Singleton.Shutdown(); // TODO: do not do that.
+            throw new NotImplementedException("Quit method not implemented");
         }
     }
 }

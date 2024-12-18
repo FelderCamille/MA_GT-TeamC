@@ -1,6 +1,7 @@
 using System;
 using Core;
 using System.Collections;
+using System.Linq;
 using Objects;
 using UI;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Controllers
         [SerializeField] private LandmineTile landmine;
         [SerializeField] private ParticleSystem explosionEffect;
 
-        private RobotController[] _robots;
+        private RobotController _robot;
         private GridController _grid;
         // Animation
         private Animator _animator;
@@ -31,6 +32,7 @@ namespace Controllers
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
             _animator = GetComponent<Animator>();
+            _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
         }
         
         private void Update()
@@ -66,13 +68,10 @@ namespace Controllers
             // Play arm animation
             _animator.SetTrigger("ArmOut");
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
-            foreach (var robot in FindObjectsByType<RobotController>(FindObjectsSortMode.None))
-            {
-                if (!(Vector3.Distance(transform.position, robot.gameObject.transform.position) < collidingDistance)) return;
-                // Show question overlay
-                _soundManager.PlayOpenMineSound();
-                ShowQuestionOverlay(robot);
-            }
+            if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
+            // Show question overlay
+            _soundManager.PlayOpenMineSound();
+            ShowQuestionOverlay(_robot);
         }
         
         public void OnLandmineCleared(RobotController robot, LandmineCleared state)

@@ -6,7 +6,7 @@ namespace Controllers
 {
     public class TentController : NetworkBehaviour
     {
-        private const float StoreDistance = Constants.GameSettings.NumberOfTileOpenStore + .5f; // On z axis
+        private const float StoreDistance = Constants.GameSettings.NumberOfTileOpenStore; // On z axis
         public const int TentLength = 4;
         
         private StoreController _store;
@@ -30,13 +30,14 @@ namespace Controllers
 
         private void ComputeTentPosition()
         {
-            if (_robot.OwnerClientId == 0)
+            // Need to be calculated according to the prefab position that is not symmetrical
+            if (_robot.OwnerClientId == 0) // Player 1
             {
-                _tentXPosition = transform.position.x + TentLength - 1;
+                _tentXPosition = transform.position.x + TentLength;
                 _tentZ1Position = transform.position.z - TentLength / 2;
                 _tentZ2Position = transform.position.z + TentLength / 2 - 1;
             }
-            else
+            else // Player 2
             {
                 _tentXPosition = transform.position.x - TentLength;
                 _tentZ1Position = transform.position.z - TentLength / 2 + 1;
@@ -50,8 +51,8 @@ namespace Controllers
             if (!IsOwner) return;
             // Check if the user is close enough to the tent, if not return
             bool isCloseEnoughOnX;
-            if (_robot.OwnerClientId == 0) isCloseEnoughOnX = _robot.transform.position.x - _tentXPosition <= StoreDistance;
-            else isCloseEnoughOnX = _tentXPosition - _robot.transform.position.x <= StoreDistance;
+            if (_robot.OwnerClientId == 0) isCloseEnoughOnX = _robot.transform.position.x - _tentXPosition < StoreDistance;
+            else isCloseEnoughOnX = _tentXPosition - _robot.transform.position.x < StoreDistance;
             var isCloseEnoughOnZ = _robot.transform.position.z >= _tentZ1Position && _robot.transform.position.z <= _tentZ2Position;
             if (!isCloseEnoughOnX || !isCloseEnoughOnZ)
             {

@@ -205,14 +205,17 @@ namespace Core
             // Manage game over
             if (_health <= 0)
             {
+                // Remove bonuses
                 var bonuses = new List<Bonus>(_appliedBonuses); // Copy the list to avoid concurrent modification
                 foreach (var bonus in bonuses)
                 {
                     bonus.RemoveBonus(this);
                 }
+                // Remove landmines
                 foreach (var difficulty in _inventoryMines.Keys.ToList())
                 {
-                    DecreaseInventoryMine(difficulty);
+                    for (var i = 0; i < _inventoryMines[difficulty]; i++)
+                        DecreaseInventoryMine(difficulty);
                 }
                 _gameOver.Show(this);
             }

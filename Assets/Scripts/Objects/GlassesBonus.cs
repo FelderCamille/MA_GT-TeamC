@@ -8,7 +8,7 @@ namespace Objects
             BonusType = BonusType.Vision;
             Price = Constants.Prices.Vision;
             Icon = "Icons/glasses";
-            Multiplier = 1.5;
+            Multiplier = 2;
         }
     }
 }

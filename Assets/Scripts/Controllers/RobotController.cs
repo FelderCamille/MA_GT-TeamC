@@ -29,7 +29,7 @@ namespace Controllers
 
         // Movements
         [Header("Movements")]
-        [SerializeField] private float moveSpeed = 5f; // Movement speed
+        [SerializeField] private float moveSpeed = 1.5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
 

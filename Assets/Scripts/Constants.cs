@@ -5,9 +5,9 @@ using UnityEngine;
 public static class Constants
 {
     
-    public static readonly bool DebugShowMines = true;
+    public static readonly bool DebugShowMines = false;
     public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
-    public static readonly bool DebugFillIPAddressOnClient = true;
+    public static readonly bool DebugFillIPAddressOnClient = false;
     public static readonly bool DebugShowOtherPlayer = false;
     
     public static class Scenes
@@ -23,9 +23,9 @@ public static class Constants
         // Context
         public const MapTheme GameMapTheme = MapTheme.Nature;
         // Grid
-        public const int GridWidth = 10;
-        public const int GridHeight = 10; // Should be odd
-        public const int GridPadding = 10;
+        public const int GridWidth = 50;
+        public const int GridHeight = 20;
+        public const int GridPadding = 30;
         // Timer
         public const float Timer = 10f * 60f; // 10 min
         // Landmines

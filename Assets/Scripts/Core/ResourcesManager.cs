@@ -6,7 +6,6 @@ using Objects;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Utils;
 
 namespace Core
 {
@@ -237,7 +236,7 @@ namespace Core
             if (_health <= 0) _gameOver.Hide(this);
             // If total repair, set the health to the maximum. If partial, add a small value
             if (!partial)  _health = Constants.GameSettings.Health;
-            else _health = Constants.Health.SmallRepair;
+            else _health = Constants.Damages.SmallRepair;
             // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
             // Play the repair sound

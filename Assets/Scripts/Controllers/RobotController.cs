@@ -14,7 +14,7 @@ namespace Controllers
         [Header("Parts")]
         [SerializeField] private GameObject robotObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
-        [SerializeField] private GameObject repeatedWaveEffect;
+        [SerializeField] private ParticleSystem repeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
 
@@ -73,8 +73,17 @@ namespace Controllers
                         _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
                         PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
                         _soundManager.PlaySetMineSound();
-                    } // TODO: add other feedback otherwise
-                } // TODO: add feedback if not enough mines
+                    }
+                    else
+                    {
+                        _soundManager.PlayDeniedSound();
+                    }
+                   // TODO: add other feedback otherwise
+                }
+                else
+                {
+                    _soundManager.PlayDeniedSound();
+                }// TODO: add feedback if not enough mines
             }
         }
 
@@ -167,10 +176,31 @@ namespace Controllers
             _resourcesManager.IncreaseMoney(Constants.Prices.ClearMineSuccess);
         }
         
-        public void IndicateExplodedMine(bool failure = false)
+        public void IndicateExplodedMine() => IndicateExplodedMine(Constants.Damages.RemovedWhenExplosion);
+        
+        public void IndicateExplodedMine(LandmineDifficulty difficulty)
         {
-            var value = failure ? Constants.Health.RemovedWhenFailure : Constants.Health.RemovedWhenExplosion;
-            _resourcesManager.ReduceHealth(value);
+            int removedHealth;
+            switch (difficulty)
+            {
+                case LandmineDifficulty.Easy:
+                    removedHealth = Constants.Damages.RemovedWhenFailureEasy;
+                    break;
+                case LandmineDifficulty.Medium:
+                    removedHealth = Constants.Damages.RemovedWhenFailureMedium;
+                    break;
+                case LandmineDifficulty.Hard:
+                    removedHealth = Constants.Damages.RemovedWhenFailureHard;
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown landmine difficulty");
+            }
+            IndicateExplodedMine(removedHealth);
+        }
+        
+        private void IndicateExplodedMine(int healthToRemove)
+        {
+            _resourcesManager.ReduceHealth(healthToRemove);
             _resourcesManager.IncreaseExplodedMinesCount();
         }
 
@@ -184,6 +214,8 @@ namespace Controllers
 
         public bool CanRepair()
         {
+            Debug.Log("Has enough money to repair: " + _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair));
+            Debug.Log("Need repair: " + _resourcesManager.NeedRepair());
             return _resourcesManager.HasEnoughMoneyToBuy(Constants.Prices.Repair) && _resourcesManager.NeedRepair();
         }
 
@@ -194,20 +226,19 @@ namespace Controllers
 
         public void ShowMines()
         {
-            repeatedWaveEffect.SetActive(true);
-            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Play();
+            repeatedWaveEffect.Play();
         }
         
         public void HideMines()
         {
-            repeatedWaveEffect.GetComponentInChildren<ParticleSystem>().Stop();
-            repeatedWaveEffect.SetActive(false);
+            repeatedWaveEffect.Stop();
         }
 
         public void Hide()
         {
-            robotObject.SetActive(false); 
-            repeatedWaveEffect.SetActive(false);
+            robotObject.SetActive(false);
+            singleWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
             singleWaveEffect.gameObject.SetActive(false);
         }
 
@@ -215,8 +246,8 @@ namespace Controllers
         {
             if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
-            repeatedWaveEffect.SetActive(true);
-            singleWaveEffect.gameObject.SetActive(true);
+            singleWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
         }
 
         private (int, int) ComputeLandminePlacement()

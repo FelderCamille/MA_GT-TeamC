@@ -73,10 +73,12 @@ public static class Constants
         public const int ClearMineSuccess = 200;
     }
 
-    public static class Health
+    public static class Damages
     {
         // Explosion
-        public const int RemovedWhenFailure = 20;
+        public const int RemovedWhenFailureEasy = 20;
+        public const int RemovedWhenFailureMedium = 40;
+        public const int RemovedWhenFailureHard = 60;
         public const int RemovedWhenExplosion = 30;
         // Repair
         public const int SmallRepair = 25;

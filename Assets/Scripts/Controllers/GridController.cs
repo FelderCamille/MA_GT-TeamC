@@ -346,6 +346,7 @@ namespace Controllers
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
+
         public bool CanPlaceMine(int x, int y)
         {
             // Check if the emplacement is valid
@@ -357,7 +358,8 @@ namespace Controllers
             // Otherwise the emplacement is valid
             return true;
         }
-        
+
+
         public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
         {
             // Only host can replace the tile by a landmine

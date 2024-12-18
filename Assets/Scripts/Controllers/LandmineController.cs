@@ -87,7 +87,7 @@ namespace Controllers
                         robot.IndicateClearedMine(Difficulty);
                         break;
                     case LandmineCleared.AnswerFailure:
-                        robot.IndicateExplodedMine(failure: true);
+                        robot.IndicateExplodedMine(Difficulty);
                         break;
                     case LandmineCleared.Explosion:
                         robot.IndicateExplodedMine();

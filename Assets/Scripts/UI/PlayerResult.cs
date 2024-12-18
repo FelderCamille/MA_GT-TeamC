@@ -21,10 +21,10 @@ namespace UI
             var isMe = NetworkManager.Singleton.LocalClientId == currentPlayer.clientId;
             playerTitle.text += " " + (currentPlayer.clientId + 1) + " " + (isMe ? " (vous)" : "");
             // Compute player's result
-            clearedMinesEasy.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesEasyScore + " pts)";
-            clearedMinesMedium.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesMediumScore + " pts)";
-            clearedMinesHard.text += currentPlayer.clearedMinesEasy + " (" + currentPlayer.ClearedMinesEasyScore + " pts)";
-            explodedMines.text += currentPlayer.explodedMines + " (" + currentPlayer.ExplodedMinesScore + " pts)";
+            clearedMinesEasy.text += currentPlayer.clearedMinesEasy + FormatScore(currentPlayer.ClearedMinesEasyScore);
+            clearedMinesMedium.text += currentPlayer.clearedMinesMedium + FormatScore(currentPlayer.ClearedMinesMediumScore);
+            clearedMinesHard.text += currentPlayer.clearedMinesHard + FormatScore(currentPlayer.ClearedMinesHardScore);
+            explodedMines.text += currentPlayer.explodedMines + FormatScore(currentPlayer.ExplodedMinesScore);
             // Set total score
             totalScore.text += currentPlayer.TotalScore + " pts";
             // Set result
@@ -42,6 +42,11 @@ namespace UI
             }
             result.text = resultText;
             result.color = color;
+        }
+
+        private string FormatScore(int value)
+        {
+            return " (" + (value > 0 ? $"+{value}" : value)  + " pts)";
         }
     }
 }

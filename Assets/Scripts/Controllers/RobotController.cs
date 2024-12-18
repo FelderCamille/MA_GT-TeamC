@@ -73,8 +73,17 @@ namespace Controllers
                         _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
                         PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
                         _soundManager.PlaySetMineSound();
-                    } // TODO: add other feedback otherwise
-                } // TODO: add feedback if not enough mines
+                    }
+                    else
+                    {
+                        _soundManager.PlayDeniedSound();
+                    }
+                   // TODO: add other feedback otherwise
+                }
+                else
+                {
+                    _soundManager.PlayDeniedSound();
+                }// TODO: add feedback if not enough mines
             }
         }
 

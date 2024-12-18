@@ -519,6 +519,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267571369}
   m_CullTransparentMesh: 1
+--- !u!82 &299774756 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5531075662868027873, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+  m_PrefabInstance: {fileID: 1182308622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &306054461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,6 +2227,10 @@ PrefabInstance:
       propertyPath: bombe1SoundSource
       value: 
       objectReference: {fileID: 256101264}
+    - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
+      propertyPath: deniedSoundSource
+      value: 
+      objectReference: {fileID: 299774756}
     - target: {fileID: 8233490659962555768, guid: 36daf2d7c708a4928b5428d3fea758e2, type: 3}
       propertyPath: natureSoundSource
       value: 

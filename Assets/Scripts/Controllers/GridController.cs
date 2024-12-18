@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Objects;
 using UI;
 using Unity.Netcode;
@@ -37,6 +38,9 @@ namespace Controllers
         [Header("Content")]
         [SerializeField] private RobotController playerPrefab;
         [SerializeField] private TentController tentTilePrefab;
+
+        // Audio
+        private SoundManager _soundManager;
 
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
@@ -83,6 +87,8 @@ namespace Controllers
             {
                 SpawnRobot(clientId);
             }
+            // Retrieve sound manager
+            _soundManager = FindFirstObjectByType<SoundManager>();
         }
 
         private void ChooseDecorPrefabs()
@@ -346,6 +352,7 @@ namespace Controllers
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
+
         public bool CanPlaceMine(int x, int y)
         {
             // Check if the emplacement is valid
@@ -357,7 +364,8 @@ namespace Controllers
             // Otherwise the emplacement is valid
             return true;
         }
-        
+
+
         public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
         {
             // Only host can replace the tile by a landmine

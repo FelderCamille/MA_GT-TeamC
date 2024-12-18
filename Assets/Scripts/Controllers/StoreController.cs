@@ -81,6 +81,8 @@ namespace Controllers
             gameObject.SetActive(true);
             IsShopping = true;
             JustOpened = true;
+            _soundManager.moveSoundSource.Stop();
+            _soundManager.turnSoundSource.Stop();
             _soundManager.PlayOpenTentSound();
         }
 

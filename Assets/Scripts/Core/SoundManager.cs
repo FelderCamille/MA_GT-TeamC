@@ -25,6 +25,7 @@ namespace Core
         [SerializeField] private AudioSource openBookSoundSource;
         [SerializeField] private AudioSource closeBookSoundSource;
         [SerializeField] private AudioSource visionSoundSource;
+        [SerializeField] private AudioSource deniedSoundSource;
 
         private void Start()
         {
@@ -108,6 +109,11 @@ namespace Core
         public void PlayVisionSound()
         {
             visionSoundSource.Play();
+        }
+
+        public void PlayDeniedSound()
+        {
+            deniedSoundSource.Play();
         }
 
         private void PlayAmbientSound()

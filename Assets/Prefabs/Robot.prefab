@@ -19747,7 +19747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b347aa20b654649a98c67cc7222433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robotObject: {fileID: 0}
+  robotObject: {fileID: 2545507079268424251}
   singleWaveEffect: {fileID: 4559391236562489012}
   repeatedWaveEffect: {fileID: 7919036914189008022}
   foreverRepeatedWaveEffect: {fileID: 4929962429751929620}
@@ -20134,6 +20134,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e0655382d54a24347b5b66dbedab0bc4, type: 3}
       propertyPath: m_Name
       value: robot_speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e0655382d54a24347b5b66dbedab0bc4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

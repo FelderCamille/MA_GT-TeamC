@@ -27,18 +27,11 @@ namespace Controllers
 
         public LandmineDifficulty Difficulty
         {
-            get => Constants.Landmines.NumberToLandmineDifficulty(_landmineDifficultyData.Value.difficulty);
-            set => _landmineDifficultyData.Value = new LandmineDifficultyData
-            {
-                difficulty = Constants.Landmines.LandmineDifficultyToNumber(value)
-            };
+            get => Constants.Landmines.NumberToLandmineDifficulty(_landmineDifficultyData.Value);
+            set => _landmineDifficultyData.Value = Constants.Landmines.LandmineDifficultyToNumber(value);
         }
 
-        private readonly NetworkVariable<LandmineDifficultyData> _landmineDifficultyData = new(
-            new LandmineDifficultyData
-            {
-                difficulty = Constants.Landmines.LandmineDifficultyToNumber(LandmineDifficulty.Easy)
-            });
+        private readonly NetworkVariable<int> _landmineDifficultyData = new(Constants.Landmines.LandmineDifficultyToNumber(LandmineDifficulty.Easy));
         
         private void Start()
         {

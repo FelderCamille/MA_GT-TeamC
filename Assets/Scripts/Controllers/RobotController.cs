@@ -136,7 +136,7 @@ namespace Controllers
             if (mudParticules.isPlaying) return;
             if (moveForward)
             {
-                animator.SetTrigger("MoveForward"); // Trigger animation
+                // animator.SetTrigger("MoveForward"); // Trigger animation TODO: does not exist
                 var shape = mudParticules.shape;
                 shape.position = new Vector3(2.5f, -1.2f, -0.5f);
                 shape.rotation = new Vector3(0, 180, 0);
@@ -144,7 +144,7 @@ namespace Controllers
             }
             else
             {
-                animator.SetTrigger("MoveBackward"); // Trigger animation
+                // animator.SetTrigger("MoveBackward"); // Trigger animation TODO: does not exist ?
                 var shape = mudParticules.shape;
                 shape.position = new Vector3(-2.5f, -1.2f, 0.5f);
                 shape.rotation = new Vector3(0, 0, 0);

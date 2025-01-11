@@ -119,6 +119,28 @@ public static class Constants
             };
         }
         
+        public static int LandmineDifficultyToNumber(LandmineDifficulty difficulty)
+        {
+            return difficulty switch
+            {
+                LandmineDifficulty.Easy => 0,
+                LandmineDifficulty.Medium => 1,
+                LandmineDifficulty.Hard => 2,
+                _ => 0
+            };
+        }
+        
+        public static LandmineDifficulty NumberToLandmineDifficulty(int difficulty)
+        {
+            return difficulty switch
+            {
+                0 => LandmineDifficulty.Easy,
+                1 => LandmineDifficulty.Medium,
+                2 => LandmineDifficulty.Hard,
+                _ => throw new System.Exception("Unknown difficulty")
+            };
+        }
+        
         public static Color LandmineDifficultyColor(LandmineDifficulty difficulty)
         {
             return difficulty switch

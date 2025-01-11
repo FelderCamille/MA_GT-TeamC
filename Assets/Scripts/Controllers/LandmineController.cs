@@ -25,7 +25,20 @@ namespace Controllers
         // Animation
         private Animator _animator;
 
-        public LandmineDifficulty Difficulty { private get; set; }
+        public LandmineDifficulty Difficulty
+        {
+            get => Constants.Landmines.NumberToLandmineDifficulty(_landmineDifficultyData.Value.difficulty);
+            set => _landmineDifficultyData.Value = new LandmineDifficultyData
+            {
+                difficulty = Constants.Landmines.LandmineDifficultyToNumber(value)
+            };
+        }
+
+        private readonly NetworkVariable<LandmineDifficultyData> _landmineDifficultyData = new(
+            new LandmineDifficultyData
+            {
+                difficulty = Constants.Landmines.LandmineDifficultyToNumber(LandmineDifficulty.Easy)
+            });
         
         private void Start()
         {
@@ -141,7 +154,6 @@ namespace Controllers
             // Define mine in the question overlay
             _questionOverlay.Mine = this;
             _questionOverlay.Robot = robot;
-            _questionOverlay.Difficulty = Difficulty;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }

@@ -32,7 +32,6 @@ namespace Controllers
         public LandmineController Mine {private get; set;}
         public bool IsAnswering {get; private set;}
         public RobotController Robot {private get; set;}
-        public LandmineDifficulty Difficulty { private get; set; }
         
         private void Awake()
         {
@@ -50,16 +49,16 @@ namespace Controllers
         private void OnEnable()
         {
             // Set difficulty text and color
-            difficulty.text = Constants.Landmines.LandmineDifficultyName(Difficulty);
-            difficulty.color = Constants.Landmines.LandmineDifficultyColor(Difficulty);
+            difficulty.text = Constants.Landmines.LandmineDifficultyName(Mine.Difficulty);
+            difficulty.color = Constants.Landmines.LandmineDifficultyColor(Mine.Difficulty);
             // Get next question index
-            _currentQuestionIndex[Difficulty]++;
+            _currentQuestionIndex[Mine.Difficulty]++;
             // Get a question
-            if (CurrentQuestionIndexForDifficulty >= _questionsPerDifficulty[Difficulty].Length)
+            if (CurrentQuestionIndexForDifficulty >= _questionsPerDifficulty[Mine.Difficulty].Length)
             {
                 throw new Exception("All questions answered.");
             }
-            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
+            var question = _questionsPerDifficulty[Mine.Difficulty][CurrentQuestionIndexForDifficulty];
             // Update _answering
             IsAnswering = true;
             // Remove old buttons
@@ -86,7 +85,7 @@ namespace Controllers
             // Play sound
             _soundManager.PlayCutSound();
             // Manage response
-            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
+            var question = _questionsPerDifficulty[Mine.Difficulty][CurrentQuestionIndexForDifficulty];
             var isCorrect = question.IsCorrectResponse(questionButton.GetText());
             // Show feedback
             if (!isCorrect)
@@ -104,6 +103,6 @@ namespace Controllers
             gameObject.SetActive(false);
         }
         
-        private int CurrentQuestionIndexForDifficulty => _currentQuestionIndex[Difficulty];
+        private int CurrentQuestionIndexForDifficulty => _currentQuestionIndex[Mine.Difficulty];
     }
 }

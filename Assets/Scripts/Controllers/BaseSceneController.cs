@@ -133,6 +133,11 @@ namespace Controllers
                 GoToGameScene();
             }
         }
-        
+
+        private void OnDisable()
+        {
+            NetworkManager.Singleton.ConnectionApprovalCallback -= ConnectionApprovalCallback;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
+        }
     }
 }

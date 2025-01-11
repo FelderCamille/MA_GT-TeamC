@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Objects;
 using UI;
@@ -34,14 +36,15 @@ namespace Controllers
             // Only the host can access the connected clients
             if (!NetworkManager.Singleton.IsHost) return;
             // Manage the case where no player is connected (should not happen)
-            if (NetworkManager.Singleton.ConnectedClients.Count <= 0)
+            var connectedClients = NetworkManager.Singleton.ConnectedClients;
+            if (connectedClients.Count <= 0)
             {
                 Debug.LogError("No connected clients");
                 QuitGame();
                 return;
             }
             // Retrieve the data for player 1
-            var player1 = NetworkManager.Singleton.ConnectedClients[0].PlayerObject;
+            var player1 = connectedClients.First().Value.PlayerObject;
             var player1Resources = player1.GetComponent<ResourcesManager>();
             var gameResults = new GameResultsData
             {
@@ -55,9 +58,9 @@ namespace Controllers
                 }
             };
             // Retrieve the data for player 2
-            if (NetworkManager.Singleton.ConnectedClients.Count > 1)
+            if (connectedClients.Count > 1)
             {
-                var player2 = NetworkManager.Singleton.ConnectedClients[1].PlayerObject;
+                var player2 = connectedClients.Last().Value.PlayerObject;
                 var player2Resources = player2.GetComponent<ResourcesManager>();
                 gameResults.player2Result = new PlayerResultData
                 {

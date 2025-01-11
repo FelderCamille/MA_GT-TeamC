@@ -19,7 +19,7 @@ namespace UI
         {
             // Set name (client id starts from 0)
             var isMe = NetworkManager.Singleton.LocalClientId == currentPlayer.clientId;
-            playerTitle.text += " " + (currentPlayer.clientId + 1) + " " + (isMe ? " (vous)" : "");
+            playerTitle.text += (isMe ? " (vous)" : "");
             // Compute player's result
             clearedMinesEasy.text += currentPlayer.clearedMinesEasy + FormatScore(currentPlayer.ClearedMinesEasyScore);
             clearedMinesMedium.text += currentPlayer.clearedMinesMedium + FormatScore(currentPlayer.ClearedMinesMediumScore);

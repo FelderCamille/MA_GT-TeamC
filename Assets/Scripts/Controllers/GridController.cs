@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Controllers
 {
 
-    public class GridController : MonoBehaviour, IGrid
+    public class GridController : NetworkBehaviour, IGrid
     {
         private const int RobotSpawnDistance = 2;
         private const int GridXYStartIndex = Constants.GameSettings.GridPadding;
@@ -41,7 +41,9 @@ namespace Controllers
         /// <summary>
         /// The landmines emplacement. The index is the position in the grid, the value is whether or not it has a landmine
         /// </summary>
-        private bool[] _landmines;
+        private readonly NetworkVariable<LandmineEmplacementData> _landmines = new ();
+        
+        private bool[] LandminesEmplacement => _landmines.Value.emplacements;
 
         /// <summary>
         /// The decor tiles according to the theme
@@ -63,7 +65,7 @@ namespace Controllers
         public float MinZ => GridXYStartIndex;
         public float MaxZ => GridYEndIndex;
 
-        private void Awake()
+        private void Start()
         {
             // Compute emplacements
             InitPaddingTilesArray();
@@ -186,22 +188,22 @@ namespace Controllers
         
         private void ComputeLandminesEmplacement()
         {
-            // Initialize the array
-            _landmines = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight];
             // Only host can compute the landmines emplacement
             if (!NetworkManager.Singleton.IsHost) return;
+            // Initialize the array
+            _landmines.Value = new LandmineEmplacementData{emplacements = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight]};
             // Compute the emplacements
             for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
             {
                 // Get an index
-                var landmineIndex = Random.Next(0, _landmines.Length);
+                var landmineIndex = Random.Next(0, LandminesEmplacement.Length);
                 // If their is already a landmine or if it's a safe area tile, look for another index
-                while (_landmines[landmineIndex] || _safeAreaGridTiles[landmineIndex])
+                while (LandminesEmplacement[landmineIndex] || _safeAreaGridTiles[landmineIndex])
                 {
-                    landmineIndex = Random.Next(0, _landmines.Length);
+                    landmineIndex = Random.Next(0, LandminesEmplacement.Length);
                 }
                 // Set a landmine at this emplacement
-                _landmines[landmineIndex] = true;
+                LandminesEmplacement[landmineIndex] = true;
             }
         }
         
@@ -320,11 +322,11 @@ namespace Controllers
             // Check if the emplacement must be a classic tile or a landmine
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
-            var prefab = _landmines[index] ? landmineTilePrefab : tilePrefab;
+            var prefab = LandminesEmplacement[index] ? landmineTilePrefab : tilePrefab;
             if (_safeAreaGridTiles[index]) prefab = safeAreaTilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
-            tileObj.name = $"Tile {x} {y}" + (_landmines[index] ? " x" : "");
+            tileObj.name = $"Tile {x} {y}" + (LandminesEmplacement[index] ? " x" : "");
             // Spawn on the client too
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
@@ -338,7 +340,7 @@ namespace Controllers
             var y = (int) landmineTile.transform.position.z;
             // Despawn the landmine tile
             landmineTile.GetComponent<NetworkObject>().Despawn();
-            _landmines[(x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
+            LandminesEmplacement[(x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                        + (y - Constants.GameSettings.GridPadding)] = false;
             // Replace the landmine tile by a classic tile
             var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
@@ -354,9 +356,8 @@ namespace Controllers
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
-            if (_landmines[index] || _safeAreaGridTiles[index]) return false; // TODO: landmines array is always false on client
-            // Otherwise the emplacement is valid
-            return true;
+            // Check if the tile is not already a landmine or on a safe area
+            return !LandminesEmplacement[index] && !_safeAreaGridTiles[index];
         }
 
 
@@ -373,7 +374,7 @@ namespace Controllers
             // Indicate that the tile is now a landmine
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
-            _landmines[index] = true;
+            LandminesEmplacement[index] = true;
             // Replace the classic tile by a landmine tile
             var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             landmineTileObj.name = $"Tile {x} {y} x";

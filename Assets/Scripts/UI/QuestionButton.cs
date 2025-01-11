@@ -12,15 +12,15 @@ namespace UI
         [SerializeField] private GameObject wrongBorder;
         
         private const int NumberOfBlinks = 2;
+        public int Index { get; private set; }
         
-        public void Init(string text, IEnumerator onClickCallback)
+        public void Init(string text, IEnumerator onClickCallback, int index)
         {
             buttonText.text = text;
             button.onClick.AddListener(() => StartCoroutine(onClickCallback));
+            Index = index;
         }
         
-        public string GetText() => buttonText.text;
-
         public IEnumerator ShowResult(bool isCorrectResponse)
         {
             if (isCorrectResponse)

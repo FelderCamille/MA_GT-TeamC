@@ -1,7 +1,6 @@
 using System;
 using Core;
 using UI;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Controllers

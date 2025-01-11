@@ -25,15 +25,34 @@ namespace Controllers
         // Animation
         private Animator _animator;
 
-        public LandmineDifficulty Difficulty { private get; set; }
+        private ulong _robotOnItAtSpawn = ulong.MaxValue;
+        private Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
+        
+        private readonly NetworkVariable<int> _landmineDifficultyData = new(Constants.Landmines.LandmineDifficultyToNumber(LandmineDifficulty.Easy));
+        public LandmineDifficulty Difficulty
+        {
+            get => Constants.Landmines.NumberToLandmineDifficulty(_landmineDifficultyData.Value);
+            set => _landmineDifficultyData.Value = Constants.Landmines.LandmineDifficultyToNumber(value);
+        }
         
         private void Start()
         {
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
             _soundManager = FindFirstObjectByType<SoundManager>();
             _grid = FindFirstObjectByType<GridController>();
-            _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
+            var robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
+            _robot = robots.First(robot => robot.IsOwner);
             _animator = _robot.GetComponent<Animator>();
+            // Handle when the landmine is placed below the enemy robot
+            foreach (var robot in robots)
+            {
+                // If the robot is on the landmine when it is placed, set the _justPlaced variable to false
+                if (Vector3.Distance(robot.GridPosition, GridPosition) < 0.5f)
+                {
+                    _robotOnItAtSpawn = robot.OwnerClientId;
+                    break;
+                }
+            }
         }
         
         private void Update()
@@ -43,17 +62,24 @@ namespace Controllers
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (!other.gameObject.CompareTag("Player")) return;
+            // Get robot
+            var robot = other.gameObject.GetComponent<RobotController>();
+            // Manage when collision on the robot object and not the prefab
+            if (robot == null) robot = other.gameObject.GetComponentInParent<RobotController>();
+            if (robot.OwnerClientId == _robotOnItAtSpawn || !_robot.IsOwner) return; // This robot is on the landmine at spawn, no explosion
+            // Handle collision response
+            OnRobotCollided(robot);
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            if (other.gameObject.CompareTag("Player") && _robotOnItAtSpawn != ulong.MaxValue)
             {
-                // Get robot
-                var robot = other.gameObject.GetComponent<RobotController>();
-                // Manage when collision on the robot object and not the prefab
-                if (robot == null) robot = other.gameObject.GetComponentInParent<RobotController>();
-                // Handle collision response
-                OnRobotCollided(robot);
+                _robotOnItAtSpawn = ulong.MaxValue;
             }
         }
-        
+
         private void OnParticleCollision(GameObject other)
         {
             if (other.CompareTag("Effects"))
@@ -66,10 +92,8 @@ namespace Controllers
         {
             // Check if the user wants to clear the mine, if not return
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
-            
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
-
             // Play arm animation
             _animator.SetTrigger("ArmOut");
             // Show question overlay
@@ -125,7 +149,7 @@ namespace Controllers
             ReplaceLandmineRpc();
         }
 
-        [Rpc(SendTo.Everyone)]
+        [Rpc(SendTo.Server)]
         private void ReplaceLandmineRpc()
         {
             _grid.ReplaceMineByTile(GetComponentInParent<LandmineTile>());
@@ -141,7 +165,6 @@ namespace Controllers
             // Define mine in the question overlay
             _questionOverlay.Mine = this;
             _questionOverlay.Robot = robot;
-            _questionOverlay.Difficulty = Difficulty;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
         }
@@ -150,7 +173,7 @@ namespace Controllers
         {
             yield return new WaitForSeconds(1.0f);
 
-            // Afficher l'overlay
+            // Open question overlay
             ShowQuestionOverlay(robot);
         }
         

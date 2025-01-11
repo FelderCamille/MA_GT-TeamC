@@ -33,6 +33,8 @@ namespace Controllers
         [SerializeField] private float moveSpeed = 1.5f; // Movement speed
         [SerializeField] private float rotationSpeed = 180f; // Rotation speed
         private Vector3 _moveDirection; // Current movement direction
+        
+        public Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
 
         private void Start()
          {

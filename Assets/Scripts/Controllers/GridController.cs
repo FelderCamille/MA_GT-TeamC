@@ -322,12 +322,12 @@ namespace Controllers
             // Check if the emplacement must be a classic tile or a landmine
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
-            var prefab = LandminesEmplacement[index] ? landmineTilePrefab : tilePrefab;
+            var isLandmine = LandminesEmplacement[index];
+            var prefab = isLandmine ? landmineTilePrefab : tilePrefab;
             if (_safeAreaGridTiles[index]) prefab = safeAreaTilePrefab;
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
-            tileObj.name = $"Tile {x} {y}" + (LandminesEmplacement[index] ? " x" : "");
-            // Spawn on the client too
+            tileObj.name = $"Tile {x} {y}" + (isLandmine ? " x" : "");
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
         

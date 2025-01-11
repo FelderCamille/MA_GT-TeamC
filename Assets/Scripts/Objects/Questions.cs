@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Objects
 {
@@ -13,7 +15,7 @@ namespace Objects
         
         private static Random _random = new ();
 
-        public Question[] Shuffle()
+        public static Question[] Shuffle(Question[] questions)
         {
             questions = questions.OrderBy(_ => _random.Next()).ToArray();
             return questions;
@@ -47,8 +49,10 @@ namespace Objects
         /// <summary>
         ///  The index of the correct response in the responses array. Starting from 1.
         /// </summary>
-        public int correctIndex;
+        [SerializeField] private int correctIndex;
         
-        public bool IsCorrectResponse(string response) => responses[correctIndex-1].Equals(response);
+        public int CorrectIndex => correctIndex - 1;
+        
+        public bool IsCorrectResponse(int responsesIndex) => responsesIndex == CorrectIndex;
     }
 }

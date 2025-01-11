@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
@@ -21,44 +20,61 @@ namespace Controllers
 
         private SoundManager _soundManager;
         
-        private readonly Dictionary<LandmineDifficulty, int> _currentQuestionIndex = new ()
-        {
-            { LandmineDifficulty.Easy, -1 },
-            { LandmineDifficulty.Medium, -1 },
-            { LandmineDifficulty.Hard, -1 }
-        };
+        private Dictionary<LandmineDifficulty, int> _currentQuestionIndex;
         private Dictionary<LandmineDifficulty, Question[]> _questionsPerDifficulty;
         
         public LandmineController Mine {private get; set;}
         public bool IsAnswering {get; private set;}
         public RobotController Robot {private get; set;}
         
+        private LandmineDifficulty Difficulty => Mine.Difficulty;
+        private int CurrentQuestionIndexForDifficulty => _currentQuestionIndex[Difficulty];
+        
         private void Awake()
         {
+            InitQuestions();
+            _soundManager = FindFirstObjectByType<SoundManager>();
+        }
+
+        private void InitQuestions()
+        {
             var questionsObj = JsonUtils<Questions>.Read("Json/questions");
-            var questions = questionsObj.Shuffle();
-            _questionsPerDifficulty = new Dictionary<LandmineDifficulty, Question[]>()
+            var questions = Questions.Shuffle(questionsObj.questions);
+            _questionsPerDifficulty = new Dictionary<LandmineDifficulty, Question[]>
             {
                 { LandmineDifficulty.Easy, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Easy) },
                 { LandmineDifficulty.Medium, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Medium) },
                 { LandmineDifficulty.Hard, questionsObj.QuestionPerDifficulty(questions, LandmineDifficulty.Hard) }
             };
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _currentQuestionIndex = new Dictionary<LandmineDifficulty, int>
+            {
+                { LandmineDifficulty.Easy, -1 },
+                { LandmineDifficulty.Medium, -1 },
+                { LandmineDifficulty.Hard, -1 }
+            };
+        }
+
+        private void ResetQuestionsForCurrentDifficulty()
+        {
+            _questionsPerDifficulty[Difficulty] = Questions.Shuffle(_questionsPerDifficulty[Difficulty]);
+            _currentQuestionIndex[Difficulty] = -1;
         }
 
         private void OnEnable()
         {
             // Set difficulty text and color
-            difficulty.text = Constants.Landmines.LandmineDifficultyName(Mine.Difficulty);
-            difficulty.color = Constants.Landmines.LandmineDifficultyColor(Mine.Difficulty);
-            // Get next question index
-            _currentQuestionIndex[Mine.Difficulty]++;
-            // Get a question
-            if (CurrentQuestionIndexForDifficulty >= _questionsPerDifficulty[Mine.Difficulty].Length)
+            difficulty.text = Constants.Landmines.LandmineDifficultyName(Difficulty);
+            difficulty.color = Constants.Landmines.LandmineDifficultyColor(Difficulty);
+            // Check if their is more questions
+            if (CurrentQuestionIndexForDifficulty + 1 >= _questionsPerDifficulty[Difficulty].Length)
             {
-                throw new Exception("All questions answered.");
+                Debug.Log("No more questions for this difficulty. Resetting questions.");
+                ResetQuestionsForCurrentDifficulty();
+                Debug.Log("Questions reset.");
             }
-            var question = _questionsPerDifficulty[Mine.Difficulty][CurrentQuestionIndexForDifficulty];
+            // Get next question
+            _currentQuestionIndex[Difficulty]++;
+            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
             // Update _answering
             IsAnswering = true;
             // Remove old buttons
@@ -74,8 +90,8 @@ namespace Controllers
             {
                 var buttonObj = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity);
                 buttonObj.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform, false); // To avoid the Transform component to be at (0,0,0)
-                buttonObj.name = "Response n°" + i + (question.IsCorrectResponse(question.responses[i]) ? " x" : "");
-                buttonObj.Init(question.responses[i], OnResponseClicked(buttonObj));
+                buttonObj.name = "Response n°" + i + (question.IsCorrectResponse(i) ? " x" : "");
+                buttonObj.Init(question.responses[i], OnResponseClicked(buttonObj), i);
                 _buttons.Add(buttonObj);
             }
         }
@@ -85,13 +101,12 @@ namespace Controllers
             // Play sound
             _soundManager.PlayCutSound();
             // Manage response
-            var question = _questionsPerDifficulty[Mine.Difficulty][CurrentQuestionIndexForDifficulty];
-            var isCorrect = question.IsCorrectResponse(questionButton.GetText());
+            var question = _questionsPerDifficulty[Difficulty][CurrentQuestionIndexForDifficulty];
+            var isCorrect = question.IsCorrectResponse(questionButton.Index);
             // Show feedback
             if (!isCorrect)
             {
-                var correctIndex = question.correctIndex - 1;
-                var correctQuestionButton = _buttons[correctIndex];
+                var correctQuestionButton = _buttons[question.CorrectIndex];
                 StartCoroutine(correctQuestionButton.ShowResult(true));
             }
             yield return StartCoroutine(questionButton.ShowResult(isCorrect));
@@ -103,6 +118,5 @@ namespace Controllers
             gameObject.SetActive(false);
         }
         
-        private int CurrentQuestionIndexForDifficulty => _currentQuestionIndex[Mine.Difficulty];
     }
 }

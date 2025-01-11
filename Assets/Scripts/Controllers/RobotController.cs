@@ -80,18 +80,11 @@ namespace Controllers
                     _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
                     PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
                     _soundManager.PlaySetMineSound();
-                }
-                else
-                {
-                    _soundManager.PlayDeniedSound();
-                    // TODO: add other feedback otherwise
+                    return;
                 }
             }
-            else
-            {
-                _soundManager.PlayDeniedSound();
-                // TODO: add feedback if not enough mines
-            } 
+            // Play denied sound if the mine cannot be placed
+            _soundManager.PlayDeniedSound();
         }
 
         private void HandleMovements()

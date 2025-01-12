@@ -16,6 +16,7 @@ namespace Controllers
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
         private const int MapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
         private const int MapHeight = Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
+        private const int GridHalfWidthIndex = (Constants.GameSettings.GridWidth / 2) + Constants.GameSettings.GridPadding;
         private static readonly System.Random Random = new();
 
         [Header("Grid tiles")]
@@ -349,10 +350,14 @@ namespace Controllers
         }
 
 
-        public bool CanPlaceMine(int x, int y)
+        public bool CanPlaceMine(int x, int y, ulong clientId)
         {
-            // Check if the emplacement is valid
+            // Check if the emplacement is in the grid area
             if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
+            // Check if the emplacement is in the other client area
+            var isClientLeft = clientId == 0;
+            var isEmplacementLeft = x < GridHalfWidthIndex;
+            if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) return false;
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
@@ -361,12 +366,12 @@ namespace Controllers
         }
 
 
-        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
+        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Only host can replace the tile by a landmine
             if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement is valid
-            if (!CanPlaceMine(x, y)) return;
+            if (!CanPlaceMine(x, y, clientId)) return;
             // Get the tile
             var tile = FindObjectsByType<Tile>(FindObjectsSortMode.None).First(t => t.name == $"Tile {x} {y}");
             // Despawn the tile

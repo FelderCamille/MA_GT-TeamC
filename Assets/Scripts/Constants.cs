@@ -23,7 +23,7 @@ public static class Constants
         // Context
         public const MapTheme GameMapTheme = MapTheme.Nature;
         // Grid
-        public const int GridWidth = 15;
+        public const int GridWidth = 16; // Should be even, so each player has the same number of tiles
         public const int GridHeight = 15;
         public const int GridPadding = 30;
         // Timer

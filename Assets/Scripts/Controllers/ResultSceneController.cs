@@ -15,6 +15,7 @@ namespace Controllers
         [SerializeField] private CustomButton quitButton;
         
         private SceneLoader _sceneLoader;
+        private GridController _grid;
         
         // Synchronized data (need NetworkBehaviour to be synchronized)
         private readonly NetworkVariable<GameResultsData> _gameResultsData = new();
@@ -23,6 +24,7 @@ namespace Controllers
         {
             // Get scene loader
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
+            _grid = FindFirstObjectByType<GridController>();
             // Subscribe to changes in NetworkVariable
             _gameResultsData.OnValueChanged += OnGameResultsChangedRpc;
             // Initialize the result data as host
@@ -54,7 +56,8 @@ namespace Controllers
                     clearedMinesEasy = player1Resources.ClearedMinesEasy,
                     clearedMinesMedium = player1Resources.ClearedMinesMedium,
                     clearedMinesHard = player1Resources.ClearedMinesHard,
-                    explodedMines = player1Resources.ExplodedMines
+                    explodedMines = player1Resources.ExplodedMines,
+                    notClearedMines = _grid.NotClearedMineCount(player1.OwnerClientId)
                 }
             };
             // Retrieve the data for player 2
@@ -68,7 +71,8 @@ namespace Controllers
                     clearedMinesEasy = player2Resources.ClearedMinesEasy,
                     clearedMinesMedium = player2Resources.ClearedMinesMedium,
                     clearedMinesHard = player2Resources.ClearedMinesHard,
-                    explodedMines = player2Resources.ExplodedMines
+                    explodedMines = player2Resources.ExplodedMines,
+                    notClearedMines = _grid.NotClearedMineCount(player2.OwnerClientId)
                 };
             }
             else

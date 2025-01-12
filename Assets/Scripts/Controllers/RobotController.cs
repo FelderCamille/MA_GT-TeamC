@@ -77,10 +77,10 @@ namespace Controllers
             if (_resourcesManager.CanPlaceMineOfSelectedDifficulty())
             {
                 var (x, y) = ComputeLandminePlacement();
-                if(_grid.CanPlaceMine(x, y))
+                if(_grid.CanPlaceMine(x, y, OwnerClientId))
                 {
                     _resourcesManager.DecreaseInventoryMineOfSelectedDifficulty();
-                    PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty);
+                    PlaceLandmineRpc(x, y, _resourcesManager.SelectedLandmineDifficulty, OwnerClientId);
                     _soundManager.PlaySetMineSound();
                     return;
                 }
@@ -281,11 +281,11 @@ namespace Controllers
             return (mineX, mineZ);
         }
         
-        [Rpc(SendTo.Everyone)]
-        private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty)
+        [Rpc(SendTo.Everyone)] // TODO: can be optimized to only send to the host ?
+        private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Place the mine
-            _grid.ReplaceTileByMine(x, y, difficulty);
+            _grid.ReplaceTileByMine(x, y, difficulty, clientId);
         }
 
     }

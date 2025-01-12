@@ -16,6 +16,7 @@ namespace Controllers
         private const int GridYEndIndex = Constants.GameSettings.GridPadding + Constants.GameSettings.GridHeight;
         private const int MapWidth = Constants.GameSettings.GridWidth + Constants.GameSettings.GridPadding * 2;
         private const int MapHeight = Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding * 2;
+        private const int GridHalfWidthIndex = (Constants.GameSettings.GridWidth / 2) + Constants.GameSettings.GridPadding;
         private static readonly System.Random Random = new();
 
         [Header("Grid tiles")]
@@ -192,19 +193,45 @@ namespace Controllers
             if (!NetworkManager.Singleton.IsHost) return;
             // Initialize the array
             _landmines.Value = new LandmineEmplacementData{emplacements = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight]};
-            // Compute the emplacements
-            for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
+            // Compute the emplacements in the first half of the grid (left side)
+            ComputeLandmineEmplacement(GridXYStartIndex, GridHalfWidthIndex);
+            // Compute the emplacements in the second half of the grid (right side)
+            ComputeLandmineEmplacement(GridHalfWidthIndex, GridXEndIndex);
+        }
+
+        private void ComputeLandmineEmplacement(int xStart, int xEnd)
+        {
+            for (var i = 0; i < Constants.GameSettings.NumberOfLandminesPerSide; i++)
             {
-                // Get an index
-                var landmineIndex = Random.Next(0, LandminesEmplacement.Length);
-                // If their is already a landmine or if it's a safe area tile, look for another index
-                while (LandminesEmplacement[landmineIndex] || _safeAreaGridTiles[landmineIndex])
+                // Compute the emplacement
+                int landmineIndex;
+                do
                 {
-                    landmineIndex = Random.Next(0, LandminesEmplacement.Length);
-                }
+                    var x = Random.Next(xStart, xEnd);
+                    var y = Random.Next(GridXYStartIndex, GridYEndIndex);
+                    landmineIndex = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight + (y - Constants.GameSettings.GridPadding);
+                } while (LandminesEmplacement[landmineIndex] || _safeAreaGridTiles[landmineIndex]);
                 // Set a landmine at this emplacement
                 LandminesEmplacement[landmineIndex] = true;
             }
+        }
+        
+        public int NotClearedMineCount(ulong clientId)
+        {
+            var notClearedMines = 0;
+            for (var i = 0; i < LandminesEmplacement.Length; i++)
+            {
+                if (LandminesEmplacement[i])
+                {
+                    // Transform the index to x and y
+                    var x = i / Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding;
+                    // Check if the emplacement is in the client area
+                    var isClientLeft = clientId == 0;
+                    var isEmplacementLeft = x < GridHalfWidthIndex;
+                    if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) notClearedMines++;
+                }
+            }
+            return notClearedMines;
         }
         
         private void SpawnRobot(ulong clientId)
@@ -349,10 +376,14 @@ namespace Controllers
         }
 
 
-        public bool CanPlaceMine(int x, int y)
+        public bool CanPlaceMine(int x, int y, ulong clientId)
         {
-            // Check if the emplacement is valid
+            // Check if the emplacement is in the grid area
             if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
+            // Check if the emplacement is in the other client area
+            var isClientLeft = clientId == 0;
+            var isEmplacementLeft = x < GridHalfWidthIndex;
+            if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) return false;
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
@@ -361,12 +392,12 @@ namespace Controllers
         }
 
 
-        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty)
+        public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Only host can replace the tile by a landmine
             if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement is valid
-            if (!CanPlaceMine(x, y)) return;
+            if (!CanPlaceMine(x, y, clientId)) return;
             // Get the tile
             var tile = FindObjectsByType<Tile>(FindObjectsSortMode.None).First(t => t.name == $"Tile {x} {y}");
             // Despawn the tile

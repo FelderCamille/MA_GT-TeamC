@@ -23,12 +23,15 @@ namespace Objects
         public int clearedMinesMedium;
         public int clearedMinesHard;
         public int explodedMines;
+        public int notClearedMines;
 
         public int ClearedMinesEasyScore => clearedMinesEasy * Constants.Score.ClearMineEasySuccess;
         public int ClearedMinesMediumScore => clearedMinesMedium * Constants.Score.ClearMineMediumSuccess;
         public int ClearedMinesHardScore => clearedMinesHard * Constants.Score.ClearMineHardSuccess;
         public int ExplodedMinesScore => explodedMines * Constants.Score.MineExplosion;
-        public int TotalScore => ClearedMinesEasyScore + ClearedMinesMediumScore + ClearedMinesHardScore + ExplodedMinesScore;
+        public int NotClearedMinesScore => notClearedMines * Constants.Score.MineNotCleared;
+
+        public int TotalScore => ClearedMinesEasyScore + ClearedMinesMediumScore + ClearedMinesHardScore + ExplodedMinesScore + NotClearedMinesScore;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -37,6 +40,7 @@ namespace Objects
             serializer.SerializeValue(ref clearedMinesMedium);
             serializer.SerializeValue(ref clearedMinesHard);
             serializer.SerializeValue(ref explodedMines);
+            serializer.SerializeValue(ref notClearedMines);
         }
     }
 }

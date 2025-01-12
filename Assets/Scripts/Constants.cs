@@ -29,7 +29,7 @@ public static class Constants
         // Timer
         public const float Timer = 10f * 60f; // 10 min
         // Landmines
-        public const int NumberOfLandmines = 10;
+        public const int NumberOfLandminesPerSide = 5;
         public const int NumberOfTileClearLandmine = 1;
         public const int SafeAreaWidth = 2;
         // Robot

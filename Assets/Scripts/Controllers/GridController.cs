@@ -193,16 +193,24 @@ namespace Controllers
             if (!NetworkManager.Singleton.IsHost) return;
             // Initialize the array
             _landmines.Value = new LandmineEmplacementData{emplacements = new bool[Constants.GameSettings.GridWidth * Constants.GameSettings.GridHeight]};
-            // Compute the emplacements
-            for (var i = 0; i < Constants.GameSettings.NumberOfLandmines; i++)
+            // Compute the emplacements in the first half of the grid (left side)
+            ComputeLandmineEmplacement(GridXYStartIndex, GridHalfWidthIndex);
+            // Compute the emplacements in the second half of the grid (right side)
+            ComputeLandmineEmplacement(GridHalfWidthIndex, GridXEndIndex);
+        }
+
+        private void ComputeLandmineEmplacement(int xStart, int xEnd)
+        {
+            for (var i = 0; i < Constants.GameSettings.NumberOfLandminesPerSide; i++)
             {
-                // Get an index
-                var landmineIndex = Random.Next(0, LandminesEmplacement.Length);
-                // If their is already a landmine or if it's a safe area tile, look for another index
-                while (LandminesEmplacement[landmineIndex] || _safeAreaGridTiles[landmineIndex])
+                // Compute the emplacement
+                int landmineIndex;
+                do
                 {
-                    landmineIndex = Random.Next(0, LandminesEmplacement.Length);
-                }
+                    var x = Random.Next(xStart, xEnd);
+                    var y = Random.Next(GridXYStartIndex, GridYEndIndex);
+                    landmineIndex = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight + (y - Constants.GameSettings.GridPadding);
+                } while (LandminesEmplacement[landmineIndex] || _safeAreaGridTiles[landmineIndex]);
                 // Set a landmine at this emplacement
                 LandminesEmplacement[landmineIndex] = true;
             }

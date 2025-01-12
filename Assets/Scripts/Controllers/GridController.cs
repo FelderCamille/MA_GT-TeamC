@@ -216,6 +216,24 @@ namespace Controllers
             }
         }
         
+        public int NotClearedMineCount(ulong clientId)
+        {
+            var notClearedMines = 0;
+            for (var i = 0; i < LandminesEmplacement.Length; i++)
+            {
+                if (LandminesEmplacement[i])
+                {
+                    // Transform the index to x and y
+                    var x = i / Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding;
+                    // Check if the emplacement is in the client area
+                    var isClientLeft = clientId == 0;
+                    var isEmplacementLeft = x < GridHalfWidthIndex;
+                    if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) notClearedMines++;
+                }
+            }
+            return notClearedMines;
+        }
+        
         private void SpawnRobot(ulong clientId)
         {
             // Only host can spawn the robot

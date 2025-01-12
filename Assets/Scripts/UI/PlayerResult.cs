@@ -12,6 +12,7 @@ namespace UI
         [SerializeField] private Text clearedMinesMedium;
         [SerializeField] private Text clearedMinesHard;
         [SerializeField] private Text explodedMines;
+        [SerializeField] private Text notClearedMines;
         [SerializeField] private Text totalScore;
         [SerializeField] private Text result;
         
@@ -25,6 +26,7 @@ namespace UI
             clearedMinesMedium.text += currentPlayer.clearedMinesMedium + FormatScore(currentPlayer.ClearedMinesMediumScore);
             clearedMinesHard.text += currentPlayer.clearedMinesHard + FormatScore(currentPlayer.ClearedMinesHardScore);
             explodedMines.text += currentPlayer.explodedMines + FormatScore(currentPlayer.ExplodedMinesScore);
+            notClearedMines.text += currentPlayer.notClearedMines + FormatScore(currentPlayer.NotClearedMinesScore);
             // Set total score
             totalScore.text += currentPlayer.TotalScore + " pts";
             // Set result

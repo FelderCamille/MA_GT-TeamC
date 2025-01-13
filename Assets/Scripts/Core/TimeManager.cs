@@ -1,15 +1,16 @@
 using System.Collections;
+using Unity.Netcode;
 using Utils;
 using UnityEngine;
 
 namespace Core
 {
-    public class TimeManager : MonoBehaviour
+    public class TimeManager : NetworkBehaviour
     {
         private SceneLoader _sceneLoader;
         private UI.Time _timePrefab;
         
-        private float _time = Constants.GameSettings.Timer;
+        private readonly NetworkVariable<float> _time = new (Constants.GameSettings.Timer);
         private bool _isRunning; // false by default
 
         private void Start()
@@ -18,7 +19,7 @@ namespace Core
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
             _timePrefab = FindFirstObjectByType<UI.Time>();
             // Set time
-            _timePrefab.SetTime(_time);
+            _timePrefab.SetTime(_time.Value);
         }
 
         private void OnEnable()
@@ -41,8 +42,8 @@ namespace Core
         
         private void SetTime(float value)
         {
-            _time = value;
-            _timePrefab.SetTime(_time);
+            if (NetworkManager.Singleton.IsHost) _time.Value = value;
+            _timePrefab.SetTime(_time.Value);
         }
 
         private void EventManagerOnTimerStart() => _isRunning = true;
@@ -54,13 +55,13 @@ namespace Core
             // If the timer is stopped, do not run the code
             if (!_isRunning) return;
             // Manage when the timer is done
-            if (_time <= 0.0f)
+            if (_time.Value <= 0.0f)
             {
-                StartCoroutine(ManageEndTimer());
+                StopRpc();
                 return;
             }
             // Update timer
-            SetTime(_time - Time.deltaTime);
+            SetTime(_time.Value - Time.deltaTime);
         }
 
         private IEnumerator ManageEndTimer()
@@ -71,6 +72,12 @@ namespace Core
             yield return new WaitForSeconds(0.5f);
             // Show result scene
             _sceneLoader.ShowScene(Constants.Scenes.Result);
+        }
+
+        [Rpc(SendTo.Server)]
+        public void StopRpc()
+        {
+            StartCoroutine(ManageEndTimer());
         }
     }
 

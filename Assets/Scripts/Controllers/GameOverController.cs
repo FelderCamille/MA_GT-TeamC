@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using Core;
 using UI;
 using UnityEngine;
@@ -7,60 +7,86 @@ namespace Controllers
 {
     public class GameOverController : MonoBehaviour
     {
+        [SerializeField] private GameObject panel;
         [SerializeField] private GameOverReviveButton reviveButton;
         [SerializeField] private CustomButton quitButton;
+        [SerializeField] private GameObject actions;
         
-        private SceneLoader _sceneLoader;
         private GridController _gridController;
-        private ResourcesManager _resources; // Set by Show/Hide methods
+        private RobotController _robot;
+        private RobotController _otherRobot;
         
-        private void Start()
+        private bool _isInitialized;
+        
+        private void Init()
         {
+            // Init robot and resources
+            var robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
+            _robot = robots.First(r => r.IsOwner);
+            _otherRobot = robots.First(r => !r.IsOwner);
             // Get references
-            _sceneLoader = FindFirstObjectByType<SceneLoader>();
             _gridController = FindFirstObjectByType<GridController>();
             // Init buttons
             reviveButton.Init(Revive);
             quitButton.Init(Quit);
+            // Set initialized to true
+            _isInitialized = true;
         }
         
-        public void Show(ResourcesManager resourcesManager)
+        public void Show()
         {
-            // Set resources manager
-            _resources = resourcesManager;
+            if (!_isInitialized) Init();
             // Hide the robot
-            _resources.GetComponent<RobotController>().Hide();
+            _robot.Hide();
             // Show game over screen
-            gameObject.SetActive(true);
+            panel.SetActive(true);
             // Check if the player can revive
-            if (_resources.HasEnoughMoneyToBuy(Constants.Prices.Revive)) reviveButton.Enabled();
+            var resources = _robot.GetComponent<ResourcesManager>();
+            if (resources.HasEnoughMoneyToBuy(Constants.Prices.Revive)) reviveButton.Enabled();
             else reviveButton.Disable();
         }
         
-        public void Hide(ResourcesManager resourcesManager)
+        public void Hide()
         {
-            _resources = resourcesManager;
-            gameObject.SetActive(false);
+            panel.SetActive(false);
         }
         
         private void Revive()
         {
-            if (_resources != null && _resources.HasEnoughMoneyToBuy(Constants.Prices.Revive))
-            {
-                // Repair the robot
-                _resources.ReduceMoney(Constants.Prices.Revive);
-                _resources.Repair();
-                // Reset robot spawn
-                var robot = _resources.GetComponent<RobotController>();
-                if (_gridController != null && robot != null) _gridController.ResetRobotSpawn(robot);
-                // Show the robot
-                if (robot != null) robot.Show();
-            }
+            var resources = _robot.GetComponent<ResourcesManager>();
+            if (!resources.HasEnoughMoneyToBuy(Constants.Prices.Revive)) return;
+            // Repair the robot
+            resources.ReduceMoney(Constants.Prices.Revive);
+            resources.Repair();
+            // Reset robot spawn
+            if (_gridController != null) _gridController.ResetRobotSpawn(_robot);
+            // Show the robot
+            _robot.Show();
         }
         
         private void Quit()
         {
-            throw new NotImplementedException("Quit method not implemented");
+            var robotResources = _robot.GetComponent<ResourcesManager>();
+            var otherRobotResources = _otherRobot.GetComponent<ResourcesManager>();
+            // Handle method according to the other robot state
+            if (!robotResources.HasEnoughMoneyToBuy(Constants.Prices.Revive) && otherRobotResources.IsDead)
+            {
+                FindFirstObjectByType<TimeManager>().StopRpc();
+            }
+            else
+            {
+                // Set camera on the other robot
+                FindFirstObjectByType<FollowPlayerCameraController>().Init(_otherRobot);
+                // Hide the robot
+                _gridController.ResetRobotSpawn(_robot);
+                _robot.Hide();
+                robotResources.Hide(); // Hide overlay
+                actions.SetActive(false);
+                // Show the other robot
+                _otherRobot.Show(force: true);
+                // Hide the game over screen
+                panel.SetActive(false);
+            }
         }
     }
 }

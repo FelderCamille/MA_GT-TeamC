@@ -32,9 +32,9 @@ namespace Controllers
         private Vector3 _moveDirection; // Current movement direction
         
         public Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
-
+        
         private void Start()
-         {
+        {
              // Attach camera
              if (IsOwner) FindFirstObjectByType<FollowPlayerCameraController>().Init(this);
              // Initialize references
@@ -242,14 +242,18 @@ namespace Controllers
             robotObject.SetActive(false);
             singleWaveEffect.Stop();
             repeatedWaveEffect.Stop();
+            mudParticules.Stop();
         }
 
-        public void Show()
+        public void Show(bool force = false)
         {
-            if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
+            if (!force && !(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
-            singleWaveEffect.Stop();
-            ShowMines();
+            if (!force)
+            {
+                singleWaveEffect.Stop();
+                ShowMines();
+            }
         }
 
         private (int, int) ComputeLandminePlacement()

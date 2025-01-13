@@ -24,13 +24,14 @@ namespace Core
         
         // Robot properties
         private int _money = Constants.GameSettings.Money;
-        private readonly NetworkVariable<ClearedMinesData> _clearedMines = new ( 
-            new ClearedMinesData {
+        private readonly NetworkVariable<MinesStatisticalData> _minesStatisticalData = new ( 
+            new MinesStatisticalData {
                 clearedMinesEasy = 0,
                 clearedMinesNormal = 0,
-                clearedMinesHard = 0
+                clearedMinesHard = 0,
+                explodedMines = 0,
+                placedMines = 0,
              }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        private readonly NetworkVariable<int> _explodedMines = new (0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private float _health = Constants.GameSettings.Health;
         private readonly Dictionary<LandmineDifficulty, int> _inventoryMines = new ()
         {
@@ -118,24 +119,34 @@ namespace Core
         /// <summary>
         /// Cleared mines
         /// </summary>
-        private int ClearedMines => _clearedMines.Value.clearedMinesEasy
-                                   + _clearedMines.Value.clearedMinesNormal
-                                   + _clearedMines.Value.clearedMinesHard;
+        private int ClearedMines => _minesStatisticalData.Value.clearedMinesEasy
+                                   + _minesStatisticalData.Value.clearedMinesNormal
+                                   + _minesStatisticalData.Value.clearedMinesHard;
         
         /// <summary>
         /// Cleared mines easy
         /// </summary>
-        public int ClearedMinesEasy => _clearedMines.Value.clearedMinesEasy;
+        public int ClearedMinesEasy => _minesStatisticalData.Value.clearedMinesEasy;
         
         /// <summary>
         /// Cleared mines normal (medium)
         /// </summary>
-        public int ClearedMinesMedium => _clearedMines.Value.clearedMinesNormal;
+        public int ClearedMinesMedium => _minesStatisticalData.Value.clearedMinesNormal;
         
         /// <summary>
         /// Cleared mines hard
         /// </summary>
-        public int ClearedMinesHard => _clearedMines.Value.clearedMinesHard;
+        public int ClearedMinesHard => _minesStatisticalData.Value.clearedMinesHard;
+        
+        public int PlacedMines => _minesStatisticalData.Value.placedMines;
+        
+        [Rpc(SendTo.Owner)]
+        public void IncreasePlacedMinesCounterRpc()
+        {
+            var minesStatisticalData = _minesStatisticalData.Value;
+            minesStatisticalData.placedMines += 1;
+            _minesStatisticalData.Value = minesStatisticalData;
+        }
         
         /// <summary>
         /// Increase cleared mines counter
@@ -143,7 +154,7 @@ namespace Core
         public void IncreaseClearedMinesCounter(LandmineDifficulty difficulty)
         {
             // Increment cleared mines count according to difficulty
-            var clearedMinesData = _clearedMines.Value;
+            var clearedMinesData = _minesStatisticalData.Value;
             switch (difficulty)
             {
                 case LandmineDifficulty.Easy:
@@ -158,18 +169,20 @@ namespace Core
                 default:
                     throw new NotImplementedException("Unknown difficulty");
             }
-            _clearedMines.Value = clearedMinesData;
+            _minesStatisticalData.Value = clearedMinesData;
             // Update the UI
             _resourcesPrefab.SetMines(ClearedMines);
             // Show feedback
             _feedbackPopup.ShowMineAsCleared();
         }
         
-        public int ExplodedMines => _explodedMines.Value;
+        public int ExplodedMines => _minesStatisticalData.Value.explodedMines;
         
         public void IncreaseExplodedMinesCount()
         {
-            _explodedMines.Value += 1;
+            var minesStatisticalData = _minesStatisticalData.Value;
+            minesStatisticalData.explodedMines += 1;
+            _minesStatisticalData.Value = minesStatisticalData;
         }
         
         public void IncreaseInventoryMine(LandmineDifficulty difficulty)

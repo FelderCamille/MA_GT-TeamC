@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private Text clearedMinesHard;
         [SerializeField] private Text explodedMines;
         [SerializeField] private Text notClearedMines;
+        [SerializeField] private Text placedMines;
         [SerializeField] private Text totalScore;
         [SerializeField] private Text result;
         
@@ -27,11 +28,12 @@ namespace UI
             clearedMinesHard.text += currentPlayer.clearedMinesHard + FormatScore(currentPlayer.ClearedMinesHardScore);
             explodedMines.text += currentPlayer.explodedMines + FormatScore(currentPlayer.ExplodedMinesScore);
             notClearedMines.text += currentPlayer.notClearedMines + FormatScore(currentPlayer.NotClearedMinesScore);
+            placedMines.text += currentPlayer.placedMines + FormatScore(currentPlayer.PlacedMinesScore);
             // Set total score
             totalScore.text += currentPlayer.TotalScore + " pts";
             // Set result
             var resultText = "Égalité";
-            var color = Color.white;
+            var color = Color.yellow;
             if (currentPlayer.TotalScore > otherPlayerResult.TotalScore)
             {
                 resultText = "Gagnant !";

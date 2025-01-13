@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Objects;
 using UI;
 using Unity.Netcode;
@@ -373,7 +374,7 @@ namespace Controllers
             tileObj.GetComponent<NetworkObject>().Spawn();
         }
 
-
+        
         public bool CanPlaceMine(int x, int y, ulong clientId)
         {
             // Check if the emplacement is in the grid area
@@ -388,8 +389,8 @@ namespace Controllers
             // Check if the tile is not already a landmine or on a safe area
             return !LandminesEmplacement[index] && !_safeAreaGridTiles[index];
         }
-
-
+        
+        
         public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Only host can replace the tile by a landmine
@@ -409,6 +410,10 @@ namespace Controllers
             landmineTileObj.name = $"Tile {x} {y} x";
             landmineTileObj.GetComponentInChildren<LandmineController>().Difficulty = difficulty;
             landmineTileObj.GetComponent<NetworkObject>().Spawn();
+            // Indicate that the client has placed a landmine
+            var robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None)
+                .First(r => r.OwnerClientId == clientId);
+            robot.GetComponent<ResourcesManager>().IncreasePlacedMinesCounterRpc();
         }
 
         public bool CanMoveRight(float newX) => CanGoToNewX(newX);

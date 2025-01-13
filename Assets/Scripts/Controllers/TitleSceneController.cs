@@ -29,12 +29,12 @@ namespace Controllers
         
         private void OnEncyclopediaButtonClick()
         {
-            Debug.Log("Encyclopedia button not implemented");
+            Debug.LogWarning("Encyclopedia button not implemented");
         }
         
         private void OnSettingsButtonClick()
         {
-            Debug.Log("Settings button not implemented");
+            Debug.LogWarning("Settings button not implemented");
         }
     }
 }

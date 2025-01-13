@@ -274,7 +274,7 @@ namespace Controllers
             return (mineX, mineZ);
         }
         
-        [Rpc(SendTo.Everyone)] // TODO: can be optimized to only send to the host ?
+        [Rpc(SendTo.Server)]
         private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Place the mine

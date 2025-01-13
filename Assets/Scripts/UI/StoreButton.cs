@@ -15,6 +15,7 @@ namespace UI
         
         protected void Init(Action onClickCallback, string text, int money, string sprite)
         {
+            button.onClick.RemoveAllListeners(); // Clean up to handle updates
             button.onClick.AddListener(() => onClickCallback());
             buttonName.text = text;
             price.text = money.ToString();

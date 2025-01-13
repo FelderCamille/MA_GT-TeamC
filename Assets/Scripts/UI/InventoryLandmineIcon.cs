@@ -22,10 +22,10 @@ namespace UI
             // Choose color according to difficulty
             number.color = Constants.Landmines.LandmineDifficultyColor(difficulty);
             // Set color and number
-            InitWithNumber(sprite, null);
+            Init(sprite, 0, null);
             // Init button
             button.onClick.AddListener(() => action());
-            if (isDefault) _isPressed = true; // TODO: this is ok programmatically, but not visually => need fix
+            if (isDefault) _isPressed = true;
             SetButtonColor();
         }
         

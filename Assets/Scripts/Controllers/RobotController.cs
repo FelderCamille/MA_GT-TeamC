@@ -15,7 +15,6 @@ namespace Controllers
         [SerializeField] private GameObject robotObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private ParticleSystem repeatedWaveEffect;
-        [SerializeField] private ParticleSystem foreverRepeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
 
@@ -54,7 +53,7 @@ namespace Controllers
              }
              // Play single wave effect at the start and forever repeated wave effect after
              singleWaveEffect.Play();
-             foreverRepeatedWaveEffect.Play();
+             ShowMines();
          }
 
         private void Update()
@@ -182,21 +181,13 @@ namespace Controllers
         
         public void IndicateExplodedMine(LandmineDifficulty difficulty)
         {
-            int removedHealth;
-            switch (difficulty)
+            var removedHealth = difficulty switch
             {
-                case LandmineDifficulty.Easy:
-                    removedHealth = Constants.Damages.RemovedWhenFailureEasy;
-                    break;
-                case LandmineDifficulty.Medium:
-                    removedHealth = Constants.Damages.RemovedWhenFailureMedium;
-                    break;
-                case LandmineDifficulty.Hard:
-                    removedHealth = Constants.Damages.RemovedWhenFailureHard;
-                    break;
-                default:
-                    throw new NotImplementedException("Unknown landmine difficulty");
-            }
+                LandmineDifficulty.Easy => Constants.Damages.RemovedWhenFailureEasy,
+                LandmineDifficulty.Medium => Constants.Damages.RemovedWhenFailureMedium,
+                LandmineDifficulty.Hard => Constants.Damages.RemovedWhenFailureHard,
+                _ => throw new NotImplementedException("Unknown landmine difficulty")
+            };
             IndicateExplodedMine(removedHealth);
         }
         
@@ -221,18 +212,22 @@ namespace Controllers
 
         public bool CanBuyBonus(Bonus bonus)
         {
-            return _resourcesManager.HasEnoughMoneyToBuy(bonus.Price) && !_resourcesManager.HasBonus(bonus);
+            var price = bonus.Values[bonus.CurrentLevel].Price;
+            return _resourcesManager.HasEnoughMoneyToBuy(price) && !_resourcesManager.HasBonus(bonus);
         }
 
         public void ShowMines()
         {
-            foreverRepeatedWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
+            var level = _resourcesManager.GetBonusLevel(BonusName.Detection) ?? BonusLevel.Zero;
+            var value = Constants.Bonus.RepeatedWaveEffectStartSize(level);
+            var pMain = repeatedWaveEffect.main;
+            pMain.startSize = new ParticleSystem.MinMaxCurve(value, value);
             repeatedWaveEffect.Play();
         }
         
         public void HideMines()
         {
-            foreverRepeatedWaveEffect.Play();
             repeatedWaveEffect.Stop();
         }
 
@@ -241,7 +236,6 @@ namespace Controllers
             robotObject.SetActive(false);
             singleWaveEffect.Stop();
             repeatedWaveEffect.Stop();
-            foreverRepeatedWaveEffect.Stop();
         }
 
         public void Show()
@@ -249,8 +243,7 @@ namespace Controllers
             if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
             singleWaveEffect.Stop();
-            repeatedWaveEffect.Stop();
-            foreverRepeatedWaveEffect.Play();
+            ShowMines();
         }
 
         private (int, int) ComputeLandminePlacement()

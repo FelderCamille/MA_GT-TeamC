@@ -36,7 +36,6 @@ namespace Core
             { LandmineDifficulty.Medium, 0 },
             { LandmineDifficulty.Hard, 0 }
         };
-        private float _visionDistance = Constants.GameSettings.Vision;
         private readonly List<Bonus> _appliedBonuses = new ();
         private readonly Dictionary<LandmineDifficulty, InventoryLandmineIcon> _landminesInventoryIcons = new ();
         
@@ -55,6 +54,11 @@ namespace Core
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
             _resourcesPrefab.SetMines(ClearedMines);
+            // Add level zero bonuses
+            foreach (var bonus in Constants.Bonus.BonusesAtStart())
+            {
+                AddBonus(bonus);
+            }
             // Give some landmines to set
             StartCoroutine(ScheduleGivingMines());
         }
@@ -247,36 +251,57 @@ namespace Core
         }
         
         // Bonus
+
+        public BonusLevel? GetBonusLevel(BonusName bonusName) =>
+            _appliedBonuses.FirstOrDefault(b => b.BonusName == bonusName)?.CurrentLevel;
         
-        public float GetVisionDistance()
+        public void SetVision(bool playSound)
         {
-            _soundManager.PlayVisionSound();
-            return _visionDistance;
-        }
-        
-        public void SetVision(double multiplier)
-        {
-            _soundManager.PlayVisionSound();
-            _visionDistance = (float) multiplier;
+            if (playSound) _soundManager.PlayVisionSound();
+            else _soundManager.StopVisionSound();
         }
         
         public bool HasBonus(Bonus bonus)
         {
-            return _appliedBonuses.Contains(bonus);
+            var foundBonus = _appliedBonuses.FirstOrDefault(b => bonus.BonusName == b.BonusName);
+            var bonusValue = _inventoryRowPrefab.GetBonusValue(bonus);
+            return foundBonus != null && bonusValue == bonus.Values[bonus.CurrentLevel].Value;
         }
 
         public void AddBonus(Bonus bonus)
         {
-            // Add the bonus to the list
-            _appliedBonuses.Add(bonus);
-            // Show the bonus on the UI
-            _inventoryRowPrefab.AddBonus(bonus);
+            // Upgrade old bonus if already applied
+            var oldBonus = _appliedBonuses.FirstOrDefault(b => b.BonusName == bonus.BonusName);
+            if (oldBonus != null)
+            {
+                UpdateBonus(bonus);
+            }
+            else
+            {
+                // Add the bonus to the list
+                _appliedBonuses.Add(bonus);
+                // Show the bonus on the UI
+                if (bonus.CurrentLevel != BonusLevel.Zero) _inventoryRowPrefab.AddBonus(bonus);
+            }
+        }
+
+        private void UpdateBonus(Bonus bonus)
+        {
+            // Remove the bonus from the list
+            var bonusIndex = _appliedBonuses.FindIndex(b => b.BonusName == bonus.BonusName);
+            var oldBonus = _appliedBonuses[bonusIndex];
+            _appliedBonuses.RemoveAt(bonusIndex);
+            _appliedBonuses.Insert(bonusIndex, bonus);
+            // Remove the bonus from the UI
+            if (oldBonus.CurrentLevel != BonusLevel.Zero) _inventoryRowPrefab.UpdateBonus(bonus);
+            else _inventoryRowPrefab.AddBonus(bonus);
         }
         
         public void RemoveBonus(Bonus bonus)
         {
             // Remove the bonus from the list
-            _appliedBonuses.Remove(bonus);
+            var bonusIndex = _appliedBonuses.FindIndex(b => b.BonusName == bonus.BonusName);
+            _appliedBonuses.RemoveAt(bonusIndex);
             // Remove the bonus from the UI
             _inventoryRowPrefab.RemoveBonus(bonus);
         }

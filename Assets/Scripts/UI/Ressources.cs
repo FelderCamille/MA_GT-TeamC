@@ -24,5 +24,10 @@ namespace UI
         {
             clearedMines.text = value.ToString();
         }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

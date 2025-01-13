@@ -3,13 +3,16 @@ using Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace UI
+namespace UI.Inventory
 {
     public class InventoryRow : MonoBehaviour
     {
 
-        [FormerlySerializedAs("landmineIconPrefab")] [SerializeField] private InventoryLandmineIcon inventoryLandmineIconPrefab;
-        [FormerlySerializedAs("bonusIconPrefab")] [SerializeField] private InventoryBonusIcon inventoryBonusIconPrefab;
+        
+        [FormerlySerializedAs("landmineIconPrefab")]
+        [SerializeField] private InventoryLandmineIcon inventoryLandmineIconPrefab;
+        [FormerlySerializedAs("bonusIconPrefab")]
+        [SerializeField] private InventoryBonusIcon inventoryBonusIconPrefab;
 
         private readonly InventoryLandmineIcon[] _landminesButtons = new InventoryLandmineIcon[3];
         public LandmineDifficulty SelectedLandmineDifficulty { get; private set; }
@@ -72,6 +75,11 @@ namespace UI
         {
             var bonusObj = transform.Find(bonus.Name);
             return bonusObj != null ? bonusObj.GetComponent<InventoryBonusIcon>().GetValue() : null;
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

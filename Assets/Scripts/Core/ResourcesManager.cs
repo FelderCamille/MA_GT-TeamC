@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
 using Objects;
 using UI;
+using UI.Inventory;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,6 +40,8 @@ namespace Core
         };
         private readonly List<Bonus> _appliedBonuses = new ();
         private readonly Dictionary<LandmineDifficulty, InventoryLandmineIcon> _landminesInventoryIcons = new ();
+        private readonly NetworkVariable<bool> _isDead = new (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public bool IsDead { get => _isDead.Value; private set => _isDead.Value = value; }
         
         private void Start()
         {
@@ -151,6 +155,8 @@ namespace Core
                 case LandmineDifficulty.Hard:
                     clearedMinesData.clearedMinesHard += 1;
                     break;
+                default:
+                    throw new NotImplementedException("Unknown difficulty");
             }
             _clearedMines.Value = clearedMinesData;
             // Update the UI
@@ -206,23 +212,22 @@ namespace Core
             // Update the health on the UI
             _resourcesPrefab.SetHealth(_health);
             _feedbackPopup.ShowHealthLost(value);
-            // Manage game over
-            if (_health <= 0)
+            // Stop here if it has still some health
+            if (!(_health <= 0)) return;
+            // Remove bonuses
+            var bonuses = new List<Bonus>(_appliedBonuses); // Copy the list to avoid concurrent modification
+            foreach (var bonus in bonuses)
             {
-                // Remove bonuses
-                var bonuses = new List<Bonus>(_appliedBonuses); // Copy the list to avoid concurrent modification
-                foreach (var bonus in bonuses)
-                {
-                    bonus.RemoveBonus(this);
-                }
-                // Remove landmines
-                foreach (var difficulty in _inventoryMines.Keys.ToList())
-                {
-                    for (var i = 0; i < _inventoryMines[difficulty]; i++)
-                        DecreaseInventoryMine(difficulty);
-                }
-                _gameOver.Show(this);
+                bonus.RemoveBonus(this);
             }
+            // Remove landmines
+            foreach (var difficulty in _inventoryMines.Keys.ToList())
+            {
+                for (var i = 0; i < _inventoryMines[difficulty]; i++)
+                    DecreaseInventoryMine(difficulty);
+            }
+            IsDead = true;
+            _gameOver.Show();
         }
 
         /// <summary>
@@ -240,7 +245,11 @@ namespace Core
         public void Repair(bool partial = false)
         {
             // If the health was at 0, hide the game over screen
-            if (_health <= 0) _gameOver.Hide(this);
+            if (_health <= 0)
+            {
+                _gameOver.Hide();
+                IsDead = false;
+            }
             // If total repair, set the health to the maximum. If partial, add a small value
             if (!partial)  _health = Constants.GameSettings.Health;
             else _health = Constants.Damages.SmallRepair;
@@ -312,6 +321,14 @@ namespace Core
             bonus.CurrentLevel = BonusLevel.Zero; // Reset level
             _appliedBonuses.Insert(bonusIndex, bonus);
             _inventoryRowPrefab.RemoveBonus(bonus);
+        }
+        
+        // Other
+
+        public void Hide()
+        {
+            _resourcesPrefab.Hide();
+            _inventoryRowPrefab.Hide();
         }
         
     }

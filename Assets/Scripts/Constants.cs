@@ -9,13 +9,14 @@ public static class Constants
     
     // Warning, the following constants could break some part of the game if set to "true"
     public static readonly bool DebugShowMines = false;
-    public static readonly bool DebugAllowOnlyOneConnection = false;
-    public static readonly bool DebugFillIPAddressOnClient = false;
+    public static readonly bool DebugAllowOnlyOneConnection = true;
+    public static readonly bool DebugFillIPAddressOnClient = true;
     public static readonly bool DebugShowOtherPlayer = false;
     
     public static class Scenes
     {
         public const string Title = "Title";
+        public const string Settings = "Settings";
         public const string Base = "Base";
         public const string Game = "Game";
         public const string Result = "Result";
@@ -37,8 +38,8 @@ public static class Constants
         public const int SafeAreaWidth = 2;
         // Robot
         public const int NumberOfTileMovement = 1;
-        public const float Health = 100f;
-        public const int Money = 5000;
+        public const float Health = 10f;
+        public const int Money = 1000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
     }

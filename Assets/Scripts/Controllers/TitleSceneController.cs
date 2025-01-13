@@ -7,7 +7,6 @@ namespace Controllers
     {
 
         [SerializeField] private CustomButton startButton;
-        [SerializeField] private CustomButton encyclopediaButton;
         [SerializeField] private CustomButton settingsButton;
         
         private SceneLoader _sceneLoader;
@@ -18,7 +17,6 @@ namespace Controllers
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
             // Initialize buttons
             startButton.Init(OnStartButtonClick);
-            encyclopediaButton.Init(OnEncyclopediaButtonClick);
             settingsButton.Init(OnSettingsButtonClick);
         }
 
@@ -27,14 +25,9 @@ namespace Controllers
             _sceneLoader.ShowScene(Constants.Scenes.Base);
         }
         
-        private void OnEncyclopediaButtonClick()
-        {
-            Debug.LogWarning("Encyclopedia button not implemented");
-        }
-        
         private void OnSettingsButtonClick()
         {
-            Debug.LogWarning("Settings button not implemented");
+            _sceneLoader.ShowScene(Constants.Scenes.Settings);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Controllers;
 using Core;
+using UnityEngine;
 
 namespace Objects
 {
@@ -52,10 +53,10 @@ namespace Objects
         public void RemoveBonus(ResourcesManager resourcesManager)
         {
             // Check if the bonus has the bonus
-            var hasBonus = resourcesManager.HasBonus(this);
+            var hasBonus = resourcesManager.HasBonus(this, false);
             if (!hasBonus) return;
             // Remove the bonus from the player
-            resourcesManager.RemoveBonus(this, true);
+            resourcesManager.RemoveBonus(this);
             // Apply the bonus
             var robot = resourcesManager.GetComponent<RobotController>();
             switch (BonusType)

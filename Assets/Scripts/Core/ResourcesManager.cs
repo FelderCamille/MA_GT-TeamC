@@ -267,11 +267,12 @@ namespace Core
             else _soundManager.StopVisionSound();
         }
         
-        public bool HasBonus(Bonus bonus)
+        public bool HasBonus(Bonus bonus, bool checkValue = true)
         {
             var foundBonus = _appliedBonuses.FirstOrDefault(b => bonus.BonusName == b.BonusName);
             var bonusValue = _inventoryRowPrefab.GetBonusValue(bonus);
-            return foundBonus != null && bonusValue == bonus.Values[bonus.CurrentLevel].Value;
+            if (checkValue) foundBonus = bonusValue.Equals(bonus.Values[bonus.CurrentLevel].Value) ? foundBonus : null;
+            return foundBonus != null;
         }
 
         public void AddBonus(Bonus bonus)
@@ -303,16 +304,13 @@ namespace Core
             else _inventoryRowPrefab.AddBonus(bonus);
         }
         
-        public void RemoveBonus(Bonus bonus, bool onlyResetLevel = false)
+        public void RemoveBonus(Bonus bonus)
         {
             // Remove the bonus from the list
             var bonusIndex = _appliedBonuses.FindIndex(b => b.BonusName == bonus.BonusName);
             _appliedBonuses.RemoveAt(bonusIndex);
-            if (onlyResetLevel)
-            {
-                bonus.CurrentLevel = BonusLevel.Zero; // Reset level
-                _appliedBonuses.Insert(bonusIndex, bonus);
-            }
+            bonus.CurrentLevel = BonusLevel.Zero; // Reset level
+            _appliedBonuses.Insert(bonusIndex, bonus);
             _inventoryRowPrefab.RemoveBonus(bonus);
         }
         

@@ -68,7 +68,7 @@ namespace UI
             }
         }
         
-        public int? GetBonusValue(Bonus bonus)
+        public float? GetBonusValue(Bonus bonus)
         {
             var bonusObj = transform.Find(bonus.Name);
             return bonusObj != null ? bonusObj.GetComponent<InventoryBonusIcon>().GetValue() : null;

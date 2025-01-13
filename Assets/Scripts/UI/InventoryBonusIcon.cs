@@ -9,9 +9,9 @@ namespace UI
             Init(bonus.Icon, bonus.Values[bonus.CurrentLevel].Value, null);;
         }
 
-        public int? GetValue()
+        public float? GetValue()
         {
-            return number.text == "" ? null : int.Parse(number.text);
+            return number.text == "" ? null : float.Parse(number.text);
         }
     }
 }

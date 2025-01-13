@@ -24,7 +24,7 @@ namespace UI
         private void InitButton()
         {
             var values = Bonus.Values[Bonus.CurrentLevel];
-            var bonusName = Bonus.Name + " (+" + values.Value + ")";
+            var bonusName = Bonus.Name + " (" + values.Value + ")";
             Init(_onClickCallback, bonusName, values.Price, Bonus.Icon); 
         }
     }

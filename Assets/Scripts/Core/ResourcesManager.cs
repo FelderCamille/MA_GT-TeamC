@@ -252,6 +252,12 @@ namespace Core
         
         // Bonus
 
+        public float? GetBonusValue(BonusName bonusName)
+        {
+            var bonus = _appliedBonuses.FirstOrDefault(b => b.BonusName == bonusName);
+            return bonus?.Values[bonus.CurrentLevel].Value;
+        }
+
         public BonusLevel? GetBonusLevel(BonusName bonusName) =>
             _appliedBonuses.FirstOrDefault(b => b.BonusName == bonusName)?.CurrentLevel;
         
@@ -297,12 +303,16 @@ namespace Core
             else _inventoryRowPrefab.AddBonus(bonus);
         }
         
-        public void RemoveBonus(Bonus bonus)
+        public void RemoveBonus(Bonus bonus, bool onlyResetLevel = false)
         {
             // Remove the bonus from the list
             var bonusIndex = _appliedBonuses.FindIndex(b => b.BonusName == bonus.BonusName);
             _appliedBonuses.RemoveAt(bonusIndex);
-            // Remove the bonus from the UI
+            if (onlyResetLevel)
+            {
+                bonus.CurrentLevel = BonusLevel.Zero; // Reset level
+                _appliedBonuses.Insert(bonusIndex, bonus);
+            }
             _inventoryRowPrefab.RemoveBonus(bonus);
         }
         

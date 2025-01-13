@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Controllers;
 using Core;
-using UnityEngine;
 
 namespace Objects
 {
@@ -42,6 +41,9 @@ namespace Objects
                     resourcesManager.SetVision(true);
                     robot.ShowMines();
                     break;
+                case BonusType.Speed:
+                    robot.SetSpeed();
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -53,7 +55,7 @@ namespace Objects
             var hasBonus = resourcesManager.HasBonus(this);
             if (!hasBonus) return;
             // Remove the bonus from the player
-            resourcesManager.RemoveBonus(this);
+            resourcesManager.RemoveBonus(this, true);
             // Apply the bonus
             var robot = resourcesManager.GetComponent<RobotController>();
             switch (BonusType)
@@ -61,6 +63,9 @@ namespace Objects
                 case BonusType.Vision:
                     resourcesManager.SetVision(false);
                     robot.HideMines();
+                    break;
+                case BonusType.Speed:
+                    robot.SetSpeed(); // Update value
                     break;
                 default:
                     throw new NotImplementedException();

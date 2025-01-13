@@ -8,8 +8,6 @@ namespace Controllers
 {
     public class RobotController : NetworkBehaviour, IRobot
     {
-        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
-
         // Parts
         [Header("Parts")]
         [SerializeField] private GameObject robotObject;
@@ -28,9 +26,9 @@ namespace Controllers
         private SoundManager _soundManager;
 
         // Movements
-        [Header("Movements")]
-        [SerializeField] private float moveSpeed = 1.5f; // Movement speed
-        [SerializeField] private float rotationSpeed = 180f; // Rotation speed
+        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
+        private const float RotationSpeed = 180f; // Rotation speed
+        private float _moveSpeed; // Movement speed
         private Vector3 _moveDirection; // Current movement direction
         
         public Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
@@ -53,6 +51,7 @@ namespace Controllers
              }
              // Play single wave effect at the start and forever repeated wave effect after
              singleWaveEffect.Play();
+             SetSpeed();
              ShowMines();
          }
 
@@ -90,15 +89,16 @@ namespace Controllers
 
         private void HandleMovements()
         {
+            if (_moveSpeed == 0) return;
             // Handle rotation
             if (Input.GetKey(Constants.Actions.MoveRight))
             {
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Turn right
+                transform.Rotate(0f, RotationSpeed * Time.deltaTime, 0f); // Turn right
                 PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else if (Input.GetKey(Constants.Actions.MoveLeft))
             {
-                transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Turn left
+                transform.Rotate(0f, -RotationSpeed * Time.deltaTime, 0f); // Turn left
                 PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else
@@ -153,7 +153,7 @@ namespace Controllers
 
         private void ApplyMovement()
         {
-            var newPosition = transform.position + _moveDirection * moveSpeed * Time.deltaTime;
+            var newPosition = transform.position + _moveDirection * _moveSpeed * Time.deltaTime;
 
             // Ensure the robot stays within the grid boundaries
             if (newPosition.x >= _grid.MinX && newPosition.x <= _grid.MaxX - NumberOfTile &&
@@ -163,7 +163,7 @@ namespace Controllers
             }
         }
 
-        private void PlaySoundIfNeeded(AudioSource soundSource, System.Action playSoundAction)
+        private static void PlaySoundIfNeeded(AudioSource soundSource, Action playSoundAction)
         {
             if (!soundSource.isPlaying)
             {
@@ -214,6 +214,12 @@ namespace Controllers
         {
             var price = bonus.Values[bonus.CurrentLevel].Price;
             return _resourcesManager.HasEnoughMoneyToBuy(price) && !_resourcesManager.HasBonus(bonus);
+        }
+
+        public void SetSpeed()
+        {
+            var speed = _resourcesManager.GetBonusValue(BonusName.Speed) ?? SpeedBonus.BaseSpeed;
+            _moveSpeed = speed;
         }
 
         public void ShowMines()

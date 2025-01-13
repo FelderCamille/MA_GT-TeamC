@@ -39,7 +39,8 @@ Nature:
 - [Vision](https://www.flaticon.com/free-icon/telescope_1355898?term=telescope&page=1&position=25&origin=search&related_id=1355898)
 - [Encyclopedia](https://www.flaticon.com/free-icon/book_10433048?term=book&page=1&position=22&origin=search&related_id=10433048)
 - [Keyboard](https://www.flaticon.com/free-icon/keyboard_2330480?term=keyboard+button&page=9&position=32&origin=search&related_id=2330480)
-
+- [Speed](https://www.flaticon.com/free-icon/speed_9132336?term=speed&page=1&position=39&origin=search&related_id=9132336)
+ 
 ## Effects
 
 - [Wave](https://www.vecteezy.com/png/21625120-white-circle-png)

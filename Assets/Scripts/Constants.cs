@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Objects;
 using UnityEngine;
 
@@ -189,6 +190,7 @@ public static class Constants
             return bonusType switch
             {
                 BonusType.Vision => "Bonus visuel",
+                BonusType.Speed => "Bonus de vitesse",
                 _ => "Unknown"
             };
         }
@@ -198,13 +200,20 @@ public static class Constants
             return bonusType switch
             {
                 BonusType.Vision => new List<Objects.Bonus>{ new DetectionBonus() },
+                BonusType.Speed => new List<Objects.Bonus>{ new SpeedBonus() },
                 _ => new List<Objects.Bonus>()
             };
         }
 
         public static List<Objects.Bonus> BonusesAtStart()
         {
-            return BonusesPerType(BonusType.Vision); // Only vision bonus at start
+            var visionBonus = BonusesPerType(BonusType.Vision).First();
+            var speedBonus = BonusesPerType(BonusType.Speed).First();
+            return new List<Objects.Bonus>
+            {
+                visionBonus,
+                speedBonus
+            };
         }
         
         public static float RepeatedWaveEffectStartSize(BonusLevel level)

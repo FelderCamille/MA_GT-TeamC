@@ -23,11 +23,14 @@ namespace Controllers
         private Section[] _sections;
         private int _currentSectionIndex = 0;
         private int _currentPageIndex = 0;
+
+        private ResourcesManager _robotResources;
         
         public bool IsOpened { get; private set; }
 
         private void Awake()
         {
+            _robotResources = FindFirstObjectByType<ResourcesManager>();
             _soundManager = FindFirstObjectByType<SoundManager>();
             // Load encyclopedia
             var encyclopediaObj = JsonUtils<Encyclopedia>.Read("Json/encyclopedia");
@@ -48,6 +51,7 @@ namespace Controllers
 
         private void OnEnable()
         {
+            if (_robotResources.IsDead) return;
             // Change is opened status
             IsOpened = true;
             // Display encyclopedia page

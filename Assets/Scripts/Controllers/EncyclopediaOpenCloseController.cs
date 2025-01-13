@@ -7,7 +7,7 @@ namespace Controllers
 
         [Header("Content")]
         [SerializeField] private EncyclopediaController encyclopedia;
-
+        
         private void Update()
         {
             HandleOpening();
@@ -15,17 +15,8 @@ namespace Controllers
 
         private void HandleOpening()
         {
-            if (Input.GetKeyDown(Constants.Actions.OpenCloseEncyclopedia))
-            {
-                if (encyclopedia.IsOpened)
-                {
-                    encyclopedia.gameObject.SetActive(false);
-                }
-                else
-                {
-                    encyclopedia.gameObject.SetActive(true);
-                }
-            }
+            if (!Input.GetKeyDown(Constants.Actions.OpenCloseEncyclopedia)) return;
+            encyclopedia.gameObject.SetActive(!encyclopedia.IsOpened);
         }
     }
 }

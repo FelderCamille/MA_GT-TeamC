@@ -59,6 +59,8 @@ namespace Controllers
         {
             // Only control the robot that we own
             if (!IsOwner) return;
+            // Do nothing if dead
+            if (_resourcesManager.IsDead) return;
             // Do nothing if the robot is answering a question or in the store
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle mining

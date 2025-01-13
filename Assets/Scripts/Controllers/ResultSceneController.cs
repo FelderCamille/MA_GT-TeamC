@@ -57,7 +57,8 @@ namespace Controllers
                     clearedMinesMedium = player1Resources.ClearedMinesMedium,
                     clearedMinesHard = player1Resources.ClearedMinesHard,
                     explodedMines = player1Resources.ExplodedMines,
-                    notClearedMines = _grid.NotClearedMineCount(player1.OwnerClientId)
+                    notClearedMines = _grid.NotClearedMineCount(player1.OwnerClientId),
+                    placedMines = player1Resources.PlacedMines,
                 }
             };
             // Retrieve the data for player 2
@@ -72,7 +73,8 @@ namespace Controllers
                     clearedMinesMedium = player2Resources.ClearedMinesMedium,
                     clearedMinesHard = player2Resources.ClearedMinesHard,
                     explodedMines = player2Resources.ExplodedMines,
-                    notClearedMines = _grid.NotClearedMineCount(player2.OwnerClientId)
+                    notClearedMines = _grid.NotClearedMineCount(player2.OwnerClientId),
+                    placedMines = player2Resources.PlacedMines,
                 };
             }
             else

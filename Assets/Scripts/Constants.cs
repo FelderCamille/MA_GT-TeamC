@@ -7,8 +7,9 @@ using UnityEngine;
 public static class Constants
 {
     
+    // Warning, the following constants could break some part of the game if set to "true"
     public static readonly bool DebugShowMines = false;
-    public static readonly bool DebugAllowOnlyOneConnection = false; // Warning, this could break some part of the game if set to "true"
+    public static readonly bool DebugAllowOnlyOneConnection = false;
     public static readonly bool DebugFillIPAddressOnClient = false;
     public static readonly bool DebugShowOtherPlayer = false;
     
@@ -94,6 +95,7 @@ public static class Constants
         public const int MineExplosion = -200;
         // Final score
         public const int MineNotCleared = -100;
+        public const int MinePlaced = 50;
     }
 
     public static class Landmines

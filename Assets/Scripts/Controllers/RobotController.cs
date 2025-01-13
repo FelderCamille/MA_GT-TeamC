@@ -8,14 +8,11 @@ namespace Controllers
 {
     public class RobotController : NetworkBehaviour, IRobot
     {
-        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
-
         // Parts
         [Header("Parts")]
         [SerializeField] private GameObject robotObject;
         [SerializeField] private ParticleSystem singleWaveEffect;
         [SerializeField] private ParticleSystem repeatedWaveEffect;
-        [SerializeField] private ParticleSystem foreverRepeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
 
@@ -29,9 +26,9 @@ namespace Controllers
         private SoundManager _soundManager;
 
         // Movements
-        [Header("Movements")]
-        [SerializeField] private float moveSpeed = 1.5f; // Movement speed
-        [SerializeField] private float rotationSpeed = 180f; // Rotation speed
+        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
+        private const float RotationSpeed = 180f; // Rotation speed
+        private float _moveSpeed; // Movement speed
         private Vector3 _moveDirection; // Current movement direction
         
         public Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
@@ -54,7 +51,8 @@ namespace Controllers
              }
              // Play single wave effect at the start and forever repeated wave effect after
              singleWaveEffect.Play();
-             foreverRepeatedWaveEffect.Play();
+             SetSpeed();
+             ShowMines();
          }
 
         private void Update()
@@ -91,15 +89,16 @@ namespace Controllers
 
         private void HandleMovements()
         {
+            if (_moveSpeed == 0) return;
             // Handle rotation
             if (Input.GetKey(Constants.Actions.MoveRight))
             {
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f); // Turn right
+                transform.Rotate(0f, RotationSpeed * Time.deltaTime, 0f); // Turn right
                 PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else if (Input.GetKey(Constants.Actions.MoveLeft))
             {
-                transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f); // Turn left
+                transform.Rotate(0f, -RotationSpeed * Time.deltaTime, 0f); // Turn left
                 PlaySoundIfNeeded(_soundManager.turnSoundSource, () => _soundManager.PlayTankTurnSound());
             }
             else
@@ -154,7 +153,7 @@ namespace Controllers
 
         private void ApplyMovement()
         {
-            var newPosition = transform.position + _moveDirection * moveSpeed * Time.deltaTime;
+            var newPosition = transform.position + _moveDirection * _moveSpeed * Time.deltaTime;
 
             // Ensure the robot stays within the grid boundaries
             if (newPosition.x >= _grid.MinX && newPosition.x <= _grid.MaxX - NumberOfTile &&
@@ -164,7 +163,7 @@ namespace Controllers
             }
         }
 
-        private void PlaySoundIfNeeded(AudioSource soundSource, System.Action playSoundAction)
+        private static void PlaySoundIfNeeded(AudioSource soundSource, Action playSoundAction)
         {
             if (!soundSource.isPlaying)
             {
@@ -182,21 +181,13 @@ namespace Controllers
         
         public void IndicateExplodedMine(LandmineDifficulty difficulty)
         {
-            int removedHealth;
-            switch (difficulty)
+            var removedHealth = difficulty switch
             {
-                case LandmineDifficulty.Easy:
-                    removedHealth = Constants.Damages.RemovedWhenFailureEasy;
-                    break;
-                case LandmineDifficulty.Medium:
-                    removedHealth = Constants.Damages.RemovedWhenFailureMedium;
-                    break;
-                case LandmineDifficulty.Hard:
-                    removedHealth = Constants.Damages.RemovedWhenFailureHard;
-                    break;
-                default:
-                    throw new NotImplementedException("Unknown landmine difficulty");
-            }
+                LandmineDifficulty.Easy => Constants.Damages.RemovedWhenFailureEasy,
+                LandmineDifficulty.Medium => Constants.Damages.RemovedWhenFailureMedium,
+                LandmineDifficulty.Hard => Constants.Damages.RemovedWhenFailureHard,
+                _ => throw new NotImplementedException("Unknown landmine difficulty")
+            };
             IndicateExplodedMine(removedHealth);
         }
         
@@ -221,18 +212,28 @@ namespace Controllers
 
         public bool CanBuyBonus(Bonus bonus)
         {
-            return _resourcesManager.HasEnoughMoneyToBuy(bonus.Price) && !_resourcesManager.HasBonus(bonus);
+            var price = bonus.Values[bonus.CurrentLevel].Price;
+            return _resourcesManager.HasEnoughMoneyToBuy(price) && !_resourcesManager.HasBonus(bonus);
+        }
+
+        public void SetSpeed()
+        {
+            var speed = _resourcesManager.GetBonusValue(BonusName.Speed) ?? SpeedBonus.BaseSpeed;
+            _moveSpeed = speed;
         }
 
         public void ShowMines()
         {
-            foreverRepeatedWaveEffect.Stop();
+            repeatedWaveEffect.Stop();
+            var level = _resourcesManager.GetBonusLevel(BonusName.Detection) ?? BonusLevel.Zero;
+            var value = Constants.Bonus.RepeatedWaveEffectStartSize(level);
+            var pMain = repeatedWaveEffect.main;
+            pMain.startSize = new ParticleSystem.MinMaxCurve(value, value);
             repeatedWaveEffect.Play();
         }
         
         public void HideMines()
         {
-            foreverRepeatedWaveEffect.Play();
             repeatedWaveEffect.Stop();
         }
 
@@ -241,7 +242,6 @@ namespace Controllers
             robotObject.SetActive(false);
             singleWaveEffect.Stop();
             repeatedWaveEffect.Stop();
-            foreverRepeatedWaveEffect.Stop();
         }
 
         public void Show()
@@ -249,8 +249,7 @@ namespace Controllers
             if (!(IsOwner || Constants.DebugShowOtherPlayer)) return;
             robotObject.SetActive(true);
             singleWaveEffect.Stop();
-            repeatedWaveEffect.Stop();
-            foreverRepeatedWaveEffect.Play();
+            ShowMines();
         }
 
         private (int, int) ComputeLandminePlacement()
@@ -281,7 +280,7 @@ namespace Controllers
             return (mineX, mineZ);
         }
         
-        [Rpc(SendTo.Everyone)] // TODO: can be optimized to only send to the host ?
+        [Rpc(SendTo.Server)]
         private void PlaceLandmineRpc(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {
             // Place the mine

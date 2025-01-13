@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Objects;
 using UnityEngine;
 
@@ -35,7 +37,6 @@ public static class Constants
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
-        public const int Vision = 0;
         public const int Money = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
@@ -66,9 +67,9 @@ public static class Constants
 
     public static class Prices
     {
+        // Health
         public const int Revive = 1500;
         public const int Repair = 500;
-        public const int Vision = 100;
         // Rewards
         public const int ClearMineSuccess = 200;
     }
@@ -137,7 +138,7 @@ public static class Constants
                 0 => LandmineDifficulty.Easy,
                 1 => LandmineDifficulty.Medium,
                 2 => LandmineDifficulty.Hard,
-                _ => throw new System.Exception("Unknown difficulty")
+                _ => throw new Exception("Unknown difficulty")
             };
         }
         
@@ -183,11 +184,13 @@ public static class Constants
 
     public static class Bonus
     {
+        
         public static string BonusTypeName(BonusType bonusType)
         {
             return bonusType switch
             {
                 BonusType.Vision => "Bonus visuel",
+                BonusType.Speed => "Bonus de vitesse",
                 _ => "Unknown"
             };
         }
@@ -196,8 +199,47 @@ public static class Constants
         {
             return bonusType switch
             {
-                BonusType.Vision => new List<Objects.Bonus>{ new GlassesBonus() },
+                BonusType.Vision => new List<Objects.Bonus>{ new DetectionBonus() },
+                BonusType.Speed => new List<Objects.Bonus>{ new SpeedBonus() },
                 _ => new List<Objects.Bonus>()
+            };
+        }
+
+        public static List<Objects.Bonus> BonusesAtStart()
+        {
+            var visionBonus = BonusesPerType(BonusType.Vision).First();
+            var speedBonus = BonusesPerType(BonusType.Speed).First();
+            return new List<Objects.Bonus>
+            {
+                visionBonus,
+                speedBonus
+            };
+        }
+        
+        public static float RepeatedWaveEffectStartSize(BonusLevel level)
+        {
+            return level switch
+            {
+                BonusLevel.Zero => 3, // One case
+                BonusLevel.One => 5, // Two cases
+                BonusLevel.Two => 7, // Three cases
+                BonusLevel.Three => 9, // Four cases
+                BonusLevel.Four => 11.2f, // Five cases 
+                BonusLevel.Five => 16, // Seven cases
+                _ => throw new Exception("Unknown level")
+            };
+        }
+        
+        public static BonusLevel? NextBonusLevel(BonusLevel level)
+        {
+            return level switch
+            {
+                BonusLevel.Zero => BonusLevel.One,
+                BonusLevel.One => BonusLevel.Two,
+                BonusLevel.Two => BonusLevel.Three,
+                BonusLevel.Three => BonusLevel.Four,
+                BonusLevel.Four => BonusLevel.Five,
+                _ => null
             };
         }
     }

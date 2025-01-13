@@ -27,10 +27,17 @@ namespace UI
             // Add bonus buttons
             foreach (var bonus in bonuses)
             {
+                bonus.UpgradeLevel();
                 var bonusButtonObj = Instantiate(storeBonusButtonPrefab, bonusesEmplacement.transform);
                 bonusButtonObj.name = bonus.Name;
                 bonusButtonObj.Init(
-                    () => bonus.ApplyBonus(resourcesManager, action), 
+                    () =>
+                    {
+                        bonus.ApplyBonus(resourcesManager);
+                        bonus.UpgradeLevel();
+                        bonusButtonObj.UpdateButton(bonus);
+                        action();
+                    }, 
                     bonus
                 );
             }

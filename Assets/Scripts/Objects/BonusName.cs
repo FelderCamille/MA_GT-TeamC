@@ -1,8 +1,8 @@
 namespace Objects
 {
-    public enum BonusType
+    public enum BonusName
     {
-        Vision,
+        Detection,
         Speed,
     }
 }

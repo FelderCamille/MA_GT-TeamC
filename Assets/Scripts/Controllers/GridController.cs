@@ -221,15 +221,13 @@ namespace Controllers
             var notClearedMines = 0;
             for (var i = 0; i < LandminesEmplacement.Length; i++)
             {
-                if (LandminesEmplacement[i])
-                {
-                    // Transform the index to x and y
-                    var x = i / Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding;
-                    // Check if the emplacement is in the client area
-                    var isClientLeft = clientId == 0;
-                    var isEmplacementLeft = x < GridHalfWidthIndex;
-                    if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) notClearedMines++;
-                }
+                if (!LandminesEmplacement[i]) continue;
+                // Transform the index to x and y
+                var x = i / Constants.GameSettings.GridHeight + Constants.GameSettings.GridPadding;
+                // Check if the emplacement is in the client area
+                var isClientLeft = clientId == 0;
+                var isEmplacementLeft = x < GridHalfWidthIndex;
+                if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) notClearedMines++;
             }
             return notClearedMines;
         }

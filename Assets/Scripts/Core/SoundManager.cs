@@ -110,6 +110,11 @@ namespace Core
         {
             visionSoundSource.Play();
         }
+        
+        public void StopVisionSound()
+        {
+            visionSoundSource.Stop();
+        }
 
         public void PlayDeniedSound()
         {

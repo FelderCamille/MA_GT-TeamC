@@ -11,7 +11,7 @@ namespace UI
         [FormerlySerializedAs("landmineIconPrefab")] [SerializeField] private InventoryLandmineIcon inventoryLandmineIconPrefab;
         [FormerlySerializedAs("bonusIconPrefab")] [SerializeField] private InventoryBonusIcon inventoryBonusIconPrefab;
 
-        private InventoryLandmineIcon[] _landminesButtons = new InventoryLandmineIcon[3];
+        private readonly InventoryLandmineIcon[] _landminesButtons = new InventoryLandmineIcon[3];
         public LandmineDifficulty SelectedLandmineDifficulty { get; private set; }
 
         private void Start()
@@ -43,7 +43,20 @@ namespace UI
         {
             var bonusObj = Instantiate(inventoryBonusIconPrefab, transform);
             bonusObj.name = bonus.Name;
-            bonusObj.Init(bonus.Icon);
+            bonusObj.Init(bonus);
+        }
+
+        public void UpdateBonus(Bonus bonus)
+        {
+            var bonusObj = transform.Find(bonus.Name);
+            if (bonusObj != null)
+            {
+                bonusObj.GetComponent<InventoryBonusIcon>().Init(bonus);
+            }
+            else
+            {
+                throw new Exception("Bonus not found");
+            }
         }
         
         public void RemoveBonus(Bonus bonus)
@@ -53,6 +66,12 @@ namespace UI
             {
                 Destroy(bonusObj.gameObject);
             }
+        }
+        
+        public float? GetBonusValue(Bonus bonus)
+        {
+            var bonusObj = transform.Find(bonus.Name);
+            return bonusObj != null ? bonusObj.GetComponent<InventoryBonusIcon>().GetValue() : null;
         }
     }
 }

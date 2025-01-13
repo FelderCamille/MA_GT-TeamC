@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Controllers;
 using Core;
 
@@ -6,22 +7,30 @@ namespace Objects
 {
     public abstract class Bonus
     {
+        public BonusName BonusName;
         public string Name;
-        public int Price;
         public string Icon;
-        public double Multiplier;
         protected BonusType BonusType;
-        
-        public void ApplyBonus(ResourcesManager resourcesManager, Action action)  
+        public BonusLevel CurrentLevel;
+        public Dictionary<BonusLevel, BonusLevelAttributes> Values;
+
+        public void UpgradeLevel()
         {
-            // Check if the bonus is already applied
-            var hasBonus = resourcesManager.HasBonus(this);
-            if (hasBonus) return;
+            var nextLevel = Constants.Bonus.NextBonusLevel(CurrentLevel);
+            if (nextLevel == null) return;
+            CurrentLevel = (BonusLevel) nextLevel;
+        }
+        
+        public void ApplyBonus(ResourcesManager resourcesManager)  
+        {
+            // Get price and value
+            var price = Values[CurrentLevel].Price;
+            var value = Values[CurrentLevel].Value;
             // Check if the player has enough money
-            var hasEnoughMoney = resourcesManager.HasEnoughMoneyToBuy(Price);
+            var hasEnoughMoney = resourcesManager.HasEnoughMoneyToBuy(price);
             if (!hasEnoughMoney) return;
             // Remove the money from the player
-            resourcesManager.ReduceMoney(Price);
+            resourcesManager.ReduceMoney(price);
             // Add the bonus to the player
             resourcesManager.AddBonus(this);
             // Apply the bonus
@@ -29,13 +38,15 @@ namespace Objects
             switch (BonusType)
             {
                 case BonusType.Vision:
-                    resourcesManager.SetVision(Multiplier);
+                    resourcesManager.SetVision(true);
                     robot.ShowMines();
+                    break;
+                case BonusType.Speed:
+                    robot.SetSpeed();
                     break;
                 default:
                     throw new NotImplementedException();
             }
-            action();
         }
 
         public void RemoveBonus(ResourcesManager resourcesManager)
@@ -44,14 +55,17 @@ namespace Objects
             var hasBonus = resourcesManager.HasBonus(this);
             if (!hasBonus) return;
             // Remove the bonus from the player
-            resourcesManager.RemoveBonus(this);
+            resourcesManager.RemoveBonus(this, true);
             // Apply the bonus
             var robot = resourcesManager.GetComponent<RobotController>();
             switch (BonusType)
             {
                 case BonusType.Vision:
-                    resourcesManager.SetVision(Constants.GameSettings.Vision);
+                    resourcesManager.SetVision(false);
                     robot.HideMines();
+                    break;
+                case BonusType.Speed:
+                    robot.SetSpeed(); // Update value
                     break;
                 default:
                     throw new NotImplementedException();

@@ -39,7 +39,9 @@ public static class Constants
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
-        public const int Money = 5000;
+        public const int MinMoney = 1000;
+        public const int MaxMoney = 10000;
+        public const int DefaultMoney = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
     }

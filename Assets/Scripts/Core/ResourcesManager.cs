@@ -23,7 +23,7 @@ namespace Core
         private GameOverController _gameOver;
         
         // Robot properties
-        private int _money = Constants.GameSettings.Money;
+        private int _money = Constants.GameSettings.DefaultMoney; // TODO
         private readonly NetworkVariable<MinesStatisticalData> _minesStatisticalData = new ( 
             new MinesStatisticalData {
                 clearedMinesEasy = 0,

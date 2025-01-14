@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using TMPro;
 using UI;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -12,13 +13,24 @@ namespace Controllers
     public class BaseSceneController : MonoBehaviour
     {
 
+        [Header("General")]
         [SerializeField] private CustomButton generalBackButton;
+        
+        [Header("Choose role")]
         [SerializeField] private GameObject chooseRoleEmplacement;
         [SerializeField] private CustomButton hostButton;
         [SerializeField] private CustomButton joinButton;
+        
+        [Header("Role choosed")]
         [SerializeField] private GameObject roleChoosedEmplacement;
         [SerializeField] private InputField ipAddress;
         [SerializeField] private InputField port;
+        [SerializeField] private InputField playerName;
+        [SerializeField] private GameObject budgetEmplacement;
+        [SerializeField] private Slider budgetSlider;
+        [SerializeField] private Text budgetValue;
+        [SerializeField] private GameObject mapThemeEmplacement;
+        [SerializeField] private TMP_Dropdown mapThemeDropdown;
         [SerializeField] private CustomButton backButton;
         [SerializeField] private StartButton startButton;
         [SerializeField] private Text stateText;
@@ -45,6 +57,12 @@ namespace Controllers
             joinButton.Init(OnJoinButtonClick);
             backButton.Init(OnBackButtonClick);
             startButton.Init(OnStartClick);
+            // Initialize budget slider
+            budgetSlider.value = Constants.GameSettings.DefaultMoney;
+            budgetValue.text = Constants.GameSettings.DefaultMoney.ToString();
+            budgetSlider.minValue = Constants.GameSettings.MinMoney;
+            budgetSlider.maxValue = Constants.GameSettings.MaxMoney;
+            budgetSlider.onValueChanged.AddListener(OnBudgetSliderValueChanged);
             // Initialize input fields
             port.text = "7777";
         }
@@ -62,6 +80,8 @@ namespace Controllers
             ipAddress.text = GetLocalIPAddress();
             ipAddress.interactable = false;
             _isHost = true;
+            budgetEmplacement.SetActive(true);
+            mapThemeEmplacement.SetActive(true);
         }
         
         private void OnJoinButtonClick()
@@ -72,6 +92,8 @@ namespace Controllers
             ipAddress.interactable = true;
             if (Constants.DebugFillIPAddressOnClient) ipAddress.text = GetLocalIPAddress();
             _isHost = false;
+            budgetEmplacement.SetActive(false);
+            mapThemeEmplacement.SetActive(false);
         }
 
         private void OnBackButtonClick()
@@ -85,8 +107,17 @@ namespace Controllers
             UpdateState("");
         }
         
+        private void OnBudgetSliderValueChanged(float value)
+        {
+            budgetValue.text = ((int) value).ToString();
+        }
+
         private void OnStartClick()
         {
+            if (playerName.text == "")
+            {
+                playerName.text = "Joueur " + (_isHost ? "1" : "2");
+            }
             // Disable input fields and start button
             ipAddress.interactable = false;
             port.interactable = false;

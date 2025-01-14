@@ -31,7 +31,7 @@ namespace Controllers
         private void Awake()
         {
             _robotResources = FindFirstObjectByType<ResourcesManager>();
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _soundManager = SoundManager.instance;
             // Load encyclopedia
             var encyclopediaObj = JsonUtils<Encyclopedia>.Read("Json/encyclopedia");
             _sections = encyclopediaObj.sections;

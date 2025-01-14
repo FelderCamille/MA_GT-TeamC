@@ -10,6 +10,9 @@ namespace Core
         
         private void Start()
         {
+            // Play ambient sound
+            SoundManager.instance.PlayAmbientSound();
+            // Do some stuff only if the player is the host
             if (!NetworkManager.Singleton.IsHost) return;
             // Instantiate grid
             var gridObj = Instantiate(

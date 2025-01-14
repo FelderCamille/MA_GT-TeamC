@@ -1,7 +1,9 @@
 using Controllers;
 using Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.Audio;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Core
@@ -9,7 +11,7 @@ namespace Core
     public class SoundManager: MonoBehaviour
     {
 
-        public static readonly string AmbiantSoundKey = "AmbiantSound";
+        public static readonly string AmbientSoundKey = "AmbientSound";
         public static readonly string EffectsSoundKey = "EffectsSound";
         public static readonly string MovementsSoundKey = "MovementsSound";
         public static readonly string ExplosionsSoundKey = "ExplosionsSound";
@@ -49,22 +51,17 @@ namespace Core
             }
             LoadVolumes();
         }
-        
-        private void Start()
-        {
-            PlayAmbientSound();
-        }
 
         private void LoadVolumes()
         {
-            var ambientVolume = PlayerPrefs.GetFloat(SettingsSceneController.AmbientVolumeKey, 1f);
-            var effectsVolume = PlayerPrefs.GetFloat(SettingsSceneController.EffectsVolumeKey, 1f);
-            var movementsVolume = PlayerPrefs.GetFloat(SettingsSceneController.MovementsVolumeKey, 1f);
-            var explosionsVolume = PlayerPrefs.GetFloat(SettingsSceneController.ExplosionsVolumeKey, 1f);
-            audioMixer.SetFloat(SettingsSceneController.AmbientVolumeKey, ambientVolume);
-            audioMixer.SetFloat(SettingsSceneController.EffectsVolumeKey, effectsVolume);
-            audioMixer.SetFloat(SettingsSceneController.MovementsVolumeKey, movementsVolume);
-            audioMixer.SetFloat(SettingsSceneController.ExplosionsVolumeKey, explosionsVolume);
+            var ambientVolume = PlayerPrefs.GetFloat(SettingsSceneController.AmbientVolumeKey, AudioSlider.DefaultValue);
+            var effectsVolume = PlayerPrefs.GetFloat(SettingsSceneController.EffectsVolumeKey, AudioSlider.DefaultValue);
+            var movementsVolume = PlayerPrefs.GetFloat(SettingsSceneController.MovementsVolumeKey, AudioSlider.DefaultValue);
+            var explosionsVolume = PlayerPrefs.GetFloat(SettingsSceneController.ExplosionsVolumeKey, AudioSlider.DefaultValue);
+            audioMixer.SetFloat(SettingsSceneController.AmbientVolumeKey, MathUtils.ToLog(ambientVolume));
+            audioMixer.SetFloat(SettingsSceneController.EffectsVolumeKey, MathUtils.ToLog(effectsVolume));
+            audioMixer.SetFloat(SettingsSceneController.MovementsVolumeKey, MathUtils.ToLog(movementsVolume));
+            audioMixer.SetFloat(SettingsSceneController.ExplosionsVolumeKey, MathUtils.ToLog(explosionsVolume));
         }
 
         public void PlayBuySound()
@@ -156,7 +153,7 @@ namespace Core
             deniedSoundSource.Play();
         }
 
-        private void PlayAmbientSound()
+        public void PlayAmbientSound()
         {
             const MapTheme mapTheme = Constants.GameSettings.GameMapTheme;
             switch (mapTheme)

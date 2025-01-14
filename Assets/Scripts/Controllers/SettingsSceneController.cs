@@ -1,7 +1,9 @@
+using System;
 using Core;
 using UI;
 using UnityEngine;
 using UnityEngine.Audio;
+using Utils;
 
 namespace Controllers
 {
@@ -29,10 +31,10 @@ namespace Controllers
             // Initialize buttons
             backButton.Init(Back);
             // Initialize sliders
-            ambientSlider.Init(UpdateAmbientVolume, AmbientVolumeKey);
-            effectsSlider.Init(UpdateEffectsVolume, EffectsVolumeKey);
-            movementsSlider.Init(UpdateMovementsVolume, MovementsVolumeKey);
-            explosionsSlider.Init(UpdateExplosionsVolume, ExplosionsVolumeKey);
+            ambientSlider.Init(UpdateAmbientVolume, SoundManager.AmbientSoundKey);
+            effectsSlider.Init(UpdateEffectsVolume, SoundManager.EffectsSoundKey);
+            movementsSlider.Init(UpdateMovementsVolume, SoundManager.MovementsSoundKey);
+            explosionsSlider.Init(UpdateExplosionsVolume, SoundManager.ExplosionsSoundKey);
         }
 
         private void Back()
@@ -42,26 +44,31 @@ namespace Controllers
         
         private void UpdateAmbientVolume(float value)
         {
-            audioMixer.SetFloat(AmbientVolumeKey, value);
-            PlayerPrefs.SetFloat(SoundManager.AmbiantSoundKey, value);
+            audioMixer.SetFloat(AmbientVolumeKey, MathUtils.ToLog(value));
+            PlayerPrefs.SetFloat(SoundManager.AmbientSoundKey, value);
         }
         
         private void UpdateEffectsVolume(float value)
         {
-            audioMixer.SetFloat(EffectsVolumeKey, value);
+            audioMixer.SetFloat(EffectsVolumeKey, MathUtils.ToLog(value));
             PlayerPrefs.SetFloat(SoundManager.EffectsSoundKey, value);
         }
         
         private void UpdateMovementsVolume(float value)
         {
-            audioMixer.SetFloat(MovementsVolumeKey, value);
+            audioMixer.SetFloat(MovementsVolumeKey, MathUtils.ToLog(value));
             PlayerPrefs.SetFloat(SoundManager.MovementsSoundKey, value);
         }
         
         private void UpdateExplosionsVolume(float value)
         {
-            audioMixer.SetFloat(ExplosionsVolumeKey, value);
+            audioMixer.SetFloat(ExplosionsVolumeKey, MathUtils.ToLog(value));
             PlayerPrefs.SetFloat(SoundManager.ExplosionsSoundKey, value);
+        }
+
+        private void OnDisable()
+        {
+            PlayerPrefs.Save();
         }
     }
 }

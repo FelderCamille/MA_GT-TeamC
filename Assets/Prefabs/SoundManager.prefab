@@ -92,13 +92,13 @@ MonoBehaviour:
   moveSoundSource: {fileID: 3363165127429128762}
   turnSoundSource: {fileID: 4588417609661136776}
   repairSoundSource: {fileID: 759851588170120532}
-  openMineSoundSource: {fileID: 0}
-  openTentSoundSource: {fileID: 0}
-  closeTentSoundSource: {fileID: 0}
-  openBookSoundSource: {fileID: 0}
-  closeBookSoundSource: {fileID: 0}
-  visionSoundSource: {fileID: 0}
-  deniedSoundSource: {fileID: 0}
+  openMineSoundSource: {fileID: 2420138680609003241}
+  openTentSoundSource: {fileID: 5427709420731326233}
+  closeTentSoundSource: {fileID: 4361014761264724685}
+  openBookSoundSource: {fileID: 72193811526355392}
+  closeBookSoundSource: {fileID: 5131762944461021054}
+  visionSoundSource: {fileID: 1781679455644325720}
+  deniedSoundSource: {fileID: 5531075662868027873}
 --- !u!1 &831524600632494847
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 9ac66191db316c7449f4eb22dea3aa84, type: 3}
   m_Resource: {fileID: 8300000, guid: 9ac66191db316c7449f4eb22dea3aa84, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1691,7 +1691,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5364087941209748005, guid: a86fffb07c64647c9993d03c784f8875, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1108441aaac12324da789e25b4be983b, type: 3}
   m_Resource: {fileID: 8300000, guid: 1108441aaac12324da789e25b4be983b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2465,7 +2465,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5364087941209748005, guid: a86fffb07c64647c9993d03c784f8875, type: 2}
   m_audioClip: {fileID: 8300000, guid: 0ee7a431882eb3c46ad8b779b27acb8c, type: 3}
   m_Resource: {fileID: 8300000, guid: 0ee7a431882eb3c46ad8b779b27acb8c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2852,7 +2852,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5364087941209748005, guid: a86fffb07c64647c9993d03c784f8875, type: 2}
   m_audioClip: {fileID: 8300000, guid: d77f3d2f3234de742b149227ef189ff5, type: 3}
   m_Resource: {fileID: 8300000, guid: d77f3d2f3234de742b149227ef189ff5, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -21,6 +21,7 @@ namespace Controllers
         [SerializeField] private InputField port;
         [SerializeField] private CustomButton backButton;
         [SerializeField] private StartButton startButton;
+        [SerializeField] private Text stateText;
 
         private SceneLoader _sceneLoader;
         
@@ -31,6 +32,9 @@ namespace Controllers
             // Init network connection approval callback
             NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalCallback;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedCallback;
+            NetworkManager.Singleton.OnServerStarted += OnServerStartedCallback;
+            NetworkManager.Singleton.OnServerStopped += OnServerStoppedCallback;
             // Get objects from the scene
             _sceneLoader = FindFirstObjectByType<SceneLoader>();
             // Disable join button if debug mode is enabled
@@ -78,6 +82,7 @@ namespace Controllers
             ipAddress.interactable = true;
             port.interactable = true;
             startButton.Enable();
+            UpdateState("");
         }
         
         private void OnStartClick()
@@ -93,10 +98,12 @@ namespace Controllers
                 if (_isHost)
                 {
                     NetworkManager.Singleton.StartHost();
+                    UpdateState("Démarrage du serveur...");
                 }
                 else
                 {
                     NetworkManager.Singleton.StartClient();
+                    UpdateState("Tentative de connexion...");
                 }
             } catch (Exception e) {
                 Debug.LogError(e);
@@ -123,6 +130,16 @@ namespace Controllers
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
+        
+        private void OnServerStartedCallback()
+        {
+            UpdateState($"Serveur démarré." + (!Constants.DebugAllowOnlyOneConnection ? " Attente d'un joueur..." : ""));
+        }
+        
+        private void OnServerStoppedCallback(bool isHost)
+        {
+            UpdateState("Serveur arrêté.");
+        }
 
         private void ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
         {
@@ -140,14 +157,32 @@ namespace Controllers
             }
             else if (clientId > 0) // Host and client connected, go to the game scene
             {
+                UpdateState(_isHost ? "Deuxième joueur connecté. Démarrage du jeu..." : "Connecté. Démarrage du jeu...");
                 GoToGameScene();
             }
+        }
+        
+        private void OnClientDisconnectedCallback(ulong clientId)
+        {
+            print("Client disconnected");
+            if (clientId > 0)
+            {
+                UpdateState(_isHost ? "Deuxième joueur déconnecté. Attente d'un autre joueur..." : "Déconnecté.");
+            }
+        }
+        
+        private void UpdateState(string state)
+        {
+            stateText.text = state;
         }
 
         private void OnDisable()
         {
             NetworkManager.Singleton.ConnectionApprovalCallback -= ConnectionApprovalCallback;
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectedCallback;
+            NetworkManager.Singleton.OnServerStarted -= OnServerStartedCallback;
+            NetworkManager.Singleton.OnServerStopped -= OnServerStoppedCallback;
         }
     }
 }

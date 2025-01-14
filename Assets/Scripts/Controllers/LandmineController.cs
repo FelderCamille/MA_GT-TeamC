@@ -38,7 +38,7 @@ namespace Controllers
         private void Start()
         {
             _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _soundManager = SoundManager.instance;
             _grid = FindFirstObjectByType<GridController>();
             var robots = FindObjectsByType<RobotController>(FindObjectsSortMode.None);
             _robot = robots.First(robot => robot.IsOwner);

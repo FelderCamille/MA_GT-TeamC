@@ -33,7 +33,7 @@ namespace Controllers
         private void Awake()
         {
             InitQuestions();
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _soundManager = SoundManager.instance;
         }
 
         private void InitQuestions()

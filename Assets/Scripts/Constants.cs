@@ -16,6 +16,7 @@ public static class Constants
     public static class Scenes
     {
         public const string Title = "Title";
+        public const string Settings = "Settings";
         public const string Base = "Base";
         public const string Game = "Game";
         public const string Result = "Result";

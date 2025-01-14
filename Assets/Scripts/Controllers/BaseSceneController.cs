@@ -12,6 +12,7 @@ namespace Controllers
     public class BaseSceneController : MonoBehaviour
     {
 
+        [SerializeField] private CustomButton generalBackButton;
         [SerializeField] private GameObject chooseRoleEmplacement;
         [SerializeField] private CustomButton hostButton;
         [SerializeField] private CustomButton joinButton;
@@ -35,6 +36,7 @@ namespace Controllers
             // Disable join button if debug mode is enabled
             if (Constants.DebugAllowOnlyOneConnection) joinButton.enabled = false;
             // Initialize buttons
+            generalBackButton.Init(() => _sceneLoader.ShowScene(Constants.Scenes.Title));
             hostButton.Init(OnHostButtonClick);
             joinButton.Init(OnJoinButtonClick);
             backButton.Init(OnBackButtonClick);

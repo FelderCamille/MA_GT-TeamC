@@ -3,7 +3,6 @@ using System.Linq;
 using Core;
 using Objects;
 using UI;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +28,7 @@ namespace Controllers
             // Initialize variables
             JustOpened = true;
             // Retrieve sound manager
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _soundManager = SoundManager.instance;
             // Get robot
             _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
             // Init close button

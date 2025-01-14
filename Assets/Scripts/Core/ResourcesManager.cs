@@ -47,7 +47,7 @@ namespace Core
         private void Start()
         {
             // Get references
-            _soundManager = FindFirstObjectByType<SoundManager>();
+            _soundManager = SoundManager.instance;
             _resourcesPrefab = FindFirstObjectByType<Ressources>();
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _gameOver = FindFirstObjectByType<GameOverController>(FindObjectsInactive.Include);

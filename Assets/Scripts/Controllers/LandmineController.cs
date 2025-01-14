@@ -46,12 +46,10 @@ namespace Controllers
             // Handle when the landmine is placed below the enemy robot
             foreach (var robot in robots)
             {
-                // If the robot is on the landmine when it is placed, set the _justPlaced variable to false
-                if (Vector3.Distance(robot.GridPosition, GridPosition) < 0.5f)
-                {
-                    _robotOnItAtSpawn = robot.OwnerClientId;
-                    break;
-                }
+                // Indicate robot owner
+                if (!(Vector3.Distance(robot.GridPosition, GridPosition) < 0.5f)) continue;
+                _robotOnItAtSpawn = robot.OwnerClientId;
+                break;
             }
         }
         
@@ -94,6 +92,13 @@ namespace Controllers
             if (!Input.GetKeyDown(Constants.Actions.ClearMine) || _questionOverlay.IsAnswering) return;
             // Check if the distance between the robots and the landmine permits to answer the question, if not return
             if (!(Vector3.Distance(transform.position, _robot.gameObject.transform.position) < collidingDistance)) return;
+            // Check if the user is in its side
+            var onOwnSide = GridController.IsOnOwnSide(_robot.GridX, _robot.OwnerClientId);
+            if (!onOwnSide)
+            {
+                _soundManager.PlayDeniedSound();
+                return;
+            }
             // Play arm animation
             _animator.SetTrigger("ArmOut");
             // Show question overlay
@@ -159,6 +164,14 @@ namespace Controllers
         {
             OnLandmineCleared(robot, LandmineCleared.Explosion);
         }
+
+        private IEnumerator DelayedShowQuestionOverlay(RobotController robot)
+        {
+            yield return new WaitForSeconds(1.0f);
+
+            // Open question overlay
+            ShowQuestionOverlay(robot);
+        }
         
         private void ShowQuestionOverlay(RobotController robot)
         {
@@ -167,14 +180,6 @@ namespace Controllers
             _questionOverlay.Robot = robot;
             // Show question overlay
             _questionOverlay.gameObject.SetActive(true);
-        }
-
-        private IEnumerator DelayedShowQuestionOverlay(RobotController robot)
-        {
-            yield return new WaitForSeconds(1.0f);
-
-            // Open question overlay
-            ShowQuestionOverlay(robot);
         }
         
     }

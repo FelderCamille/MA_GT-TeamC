@@ -32,6 +32,7 @@ namespace Controllers
         private Vector3 _moveDirection; // Current movement direction
         
         public Vector3 GridPosition => new (transform.position.x, 0, transform.position.z);
+        public int GridX => (int) Math.Round(transform.position.x);
         
         private void Start()
         {

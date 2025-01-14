@@ -380,16 +380,21 @@ namespace Controllers
             // Check if the emplacement is in the grid area
             if (x is < GridXYStartIndex or >= GridXEndIndex || y is < GridXYStartIndex or >= GridYEndIndex) return false;
             // Check if the emplacement is in the other client area
-            var isClientLeft = clientId == 0;
-            var isEmplacementLeft = x < GridHalfWidthIndex;
-            if ((isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft)) return false;
+            var isOnOwnSide = IsOnOwnSide(x, clientId);
+            if (isOnOwnSide) return false;
             // Check whether the tile is not already a landmine or on a safe area
             var index = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
                         + (y - Constants.GameSettings.GridPadding);
             // Check if the tile is not already a landmine or on a safe area
             return !LandminesEmplacement[index] && !_safeAreaGridTiles[index];
         }
-        
+
+        public static bool IsOnOwnSide(int x, ulong clientId)
+        {
+            var isClientLeft = clientId == 0;
+            var isEmplacementLeft = x < GridHalfWidthIndex;
+            return (isClientLeft && isEmplacementLeft) || (!isClientLeft && !isEmplacementLeft);
+        }
         
         public void ReplaceTileByMine(int x, int y, LandmineDifficulty difficulty, ulong clientId)
         {

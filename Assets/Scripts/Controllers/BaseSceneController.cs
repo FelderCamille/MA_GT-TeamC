@@ -36,7 +36,7 @@ namespace Controllers
             // Disable join button if debug mode is enabled
             if (Constants.DebugAllowOnlyOneConnection) joinButton.enabled = false;
             // Initialize buttons
-            generalBackButton.Init(() => _sceneLoader.ShowScene(Constants.Scenes.Title));
+            generalBackButton.Init(OnGeneralBackButtonClick);
             hostButton.Init(OnHostButtonClick);
             joinButton.Init(OnJoinButtonClick);
             backButton.Init(OnBackButtonClick);
@@ -45,8 +45,14 @@ namespace Controllers
             port.text = "7777";
         }
         
+        private void OnGeneralBackButtonClick()
+        {
+            _sceneLoader.ShowScene(Constants.Scenes.Title);
+        }
+        
         private void OnHostButtonClick()
         {
+            generalBackButton.Hide();
             chooseRoleEmplacement.SetActive(false);
             roleChoosedEmplacement.SetActive(true);
             ipAddress.text = GetLocalIPAddress();
@@ -56,6 +62,7 @@ namespace Controllers
         
         private void OnJoinButtonClick()
         {
+            generalBackButton.Hide();
             chooseRoleEmplacement.SetActive(false);
             roleChoosedEmplacement.SetActive(true);
             ipAddress.interactable = true;
@@ -65,6 +72,7 @@ namespace Controllers
 
         private void OnBackButtonClick()
         {
+            generalBackButton.Show();
             roleChoosedEmplacement.SetActive(false);
             chooseRoleEmplacement.SetActive(true);
             ipAddress.interactable = true;

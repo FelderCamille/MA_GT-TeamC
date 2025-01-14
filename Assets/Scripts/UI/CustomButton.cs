@@ -29,5 +29,15 @@ namespace UI
             button.interactable = true;
             _isEnabled = true;
         }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

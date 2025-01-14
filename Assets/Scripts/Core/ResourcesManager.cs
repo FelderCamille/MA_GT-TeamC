@@ -58,7 +58,7 @@ namespace Core
             // Initialize the resources on the UI
             _resourcesPrefab.SetMoney(_money);
             _resourcesPrefab.SetHealth(_health);
-            _resourcesPrefab.SetMines(ClearedMines);
+            _resourcesPrefab.SetClearedMines(ClearedMines);
             // Add level zero bonuses
             foreach (var bonus in Constants.Bonus.BonusesAtStart())
             {
@@ -143,9 +143,14 @@ namespace Core
         [Rpc(SendTo.Owner)]
         public void IncreasePlacedMinesCounterRpc()
         {
+            // Increment placed mines count
             var minesStatisticalData = _minesStatisticalData.Value;
             minesStatisticalData.placedMines += 1;
             _minesStatisticalData.Value = minesStatisticalData;
+            // Update the UI
+            _resourcesPrefab.SetPlacedMines(PlacedMines);
+            // Show feedback
+            _feedbackPopup.ShowMineAsPlaced();
         }
         
         /// <summary>
@@ -171,7 +176,7 @@ namespace Core
             }
             _minesStatisticalData.Value = clearedMinesData;
             // Update the UI
-            _resourcesPrefab.SetMines(ClearedMines);
+            _resourcesPrefab.SetClearedMines(ClearedMines);
             // Show feedback
             _feedbackPopup.ShowMineAsCleared();
         }

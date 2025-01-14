@@ -9,6 +9,7 @@ namespace UI
         [SerializeField] private Text money;
         [SerializeField] private Text health;
         [SerializeField] private Text clearedMines;
+        [SerializeField] private Text placedMines;
 
         public void SetMoney(int value)
         {
@@ -20,9 +21,14 @@ namespace UI
             health.text = value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public void SetMines(int value)
+        public void SetClearedMines(int value)
         {
             clearedMines.text = value.ToString();
+        }
+        
+        public void SetPlacedMines(int value)
+        {
+            placedMines.text = value.ToString();
         }
 
         public void Hide()

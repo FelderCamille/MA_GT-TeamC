@@ -27,6 +27,11 @@ namespace UI
             StartCoroutine(Show("+1", "clear_bomb", Color.green));
         }
         
+        public void ShowMineAsPlaced()
+        {
+            StartCoroutine(Show("+1", "bomb", Color.white));
+        }
+        
         public void ShowHealthLost(float healthLost)
         {
             StartCoroutine(Show("-" + healthLost, "heart", Color.red));

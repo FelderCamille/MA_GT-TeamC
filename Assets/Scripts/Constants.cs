@@ -42,6 +42,9 @@ public static class Constants
         public const int DefaultMoney = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
+        // Player
+        public const string DefaultPlayer1Name = "Joueur 1";
+        public const string DefaultPlayer2Name = "Joueur 2";
     }
 
     public static class SpawnProbabilities

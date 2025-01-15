@@ -42,9 +42,13 @@ namespace Core
         public string Player1Name
         {
             get => _player1Name.Value.ToString();
-            set => _player1Name.Value = value;
+            set
+            {
+                if (value == "") value = Constants.GameSettings.DefaultPlayer1Name;
+                _player1Name.Value = value;
+            }
         }
-        
+
         public string Player2Name
         {
             get => _player2Name.Value.ToString();
@@ -54,6 +58,7 @@ namespace Core
         [Rpc(SendTo.Server)]
         public void SetPlayer2NameRpc(string value)
         {
+            if (value == "") value = Constants.GameSettings.DefaultPlayer2Name;
             Player2Name = value;
         }
     }

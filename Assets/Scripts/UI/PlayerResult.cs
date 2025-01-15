@@ -1,4 +1,3 @@
-using Core;
 using Objects;
 using Unity.Netcode;
 using UnityEngine;
@@ -21,9 +20,8 @@ namespace UI
         public void Init(PlayerResultData currentPlayer, PlayerResultData otherPlayerResult)
         {
             // Set name (client id starts from 0)
-            var isFirstPlayer = NetworkManager.Singleton.LocalClientId == 0;
             var isMe = NetworkManager.Singleton.LocalClientId == currentPlayer.clientId;
-            playerTitle.text = (isFirstPlayer ? GameParametersManager.Instance.Player1Name : GameParametersManager.Instance.Player2Name) + (isMe ? " (vous)" : "");
+            playerTitle.text = currentPlayer.playerName + (isMe ? " (vous)" : "");
             // Compute player's result
             clearedMinesEasy.text += currentPlayer.clearedMinesEasy + FormatScore(currentPlayer.ClearedMinesEasyScore);
             clearedMinesMedium.text += currentPlayer.clearedMinesMedium + FormatScore(currentPlayer.ClearedMinesMediumScore);

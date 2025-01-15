@@ -59,6 +59,7 @@ namespace Controllers
                     explodedMines = player1Resources.ExplodedMines,
                     notClearedMines = _grid.NotClearedMineCount(player1.OwnerClientId),
                     placedMines = player1Resources.PlacedMines,
+                    playerName = GameParametersManager.Instance.Player1Name
                 }
             };
             // Retrieve the data for player 2
@@ -75,6 +76,7 @@ namespace Controllers
                     explodedMines = player2Resources.ExplodedMines,
                     notClearedMines = _grid.NotClearedMineCount(player2.OwnerClientId),
                     placedMines = player2Resources.PlacedMines,
+                    playerName = GameParametersManager.Instance.Player2Name
                 };
             }
             else

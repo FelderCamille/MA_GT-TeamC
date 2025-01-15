@@ -38,10 +38,7 @@ namespace Controllers
         [SerializeField] private CustomButton backButton;
         [SerializeField] private StartButton startButton;
         [SerializeField] private Text stateText;
-
-        [Header("Parameters")]
-        [SerializeField] private GameParametersManager gameParameterPrefab;
-
+        
         private SceneLoader _sceneLoader;
         
         private bool _isHost;
@@ -89,6 +86,7 @@ namespace Controllers
             _isHost = true;
             budgetEmplacement.SetActive(true);
             mapThemeEmplacement.SetActive(true);
+            playerName.text = Constants.GameSettings.DefaultPlayer1Name;
         }
         
         private void OnJoinButtonClick()
@@ -101,6 +99,7 @@ namespace Controllers
             _isHost = false;
             budgetEmplacement.SetActive(false);
             mapThemeEmplacement.SetActive(false);
+            playerName.text = Constants.GameSettings.DefaultPlayer2Name;
         }
 
         private void OnBackButtonClick()

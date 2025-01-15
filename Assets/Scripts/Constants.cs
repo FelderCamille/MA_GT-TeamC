@@ -9,7 +9,7 @@ public static class Constants
     
     // Warning, the following constants could break some part of the game if set to "true"
     public static readonly bool DebugShowMines = false;
-    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugAllowOnlyOneConnection = true;
     public static readonly bool DebugFillIPAddressOnClient = false;
     public static readonly bool DebugShowOtherPlayer = false;
     

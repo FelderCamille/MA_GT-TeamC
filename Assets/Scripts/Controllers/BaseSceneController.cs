@@ -1,6 +1,8 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using Core;
+using Objects;
 using TMPro;
 using UI;
 using Unity.Netcode;
@@ -34,6 +36,9 @@ namespace Controllers
         [SerializeField] private CustomButton backButton;
         [SerializeField] private StartButton startButton;
         [SerializeField] private Text stateText;
+
+        [Header("Parameters")]
+        [SerializeField] private GameParametersManager gameParameterPrefab;
 
         private SceneLoader _sceneLoader;
         
@@ -146,6 +151,17 @@ namespace Controllers
         
         private void GoToGameScene()
         {
+            // Set values in game parameters
+            if (NetworkManager.Singleton.IsHost)
+            {
+                GameParametersManager.Instance.Player1Name = playerName.text;
+                GameParametersManager.Instance.Budget = (int) budgetSlider.value;
+                GameParametersManager.Instance.MapTheme = (MapTheme) mapThemeDropdown.value;
+            }
+            else
+            {
+                GameParametersManager.Instance.SetPlayer2NameRpc(playerName.text);
+            }
             _sceneLoader.ShowScene(Constants.Scenes.Game);
         }
         

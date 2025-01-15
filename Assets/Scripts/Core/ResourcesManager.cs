@@ -23,7 +23,7 @@ namespace Core
         private GameOverController _gameOver;
         
         // Robot properties
-        private int _money = Constants.GameSettings.DefaultMoney; // TODO
+        private int _money;
         private readonly NetworkVariable<MinesStatisticalData> _minesStatisticalData = new ( 
             new MinesStatisticalData {
                 clearedMinesEasy = 0,
@@ -46,8 +46,9 @@ namespace Core
         
         private void Start()
         {
+            _money = GameParametersManager.Instance.Budget;
             // Get references
-            _soundManager = SoundManager.instance;
+            _soundManager = SoundManager.Instance;
             _resourcesPrefab = FindFirstObjectByType<Ressources>();
             _feedbackPopup = GetComponentInChildren<FeedbackPopup>(includeInactive: true);
             _gameOver = FindFirstObjectByType<GameOverController>(FindObjectsInactive.Include);

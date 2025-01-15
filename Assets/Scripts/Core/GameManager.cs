@@ -5,13 +5,14 @@ namespace Core
 {
     public class GameManager: MonoBehaviour
     {
+        [SerializeField] private GameParametersManager gameParametersPrefab;
         [SerializeField] private GameObject gridPrefab;
         [SerializeField] private GameObject timeManagerPrefab;
         
         private void Start()
         {
             // Play ambient sound
-            SoundManager.instance.PlayAmbientSound();
+            SoundManager.Instance.PlayAmbientSound();
             // Do some stuff only if the player is the host
             if (!NetworkManager.Singleton.IsHost) return;
             // Instantiate grid

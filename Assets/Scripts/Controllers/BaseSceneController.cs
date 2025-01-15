@@ -14,6 +14,8 @@ namespace Controllers
 {
     public class BaseSceneController : MonoBehaviour
     {
+        
+        private const float BudgetSliderSteps = 1000f;
 
         [Header("General")]
         [SerializeField] private CustomButton generalBackButton;
@@ -112,9 +114,10 @@ namespace Controllers
             UpdateState("");
         }
         
-        private void OnBudgetSliderValueChanged(float value)
+        private void OnBudgetSliderValueChanged(float tempValue)
         {
-            budgetValue.text = ((int) value).ToString();
+            budgetSlider.value = Mathf.Round(tempValue / BudgetSliderSteps) * BudgetSliderSteps;
+            budgetValue.text = ((int) budgetSlider.value).ToString();
         }
 
         private void OnStartClick()

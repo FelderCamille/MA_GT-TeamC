@@ -4220,7 +4220,6 @@ MonoBehaviour:
   backButton: {fileID: 1620731941}
   startButton: {fileID: 561398298}
   stateText: {fileID: 1854476530}
-  gameParameterPrefab: {fileID: 4025232158921511696, guid: 55fde18206d9d484da3f5c432b96a3e0, type: 3}
 --- !u!1 &1854476528
 GameObject:
   m_ObjectHideFlags: 0

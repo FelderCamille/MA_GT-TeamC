@@ -28,7 +28,7 @@ namespace Controllers
             // Initialize variables
             JustOpened = true;
             // Retrieve sound manager
-            _soundManager = SoundManager.instance;
+            _soundManager = SoundManager.Instance;
             // Get robot
             _robot = FindObjectsByType<RobotController>(FindObjectsSortMode.None).First(robot => robot.IsOwner);
             // Init close button

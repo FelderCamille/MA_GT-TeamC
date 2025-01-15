@@ -1,6 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using Core;
+using Objects;
+using TMPro;
 using UI;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -11,18 +14,31 @@ namespace Controllers
 {
     public class BaseSceneController : MonoBehaviour
     {
+        
+        private const float BudgetSliderSteps = 1000f;
 
+        [Header("General")]
         [SerializeField] private CustomButton generalBackButton;
+        
+        [Header("Choose role")]
         [SerializeField] private GameObject chooseRoleEmplacement;
         [SerializeField] private CustomButton hostButton;
         [SerializeField] private CustomButton joinButton;
+        
+        [Header("Role choosed")]
         [SerializeField] private GameObject roleChoosedEmplacement;
         [SerializeField] private InputField ipAddress;
         [SerializeField] private InputField port;
+        [SerializeField] private InputField playerName;
+        [SerializeField] private GameObject budgetEmplacement;
+        [SerializeField] private Slider budgetSlider;
+        [SerializeField] private Text budgetValue;
+        [SerializeField] private GameObject mapThemeEmplacement;
+        [SerializeField] private TMP_Dropdown mapThemeDropdown;
         [SerializeField] private CustomButton backButton;
         [SerializeField] private StartButton startButton;
         [SerializeField] private Text stateText;
-
+        
         private SceneLoader _sceneLoader;
         
         private bool _isHost;
@@ -45,6 +61,12 @@ namespace Controllers
             joinButton.Init(OnJoinButtonClick);
             backButton.Init(OnBackButtonClick);
             startButton.Init(OnStartClick);
+            // Initialize budget slider
+            budgetSlider.value = Constants.GameSettings.DefaultMoney;
+            budgetValue.text = Constants.GameSettings.DefaultMoney.ToString();
+            budgetSlider.minValue = Constants.GameSettings.MinMoney;
+            budgetSlider.maxValue = Constants.GameSettings.MaxMoney;
+            budgetSlider.onValueChanged.AddListener(OnBudgetSliderValueChanged);
             // Initialize input fields
             port.text = "7777";
         }
@@ -62,6 +84,9 @@ namespace Controllers
             ipAddress.text = GetLocalIPAddress();
             ipAddress.interactable = false;
             _isHost = true;
+            budgetEmplacement.SetActive(true);
+            mapThemeEmplacement.SetActive(true);
+            playerName.text = Constants.GameSettings.DefaultPlayer1Name;
         }
         
         private void OnJoinButtonClick()
@@ -72,6 +97,9 @@ namespace Controllers
             ipAddress.interactable = true;
             if (Constants.DebugFillIPAddressOnClient) ipAddress.text = GetLocalIPAddress();
             _isHost = false;
+            budgetEmplacement.SetActive(false);
+            mapThemeEmplacement.SetActive(false);
+            playerName.text = Constants.GameSettings.DefaultPlayer2Name;
         }
 
         private void OnBackButtonClick()
@@ -85,8 +113,18 @@ namespace Controllers
             UpdateState("");
         }
         
+        private void OnBudgetSliderValueChanged(float tempValue)
+        {
+            budgetSlider.value = Mathf.Round(tempValue / BudgetSliderSteps) * BudgetSliderSteps;
+            budgetValue.text = ((int) budgetSlider.value).ToString();
+        }
+
         private void OnStartClick()
         {
+            if (playerName.text == "")
+            {
+                playerName.text = "Joueur " + (_isHost ? "1" : "2");
+            }
             // Disable input fields and start button
             ipAddress.interactable = false;
             port.interactable = false;
@@ -115,6 +153,17 @@ namespace Controllers
         
         private void GoToGameScene()
         {
+            // Set values in game parameters
+            if (NetworkManager.Singleton.IsHost)
+            {
+                GameParametersManager.Instance.Player1Name = playerName.text;
+                GameParametersManager.Instance.Budget = (int) budgetSlider.value;
+                GameParametersManager.Instance.MapTheme = (MapTheme) mapThemeDropdown.value;
+            }
+            else
+            {
+                GameParametersManager.Instance.SetPlayer2NameRpc(playerName.text);
+            }
             _sceneLoader.ShowScene(Constants.Scenes.Game);
         }
         

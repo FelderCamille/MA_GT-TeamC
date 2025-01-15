@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Netcode;
 
 namespace Objects
@@ -25,6 +26,7 @@ namespace Objects
         public int explodedMines;
         public int notClearedMines;
         public int placedMines;
+        public FixedString32Bytes playerName;
 
         public int ClearedMinesEasyScore => clearedMinesEasy * Constants.Score.ClearMineEasySuccess;
         public int ClearedMinesMediumScore => clearedMinesMedium * Constants.Score.ClearMineMediumSuccess;
@@ -49,6 +51,7 @@ namespace Objects
             serializer.SerializeValue(ref explodedMines);
             serializer.SerializeValue(ref notClearedMines);
             serializer.SerializeValue(ref placedMines);
+            serializer.SerializeValue(ref playerName);
         }
     }
 }

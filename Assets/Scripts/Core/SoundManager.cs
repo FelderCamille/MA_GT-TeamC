@@ -16,7 +16,7 @@ namespace Core
         public static readonly string MovementsSoundKey = "MovementsSound";
         public static readonly string ExplosionsSoundKey = "ExplosionsSound";
         
-        public static SoundManager instance;
+        public static SoundManager Instance;
 
         [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private AudioSource[] buySoundSources;
@@ -40,9 +40,9 @@ namespace Core
 
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -155,7 +155,7 @@ namespace Core
 
         public void PlayAmbientSound()
         {
-            const MapTheme mapTheme = Constants.GameSettings.GameMapTheme;
+            var mapTheme = GameParametersManager.Instance.MapTheme;
             switch (mapTheme)
             {
                 case MapTheme.Nature:

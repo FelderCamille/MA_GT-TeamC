@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace UI
+namespace UI.Tile
 {
     public class LandmineTile : Tile
     {

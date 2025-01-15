@@ -42,7 +42,7 @@ namespace Controllers
              _grid = FindFirstObjectByType<GridController>();
              _questionOverlay = FindFirstObjectByType<QuestionController>(FindObjectsInactive.Include);
              _storeOverlay = FindFirstObjectByType<StoreController>(FindObjectsInactive.Include);
-             _soundManager = SoundManager.instance;
+             _soundManager = SoundManager.Instance;
              _resourcesManager = GetComponent<ResourcesManager>();
              // Hide the robot for the enemy
              if (!IsOwner && !Constants.DebugShowOtherPlayer)

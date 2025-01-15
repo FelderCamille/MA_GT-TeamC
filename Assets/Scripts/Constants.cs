@@ -9,7 +9,7 @@ public static class Constants
     
     // Warning, the following constants could break some part of the game if set to "true"
     public static readonly bool DebugShowMines = false;
-    public static readonly bool DebugAllowOnlyOneConnection = false;
+    public static readonly bool DebugAllowOnlyOneConnection = true;
     public static readonly bool DebugFillIPAddressOnClient = false;
     public static readonly bool DebugShowOtherPlayer = false;
     
@@ -24,8 +24,6 @@ public static class Constants
     
     public static class GameSettings
     {
-        // Context
-        public const MapTheme GameMapTheme = MapTheme.Nature;
         // Grid
         public const int GridWidth = 16; // Should be even, so each player has the same number of tiles
         public const int GridHeight = 15;
@@ -39,9 +37,14 @@ public static class Constants
         // Robot
         public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
-        public const int Money = 5000;
+        public const int MinMoney = 1000;
+        public const int MaxMoney = 10000;
+        public const int DefaultMoney = 5000;
         // Tent
         public const int NumberOfTileOpenStore = 1;
+        // Player
+        public const string DefaultPlayer1Name = "Joueur 1";
+        public const string DefaultPlayer2Name = "Joueur 2";
     }
 
     public static class SpawnProbabilities

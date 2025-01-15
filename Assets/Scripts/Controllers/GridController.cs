@@ -3,6 +3,7 @@ using System.Linq;
 using Core;
 using Objects;
 using UI;
+using UI.Tile;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -92,7 +93,8 @@ namespace Controllers
         private void ChooseDecorPrefabs()
         {
             // Add tiles to the dictionary according to the theme
-            switch (Constants.GameSettings.GameMapTheme)
+            var mapTheme = GameParametersManager.Instance.MapTheme;
+            switch (mapTheme)
             {
                 case MapTheme.Nature:
                     _decorTiles.Add(DecorTileType.Tree, treeTilePrefabs);

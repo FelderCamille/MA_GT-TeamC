@@ -15,6 +15,7 @@ namespace Controllers
         [SerializeField] private ParticleSystem repeatedWaveEffect;
         [SerializeField] private ParticleSystem mudParticules;
         [SerializeField] private Animator animator;
+        private Rigidbody _rigidBody;
 
         // Controllers
         private ResourcesManager _resourcesManager;
@@ -26,7 +27,6 @@ namespace Controllers
         private SoundManager _soundManager;
 
         // Movements
-        private const int NumberOfTile = Constants.GameSettings.NumberOfTileMovement;
         private const float RotationSpeed = 180f; // Rotation speed
         private float _moveSpeed; // Movement speed
         private Vector3 _moveDirection; // Current movement direction
@@ -44,6 +44,7 @@ namespace Controllers
              _storeOverlay = FindFirstObjectByType<StoreController>(FindObjectsInactive.Include);
              _soundManager = SoundManager.Instance;
              _resourcesManager = GetComponent<ResourcesManager>();
+             _rigidBody = GetComponent<Rigidbody>();
              // Hide the robot for the enemy
              if (!IsOwner && !Constants.DebugShowOtherPlayer)
              {
@@ -66,6 +67,10 @@ namespace Controllers
             if (_questionOverlay.IsAnswering || _storeOverlay.IsShopping) return;
             // Handle mining
             HandleMining();
+        }
+
+        private void FixedUpdate()
+        {
             // Handle movements
             HandleMovements();
         }
@@ -156,14 +161,7 @@ namespace Controllers
 
         private void ApplyMovement()
         {
-            var newPosition = transform.position + _moveDirection * _moveSpeed * Time.deltaTime;
-
-            // Ensure the robot stays within the grid boundaries
-            if (newPosition.x >= _grid.MinX && newPosition.x <= _grid.MaxX - NumberOfTile &&
-                newPosition.z >= _grid.MinZ && newPosition.z <= _grid.MaxZ - NumberOfTile)
-            {
-                transform.position = newPosition; // Move directly via transform (ClientNetworkTransform will sync)
-            }
+            _rigidBody.linearVelocity = _moveDirection * _moveSpeed;
         }
 
         private static void PlaySoundIfNeeded(AudioSource soundSource, Action playSoundAction)

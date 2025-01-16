@@ -324,6 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
+  - component: {fileID: 8669534707882640766}
   m_Layer: 0
   m_Name: Tree3Tile
   m_TagString: Untagged
@@ -370,7 +371,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 3
   depth: 3
-  baseTiles: []
+--- !u!114 &8669534707882640766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8613609681951060239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 462429945
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &3583366498772323821
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public static class Constants
         public const string DefaultPlayer2Name = "Joueur 2";
     }
 
-    public static class SpawnProbabilities
+    public static class PaddingSpawnProbabilities
     {
         public const int Spruce = 10;
         public const int DeadSpruce = 10;
@@ -57,6 +57,18 @@ public static class Constants
         public const int Root = 1;
         public const int Rock = 10;
         public const int Bush = 5;
+    }
+    
+    public static class GridSpawnProbabilities
+    {
+        public const int Spruce = 0;
+        public const int DeadSpruce = 0;
+        public const int Tree = 0;
+        public const int DeadTree = 0;
+        public const int Log = 0;
+        public const int Root = 0;
+        public const int Rock = 0;
+        public const int Bush = 100;
     }
 
     public static class Actions

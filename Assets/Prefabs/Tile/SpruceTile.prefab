@@ -119,7 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
-  - component: {fileID: 912414268276004038}
+  - component: {fileID: 4270308689163729697}
   m_Layer: 0
   m_Name: SpruceTile
   m_TagString: Untagged
@@ -176,7 +176,7 @@ MonoBehaviour:
   - {fileID: 8073301741687756632}
   - {fileID: 4138911816474942827}
   - {fileID: 6974935282121868454}
---- !u!114 &912414268276004038
+--- !u!114 &4270308689163729697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2486884392
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

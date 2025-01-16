@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
-  - component: {fileID: 6457345277089150464}
+  - component: {fileID: 4259951565588349273}
   m_Layer: 0
   m_Name: BushTile
   m_TagString: Untagged
@@ -187,7 +187,7 @@ MonoBehaviour:
   depth: 1
   baseTiles:
   - {fileID: 7628703002419649132}
---- !u!114 &6457345277089150464
+--- !u!114 &4259951565588349273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 262054489
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

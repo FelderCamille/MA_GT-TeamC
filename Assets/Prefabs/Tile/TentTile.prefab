@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
-  - component: {fileID: -3002228514520510080}
+  - component: {fileID: 7008002444221466487}
   - component: {fileID: 3044626372676024209}
   m_Layer: 0
   m_Name: TentTile
@@ -82,7 +82,7 @@ MonoBehaviour:
   - {fileID: 1347661376665276322}
   - {fileID: 4415578948253138166}
   - {fileID: 3239455335496571210}
---- !u!114 &-3002228514520510080
+--- !u!114 &7008002444221466487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,14 +94,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3197801318
+  GlobalObjectIdHash: 3359234374
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
+  DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
 --- !u!114 &3044626372676024209
 MonoBehaviour:

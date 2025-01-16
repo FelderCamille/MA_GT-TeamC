@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
-  - component: {fileID: 5546172432166937823}
+  - component: {fileID: 6363863611524543321}
   m_Layer: 0
   m_Name: DeadSpruceTile
   m_TagString: Untagged
@@ -165,7 +165,7 @@ MonoBehaviour:
   - {fileID: 6959931294872647129}
   - {fileID: 2419347031358374717}
   - {fileID: 6713557027735311061}
---- !u!114 &5546172432166937823
+--- !u!114 &6363863611524543321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 830269193
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

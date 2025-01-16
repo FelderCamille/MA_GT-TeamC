@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 1202899067884833650}
-  - component: {fileID: 620394711791697178}
+  - component: {fileID: 4626982487807593897}
   m_Layer: 0
   m_Name: LandmineTile
   m_TagString: Untagged
@@ -52,7 +52,7 @@ MonoBehaviour:
   baseTiles:
   - {fileID: 8872320824081943936}
   landmine: {fileID: 1148198663363304086}
---- !u!114 &620394711791697178
+--- !u!114 &4626982487807593897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

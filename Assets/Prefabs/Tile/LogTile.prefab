@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2661366301929760432}
   - component: {fileID: 3133543057032349834}
-  - component: {fileID: 4635558772196933163}
+  - component: {fileID: 6088620170794486145}
   m_Layer: 0
   m_Name: LogTile
   m_TagString: Untagged
@@ -189,7 +189,7 @@ MonoBehaviour:
   baseTiles:
   - {fileID: 7222660001569804717}
   - {fileID: 8316146936247695404}
---- !u!114 &4635558772196933163
+--- !u!114 &6088620170794486145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1656535872
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

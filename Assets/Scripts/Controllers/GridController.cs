@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
@@ -152,13 +153,13 @@ namespace Controllers
                 case MapTheme.War:
                     _decorPaddingTiles.Add(DecorTileType.DeadTree, new[] { deadTreeTilePrefab });
                     _decorPaddingTiles.Add(DecorTileType.DeadSpruce, new[] { deadSpruceTilePrefab });
-                    _decorPaddingTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
-                    _decorGridTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
                     break;
                 default:
-                    break;
+                    throw new NotImplementedException("The theme is not implemented");
             }
             // Add common tiles to the dictionary
+            _decorPaddingTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
+            _decorGridTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
             _decorPaddingTiles.Add(DecorTileType.Rock, rockTilePrefabs);
             _decorGridTiles.Add(DecorTileType.Rock, rockTilePrefabs);
             _decorPaddingTiles.Add(DecorTileType.Log, new[] { logTilePrefab });
@@ -227,8 +228,9 @@ namespace Controllers
             {
                 for (var y = safeAreaYMin; y < safeAreaYMax; y++)
                 {
-                    _safeAreaGridTiles[x * Constants.GameSettings.GridHeight + y] = true;
-                    _obstacleGridTiles[x * Constants.GameSettings.GridHeight + y] = true;
+                    var index = GetMapIndex(x, y);
+                    _safeAreaGridTiles[index] = true;
+                    _obstacleGridTiles[index] = true;
                 }
             }
             // Place the tent
@@ -264,7 +266,7 @@ namespace Controllers
                 {
                     var x = Random.Next(xStart, xEnd);
                     var y = Random.Next(GridXYStartIndex, GridYEndIndex);
-                    landmineIndex = (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight + (y - Constants.GameSettings.GridPadding);
+                    landmineIndex = GetGridIndex(x, y);
                 } while (LandminesEmplacement[landmineIndex] || _obstacleGridTiles[landmineIndex]);
                 // Set a landmine at this emplacement
                 LandminesEmplacement[landmineIndex] = true;
@@ -395,7 +397,7 @@ namespace Controllers
                     }
                     else
                     {
-                        if (x1 < MapWidth && y1 < MapHeight && !_obstacleGridTiles[GetGridIndexFromMap(x1, y1)]) continue;
+                        if (x1 < MapWidth && y1 < MapHeight && !_obstacleGridTiles[GetGridIndex(x1, y1)]) continue;
                     }
                     return false;
                 }
@@ -415,7 +417,7 @@ namespace Controllers
                     }
                     else
                     {
-                        _obstacleGridTiles[GetGridIndexFromMap(x1, y1)] = true;
+                        _obstacleGridTiles[GetGridIndex(x1, y1)] = true;
                     }
                 }
             }
@@ -425,7 +427,7 @@ namespace Controllers
         {
             if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement must be a classic tile, a landmine, a safe area, or an obstacle
-            var index = GetGridIndexFromMap(x, y);
+            var index = GetGridIndex(x, y);
             var tileName = $"Tile {x} {y}";
             Tile prefab;
             if (LandminesEmplacement[index]) // Landmine
@@ -493,8 +495,8 @@ namespace Controllers
             var y = (int) landmineTile.transform.position.z;
             // Despawn the landmine tile
             landmineTile.GetComponent<NetworkObject>().Despawn();
-            LandminesEmplacement[(x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
-                       + (y - Constants.GameSettings.GridPadding)] = false;
+            var index = GetGridIndex(x, y);
+            LandminesEmplacement[index] = false;
             // Replace the landmine tile by a classic tile
             var tileObj = Instantiate(tilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.name = $"Tile {x} {y}";
@@ -510,7 +512,7 @@ namespace Controllers
             var isOnOwnSide = IsOnOwnSide(x, clientId);
             if (isOnOwnSide) return false;
             // Check whether the tile is not already a landmine or on a safe area
-            var index = GetGridIndexFromMap(x, y);
+            var index = GetGridIndex(x, y);
             // Check if the tile is not already a landmine or a decor
             return !LandminesEmplacement[index] && !_obstacleGridTiles[index];
         }
@@ -533,7 +535,7 @@ namespace Controllers
             // Despawn the tile
             tile.GetComponent<NetworkObject>().Despawn();
             // Indicate that the tile is now a landmine
-            LandminesEmplacement[GetGridIndexFromMap(x, y)] = true;
+            LandminesEmplacement[GetGridIndex(x, y)] = true;
             // Replace the classic tile by a landmine tile
             var landmineTileObj = Instantiate(landmineTilePrefab, new Vector3(x, 0, y), Quaternion.identity);
             landmineTileObj.name = $"Tile {x} {y} x";
@@ -557,8 +559,10 @@ namespace Controllers
 
         private static bool CanGoToNewY(float newY) => newY is >= GridXYStartIndex and < GridYEndIndex;
 
-        private static int GetGridIndexFromMap(int x, int y) =>
+        private static int GetGridIndex(int x, int y) =>
             (x - Constants.GameSettings.GridPadding) * Constants.GameSettings.GridHeight
             + (y - Constants.GameSettings.GridPadding);
+
+        private static int GetMapIndex(int x, int y) => x * Constants.GameSettings.GridHeight + y;
     }
 }

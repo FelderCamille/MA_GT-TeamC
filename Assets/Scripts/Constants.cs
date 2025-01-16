@@ -25,8 +25,8 @@ public static class Constants
     public static class GameSettings
     {
         // Grid
-        public const int GridWidth = 16; // Should be even, so each player has the same number of tiles
-        public const int GridHeight = 15;
+        public const int GridWidth = 50; // Should be even, so each player has the same number of tiles
+        public const int GridHeight = 20;
         public const int GridPadding = 30;
         // Timer
         public const float Timer = 10f * 60f; // 10 min

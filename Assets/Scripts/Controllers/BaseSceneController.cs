@@ -104,6 +104,7 @@ namespace Controllers
 
         private void OnBackButtonClick()
         {
+            NetworkManager.Singleton.Shutdown();
             generalBackButton.Show();
             roleChoosedEmplacement.SetActive(false);
             chooseRoleEmplacement.SetActive(true);

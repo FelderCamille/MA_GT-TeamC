@@ -35,7 +35,6 @@ public static class Constants
         public const int NumberOfTileClearLandmine = 1;
         public const int SafeAreaWidth = 2;
         // Robot
-        public const int NumberOfTileMovement = 1;
         public const float Health = 100f;
         public const int MinMoney = 1000;
         public const int MaxMoney = 10000;
@@ -61,14 +60,14 @@ public static class Constants
     
     public static class GridSpawnProbabilities
     {
-        public const int Spruce = 0;
-        public const int DeadSpruce = 0;
-        public const int Tree = 0;
-        public const int DeadTree = 0;
-        public const int Log = 0;
-        public const int Root = 0;
-        public const int Rock = 0;
-        public const int Bush = 100;
+        public const int Spruce = 0; // We don't want to spawn spruce on the grid
+        public const int DeadSpruce = 0; // We don't want to spawn dead spruce on the grid
+        public const int Tree = 0; // We don't want to spawn tree on the grid
+        public const int DeadTree = 0; // We don't want to spawn dead tree on the grid
+        public const int Log = 0; // We don't want to spawn log on the grid
+        public const int Root = 5;
+        public const int Rock = 5;
+        public const int Bush = 5;
     }
 
     public static class Actions
@@ -242,7 +241,7 @@ public static class Constants
                 BonusLevel.One => 5, // Two cases
                 BonusLevel.Two => 7, // Three cases
                 BonusLevel.Three => 9, // Four cases
-                BonusLevel.Four => 11.2f, // Five cases 
+                BonusLevel.Four => 11.2f, // Five cases
                 BonusLevel.Five => 16, // Seven cases
                 _ => throw new Exception("Unknown level")
             };

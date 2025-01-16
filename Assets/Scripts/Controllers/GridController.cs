@@ -54,16 +54,20 @@ namespace Controllers
         private bool[] LandminesEmplacement => _landmines.Value.emplacements;
 
         /// <summary>
-        /// The decor tiles according to the theme
+        /// The decor tiles of the padding according to the theme
         /// </summary>
-        private readonly Dictionary<DecorTileType, Tile[]> _decorTiles = new();
+        private readonly Dictionary<DecorTileType, Tile[]> _decorPaddingTiles = new();
+        
+        /// <summary>
+        /// The decor tiles of the grid according to the theme
+        /// </summary>
+        private readonly Dictionary<DecorTileType, Tile[]> _decorGridTiles = new();
 
         /// <summary>
         /// The padding tiles of the grid. Permit to know if an emplacement (x,y) is occupied or not. False if occupied, true otherwise.
         /// </summary>
         private bool[][] _paddingTiles;
         
-                
         /// <summary>
         /// Safe area tiles. Permit to know if an emplacement (x,y) is safe area or not. True if safe area, false otherwise.
         /// </summary>
@@ -74,11 +78,6 @@ namespace Controllers
         /// emplacement (x,y) is occupied or not. True if occupied, false otherwise.
         /// </summary>
         private bool[] _obstacleGridTiles;
-        
-        public float MinX => GridXYStartIndex;
-        public float MaxX => GridXEndIndex;
-        public float MinZ => GridXYStartIndex;
-        public float MaxZ => GridYEndIndex;
 
         private void Start()
         {
@@ -107,34 +106,34 @@ namespace Controllers
         private void SetupPaddingColliders()
         {
             // Compute dimensions and positions for the colliders
-            var paddingSize = Constants.GameSettings.GridPadding;
-
+            const float paddingSize = Constants.GameSettings.GridPadding;
+            const float halfTile = 0.5f;
+            const float mapWidth = MapWidth - halfTile; // Handle the half tile
+            const float mapHeight = MapHeight - halfTile; // Handle the half tile
+            const float halfPadding = paddingSize / 2f - halfTile;
             // Top Padding Collider
             if (boxColliderUp != null)
             {
                 boxColliderUp.size = new Vector3(MapWidth, 1, paddingSize);
-                boxColliderUp.center = new Vector3((MapWidth - 0.5f) / 2f, 0.5f, (MapHeight-0.5f) - paddingSize / 2f);
+                boxColliderUp.center = new Vector3(mapWidth / 2f, 0.5f, mapHeight - paddingSize / 2f);
             }
-
             // Bottom Padding Collider
             if (boxColliderBottom != null)
             {
                 boxColliderBottom.size = new Vector3(MapWidth, 1, paddingSize);
-                boxColliderBottom.center = new Vector3(MapWidth / 2f, 0.5f, paddingSize / 2f - 0.5f);
+                boxColliderBottom.center = new Vector3(MapWidth / 2f, 0.5f, halfPadding);
             }
-
             // Left Padding Collider
             if (boxColliderLeft != null)
             {
                 boxColliderLeft.size = new Vector3(paddingSize, 1, MapHeight);
-                boxColliderLeft.center = new Vector3(paddingSize / 2f - 0.5f, 0.5f, MapHeight / 2f);
+                boxColliderLeft.center = new Vector3(halfPadding, 0.5f, MapHeight / 2f);
             }
-
             // Right Padding Collider
             if (boxColliderRight != null)
             {
                 boxColliderRight.size = new Vector3(paddingSize, 1, MapHeight);
-                boxColliderRight.center = new Vector3((MapWidth - 0.5f) - paddingSize / 2f, 0.5f, (MapHeight-0.5f) / 2f);
+                boxColliderRight.center = new Vector3(mapWidth - paddingSize / 2f, 0.5f, mapHeight / 2f);
             }
         }
 
@@ -145,21 +144,24 @@ namespace Controllers
             switch (mapTheme)
             {
                 case MapTheme.Nature:
-                    _decorTiles.Add(DecorTileType.Tree, treeTilePrefabs);
-                    _decorTiles.Add(DecorTileType.Spruce, new[] { spruceTilePrefab });
-                    _decorTiles.Add(DecorTileType.Bush, new[] { bushTilePrefab });
+                    _decorPaddingTiles.Add(DecorTileType.Tree, treeTilePrefabs);
+                    _decorPaddingTiles.Add(DecorTileType.Spruce, new[] { spruceTilePrefab });
+                    _decorPaddingTiles.Add(DecorTileType.Bush, new[] { bushTilePrefab });
+                    _decorGridTiles.Add(DecorTileType.Bush, new[] { bushTilePrefab });
                     break;
                 case MapTheme.War:
-                    _decorTiles.Add(DecorTileType.DeadTree, new[] { deadTreeTilePrefab });
-                    _decorTiles.Add(DecorTileType.DeadSpruce, new[] { deadSpruceTilePrefab });
-                    _decorTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
+                    _decorPaddingTiles.Add(DecorTileType.DeadTree, new[] { deadTreeTilePrefab });
+                    _decorPaddingTiles.Add(DecorTileType.DeadSpruce, new[] { deadSpruceTilePrefab });
+                    _decorPaddingTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
+                    _decorGridTiles.Add(DecorTileType.Root, new[] { rootTilePrefab });
                     break;
                 default:
                     break;
             }
             // Add common tiles to the dictionary
-            _decorTiles.Add(DecorTileType.Rock, rockTilePrefabs);
-            _decorTiles.Add(DecorTileType.Log, new[] { logTilePrefab });
+            _decorPaddingTiles.Add(DecorTileType.Rock, rockTilePrefabs);
+            _decorGridTiles.Add(DecorTileType.Rock, rockTilePrefabs);
+            _decorPaddingTiles.Add(DecorTileType.Log, new[] { logTilePrefab });
         }
 
         private void InitPaddingTilesArray()
@@ -345,8 +347,8 @@ namespace Controllers
             // Check if the emplacement is already occupied
             if (_paddingTiles[x][y] == false) return;
             // Randomly pick a tile type
-            var tileTypeIndex = Random.Next(0, _decorTiles.Keys.Count);
-            var decorTileType = _decorTiles.Keys.ElementAt(tileTypeIndex);
+            var tileTypeIndex = Random.Next(0, _decorPaddingTiles.Keys.Count);
+            var decorTileType = _decorPaddingTiles.Keys.ElementAt(tileTypeIndex);
             // Compute the probability of spawn
             var spawnProbability = Random.Next(0, 100);
             var objectSpawnProbability = decorTileType switch
@@ -364,7 +366,7 @@ namespace Controllers
             // Take the prefab according to the probability
             var isDecorTile = spawnProbability < objectSpawnProbability;
             var decorPrefab = isDecorTile
-                ? _decorTiles[decorTileType][Random.Next(0, _decorTiles[decorTileType].Length)]
+                ? _decorPaddingTiles[decorTileType][Random.Next(0, _decorPaddingTiles[decorTileType].Length)]
                 : paddingTilePrefab;
             // Check if the prefab can be placed, otherwise place a padding
             if (isDecorTile)
@@ -439,8 +441,8 @@ namespace Controllers
             else // Try to place some decor
             {
                 // Randomly pick a tile type
-                var tileTypeIndex = Random.Next(0, _decorTiles.Keys.Count);
-                var decorTileType = _decorTiles.Keys.ElementAt(tileTypeIndex);
+                var tileTypeIndex = Random.Next(0, _decorGridTiles.Keys.Count);
+                var decorTileType = _decorGridTiles.Keys.ElementAt(tileTypeIndex);
                 // Compute the probability of spawn
                 var spawnProbability = Random.Next(0, 100);
                 var objectSpawnProbability = decorTileType switch
@@ -459,7 +461,7 @@ namespace Controllers
                 var isDecorTile = spawnProbability < objectSpawnProbability;
                 if (isDecorTile)
                 {
-                    prefab = _decorTiles[decorTileType][Random.Next(0, _decorTiles[decorTileType].Length)];
+                    prefab = _decorGridTiles[decorTileType][Random.Next(0, _decorGridTiles[decorTileType].Length)];
                     if (CanPlaceDecorPrefab(x, y, prefab, false))
                     {
                         name += decorTileType.ToString();

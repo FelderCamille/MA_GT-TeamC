@@ -21,7 +21,7 @@ namespace Core
                 new Vector3(0, 0, 0),
                 Quaternion.Euler(0, 0, 0)
             );
-            gridObj.name = $"Grid";
+            gridObj.name = "Grid";
             gridObj.GetComponent<NetworkObject>().Spawn();
             // Instantiate time manager
             var timerObj = Instantiate(
@@ -29,7 +29,7 @@ namespace Core
                 new Vector3(0, 0, 0),
                 Quaternion.Euler(0, 0, 0)
             );
-            gridObj.name = $"TimeManager";
+            timerObj.name = "TimeManager";
             timerObj.GetComponent<NetworkObject>().Spawn();
         }
     }

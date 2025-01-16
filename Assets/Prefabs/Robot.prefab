@@ -14829,6 +14829,8 @@ GameObject:
   - component: {fileID: 4280640236529247069}
   - component: {fileID: 328240725032657323}
   - component: {fileID: 5997400260390773407}
+  - component: {fileID: 5316528466352977105}
+  - component: {fileID: 409018958480164215}
   m_Layer: 6
   m_Name: Robot
   m_TagString: Player
@@ -14846,7 +14848,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2889241264010100865}
@@ -14896,8 +14898,7 @@ MonoBehaviour:
   repeatedWaveEffect: {fileID: 7919036914189008022}
   mudParticules: {fileID: 3920659652703765219}
   animator: {fileID: 2168178927966790827}
-  moveSpeed: 5
-  rotationSpeed: 180
+  rigidbody: {fileID: 5316528466352977105}
 --- !u!114 &4280640236529247069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14963,6 +14964,45 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &5316528466352977105
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430937700716701231}
+  serializedVersion: 4
+  m_Mass: 1e+9
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!114 &409018958480164215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430937700716701231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6828422309987084409
 GameObject:
   m_ObjectHideFlags: 0
@@ -15210,9 +15250,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6b3dd4869b12847ba699e8f71eb03f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4937306114327411307}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6b3dd4869b12847ba699e8f71eb03f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6602850895999437980}
   m_SourcePrefab: {fileID: 100100000, guid: ef6b3dd4869b12847ba699e8f71eb03f, type: 3}
 --- !u!1 &2545507079268424251 stripped
 GameObject:
@@ -15226,7 +15263,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2545507079268424251}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a135e3df63eca472ebd8a0db6edda812, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -15240,33 +15277,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.007616, y: 1.265279, z: 1.777356}
   m_Center: {x: -0.008988738, y: 0.6317538, z: 0.007988513}
---- !u!54 &6602850895999437980
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2545507079268424251}
-  serializedVersion: 4
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!4 &2889241264010100865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef6b3dd4869b12847ba699e8f71eb03f, type: 3}
@@ -15406,7 +15416,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!4 &5466427490170604540 stripped
 Transform:

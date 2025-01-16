@@ -18,7 +18,19 @@ namespace UI.Tile
         [SerializeField] private GameObject warSafeAreaBorder;
         [SerializeField] private GameObject warPlane;
 
+        public void InitAsOnGrid()
+        {
+            onGrid = true;
+            isSafeArea = false;
+            Init();
+        }
+        
         public void Start()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             switch (GameParametersManager.Instance.MapTheme)
             {
@@ -47,6 +59,7 @@ namespace UI.Tile
                     }
                     break;
                 case MapTheme.War:
+                    print($"-------------- WAR and onGrid: {onGrid}--------------");
                     if (onGrid)
                     {
                         natureGridPlane.SetActive(false);

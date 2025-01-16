@@ -5,6 +5,7 @@ using Core;
 using Objects;
 using UI.Tile;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Controllers
@@ -397,7 +398,8 @@ namespace Controllers
                     }
                     else
                     {
-                        if (x1 < MapWidth && y1 < MapHeight && !_obstacleGridTiles[GetGridIndex(x1, y1)]) continue;
+                        var index = GetGridIndex(x1, y1);
+                        if (x1 < MapWidth && y1 < MapHeight && index < _obstacleGridTiles.Length && !_obstacleGridTiles[index]) continue;
                     }
                     return false;
                 }
@@ -428,6 +430,7 @@ namespace Controllers
             if (!NetworkManager.Singleton.IsHost) return;
             // Check if the emplacement must be a classic tile, a landmine, a safe area, or an obstacle
             var index = GetGridIndex(x, y);
+            var isSafeArea = _safeAreaGridTiles[index];
             var tileName = $"Tile {x} {y}";
             Tile prefab;
             if (LandminesEmplacement[index]) // Landmine
@@ -435,10 +438,10 @@ namespace Controllers
                 prefab = landmineTilePrefab;
                 tileName += " x";
             }
-            else if (_safeAreaGridTiles[index]) // Safe area
+            else if (isSafeArea) // Safe area
             {
                 prefab = safeAreaTilePrefab;
-                tileName += " safe";
+                tileName += " safe area";
             }
             else // Try to place some decor
             {
@@ -466,7 +469,7 @@ namespace Controllers
                     prefab = _decorGridTiles[decorTileType][Random.Next(0, _decorGridTiles[decorTileType].Length)];
                     if (CanPlaceDecorPrefab(x, y, prefab, false))
                     {
-                        name += decorTileType.ToString();
+                        tileName += $" {decorTileType.ToString()}";
                         ReserveDecorEmplacement(x, y, prefab, false);
                     }
                     else
@@ -482,6 +485,7 @@ namespace Controllers
             // Generate the tile
             var tileObj = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
             tileObj.name = tileName;
+            if (!isSafeArea) tileObj.GetComponent<Tile>().InitAsOnGrid();
             tileObj.GetComponent<NetworkObject>().Spawn();
             // TODO: set the tile as a grid tile
         }

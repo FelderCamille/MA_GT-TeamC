@@ -21,6 +21,7 @@ namespace UI.Tile
         public void InitAsOnGrid()
         {
             onGrid = true;
+            isSafeArea = false;
             Init();
         }
         
@@ -58,6 +59,7 @@ namespace UI.Tile
                     }
                     break;
                 case MapTheme.War:
+                    print($"-------------- WAR and onGrid: {onGrid}--------------");
                     if (onGrid)
                     {
                         natureGridPlane.SetActive(false);

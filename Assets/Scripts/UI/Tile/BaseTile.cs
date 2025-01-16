@@ -18,7 +18,18 @@ namespace UI.Tile
         [SerializeField] private GameObject warSafeAreaBorder;
         [SerializeField] private GameObject warPlane;
 
+        public void InitAsOnGrid()
+        {
+            onGrid = true;
+            Init();
+        }
+        
         public void Start()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             switch (GameParametersManager.Instance.MapTheme)
             {

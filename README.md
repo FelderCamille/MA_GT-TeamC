@@ -2,7 +2,21 @@
 
 > "Robot démineur de zone de guerre"
 
-## 3D models
+## 🚩 Deliverables
+
+Playable on [itch.io](https://lunaa-light.itch.io/minefield-memories).
+
+Trailer video: [MA_GT - Team C - Bande annonce Minefield Memories](https://youtu.be/gQyo0MGwOXM)
+
+Code versions:
+- [2024-12-19 Presentation](https://github.com/FelderCamille/MA_GT-TeamC/releases/tag/presentation)
+- [2025-01-18 Final version](https://github.com/FelderCamille/MA_GT-TeamC/releases/tag/final)
+
+Presentation: [Powerpoint](Docs/2024-12-19_Presentation.pptx)
+
+## Development
+
+### 3D models
 
 > Low-poly (0-10k polygones), Free, Formats (.blend, .obj, .fbx)
 > Sites:
@@ -20,12 +34,10 @@ Tentes:
 - [Tent](https://www.cgtrader.com/free-3d-models/military/other/military-tent-d642f7a8-49b1-4e77-a806-756465d60298)
 
 Nature:
-- ([Nature pack 1](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-nature-set-free-trial))
-- [Nature pack 2](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-pack-1800d494-645a-4ed5-b478-bf64eaa04f99)
-- ([Nature pack 3](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-natures))
-- [Nature pack 4](https://www.cgtrader.com/free-3d-models/plant/leaf/low-poly-plant-set)
+- [Nature pack 1](https://www.cgtrader.com/free-3d-models/exterior/landscape/low-poly-forest-pack-1800d494-645a-4ed5-b478-bf64eaa04f99)
+- [Nature pack 2](https://www.cgtrader.com/free-3d-models/plant/leaf/low-poly-plant-set)
 
-## Icons
+### Icons
 
 > Sites:
 > - [https://www.flaticon.com/](https://www.flaticon.com/)
@@ -41,15 +53,15 @@ Nature:
 - [Keyboard](https://www.flaticon.com/free-icon/keyboard_2330480?term=keyboard+button&page=9&position=32&origin=search&related_id=2330480)
 - [Speed](https://www.flaticon.com/free-icon/speed_9132336?term=speed&page=1&position=39&origin=search&related_id=9132336)
  
-## Effects
+### Effects
 
 - [Wave](https://www.vecteezy.com/png/21625120-white-circle-png)
 
-## Textures
+### Textures
 
 - [Dirt](https://cdn.architextures.org/textures/23/5/soil-none-5i4x9p.jpg)
 
-# Useful links
+### Useful links
 
 - [Wave effect](https://www.youtube.com/watch?v=byxivSC1xYM&t=8s)
 - [Explosion effect](https://www.youtube.com/watch?v=cvQiQglPI18)
